@@ -1,0 +1,63 @@
+Obtain data
+	+ From image
+	+ From video (VideoCapture - http://docs.opencv.org/doc/tutorials/highgui/video-input-psnr-ssim/video-input-psnr-ssim.html#videoinputpsnrmssim)
+		+ File 
+		+ Webcam
+
+
+Pre-processing
+	- Correct lens distortions
+		- Geometric distortion
+		- Cromatic distortion
+	+ Histogram equalization
+		+ equalizeHist - http://docs.opencv.org/doc/tutorials/imgproc/histograms/histogram_equalization/histogram_equalization.html#histogram-equalization
+		+ Contrast Limited Adaptive Histogram Equalization  - CLAHE
+	+ Reduce noise (fastNlMeansDenoisingColored - http://docs.opencv.org/modules/photo/doc/denoising.html)
+		+ Bilateral filtering (bilateralFilter - http://docs.opencv.org/doc/tutorials/imgproc/gausian_median_blur_bilateral_filter/gausian_median_blur_bilateral_filter.html#smoothing)
+		- Gaussian smothing
+		- Median filter
+		- Nagao-Matsuyama filter
+		- Kuwahara filter
+		- Anisotropic Diffusion Filtering		
+		- Frequency domain filtering
+	+ Increase contrast (http://docs.opencv.org/doc/tutorials/core/basic_linear_transform/basic_linear_transform.html)
+	+ Correct brightness		
+
+
+Recognition
+	+ Feature detection
+		+ SIFT
+		+ SURF
+		+ GFTT
+		+ FAST
+		- FREAK		
+		- ORB
+		- MSER
+		- STAR
+	+ Feature description
+		+ SIFT
+		+ SURF		
+		+ FREAK
+		- BRIEF		
+		- BRISK
+	+ Visual vocabulary
+		+ k-means (BOWTrainer - http://docs.opencv.org/modules/features2d/doc/object_categorization.html)
+	+ Feature representation
+		+ Bag of Words normalized
+	+ Machine learning (http://docs.opencv.org/modules/ml/doc/ml.html)
+		+ Training classifier with 2 classes (car and non-car)
+			+ SVM (Support Vector Machines)
+			- Decision trees
+			- Neural networks
+			- K-Nearest neightbors
+			- Bayes
+	+ Testing
+		+ Scanning window to check if car is in image and output best match
+		+ Segment possible car regions to improve performance
+	- Spacial verification to segment car in image
+		+ Compute homography
+			+ RANSAC (Randon Sample Consensus)
+			+ GHT (General Hough Transform)
+			- ICP (Iterative Closest Point)
+			- RLS (Robust Lesat Squares)
+			- LSF (Least Squares Fit)

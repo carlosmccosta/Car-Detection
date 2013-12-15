@@ -1,0 +1,236 @@
+#include "ImageAnalysis.h"
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <Image analysis>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ImageAnalysis::ImageAnalysis() :
+	_useCVHiGUI(true), _windowsInitialized(false), _optionsOneWindow(false),
+	_frameRate(30), _screenWidth(1920), _screenHeight(1080),
+	_claehClipLimit(2), _claehTileXSize(2), _claehTileYSize(2),
+	_bilateralFilterDistance(9), _bilateralFilterSigmaColor(50), _bilateralFilterSigmaSpace(10),
+	_contrast(11), _brightness(25) {};
+
+
+ImageAnalysis::~ImageAnalysis() {
+	if (_useCVHiGUI) {
+		cv::destroyAllWindows();
+	}
+}
+
+
+bool ImageAnalysis::processImage(string path, bool useCVHighGUI) {		
+	Mat imageToProcess;
+	bool loadSuccessful = true;
+	if (path != "") {
+		try {
+			imageToProcess = imread(path, CV_LOAD_IMAGE_COLOR);	
+		} catch (...) {
+			loadSuccessful = false;
+		}			
+
+		if (!imageToProcess.data) {
+			loadSuccessful = false;
+		}
+	} else {		
+		loadSuccessful = false;
+	}
+
+	if (!loadSuccessful) {
+		if (useCVHighGUI) {
+			cv::destroyAllWindows();
+		}
+
+		return false;
+	}
+
+	_useCVHiGUI = useCVHighGUI;
+	_windowsInitialized = false;
+
+	bool status = processImage(imageToProcess, useCVHighGUI);	
+	
+	while(waitKey(10) != ESC_KEYCODE) {}
+	
+	if (useCVHighGUI) {
+		cv::destroyAllWindows();
+	}
+
+	return status;
+}
+
+
+bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
+	_originalImage = image.clone();
+	_processedImage = image;
+	_useCVHiGUI = useCVHighGUI;
+	
+	if (useCVHighGUI) {		
+		if (!_windowsInitialized) {
+			setupMainWindow();
+			setupResultsWindows(_optionsOneWindow);
+			_windowsInitialized = true;
+		}
+
+		imshow(WINDOW_NAME_MAIN, _originalImage);
+	}
+
+	_preprocessedImage = image.clone();	
+	preprocessImage(_preprocessedImage, useCVHighGUI);	
+
+	// TODO processing algorithms
+
+	return true;
+}
+
+
+void ImageAnalysis::preprocessImage(Mat& image, bool useCVHighGUI ) {	
+	// remove noise with bilateral filter
+	cv::bilateralFilter(image.clone(), image, _bilateralFilterDistance, _bilateralFilterSigmaColor, _bilateralFilterSigmaSpace);
+	if (useCVHighGUI) {
+		imshow(WINDOW_NAME_BILATERAL_FILTER, image);
+	}
+
+	// histogram equalization to improve color segmentation
+	//histogramEqualization(image.clone(), false, useCVHighGUI);
+	histogramEqualization(image, true, useCVHighGUI);
+
+	// increase contrast and brightness
+	image.convertTo(image, -1, (double)_contrast / 10.0, (double)_brightness / 10.0);
+
+	cv::bilateralFilter(image.clone(), image, _bilateralFilterDistance, _bilateralFilterSigmaColor, _bilateralFilterSigmaSpace);
+	if (useCVHighGUI) {
+		imshow(WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, image);	
+	}
+}
+
+
+void ImageAnalysis::histogramEqualization(Mat& image, bool useCLAHE, bool useCVHighGUI) {	
+	cvtColor(image, image, CV_BGR2YCrCb);
+	vector<Mat> channels;
+	cv::split(image, channels);
+
+	if (useCLAHE) {
+		cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE((_claehClipLimit < 1 ? 1 : _claehClipLimit), cv::Size((_claehTileXSize < 1 ? 1 : _claehTileXSize) , (_claehTileYSize < 1? 1 : _claehTileYSize)));
+		clahe->apply(channels[0], channels[0]);
+	} else {
+		cv::equalizeHist(channels[0], channels[0]);
+	}
+
+	cv::merge(channels, image);
+	cvtColor(image, image, CV_YCrCb2BGR);	
+	if (useCVHighGUI) {
+		if (useCLAHE) {
+			imshow(WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, image);
+		} else {
+			imshow(WINDOW_NAME_HISTOGRAM_EQUALIZATION, image);
+		}
+	}
+}
+
+
+bool ImageAnalysis::updateImage() {
+	return processImage(_originalImage.clone(), _useCVHiGUI);
+}
+
+
+
+// -------------------------------------------------------------------------------------  <Video processing>  -----------------------------------------------------------------------------------------
+bool ImageAnalysis::processVideo(string path, bool useCVHighGUI) {	
+	VideoCapture videoCapture;
+	
+	try {
+		videoCapture = VideoCapture(path);
+	} catch (...) {
+		return false;
+	}
+
+	return processVideo(videoCapture, useCVHighGUI);
+}
+
+
+bool ImageAnalysis::processVideo(int cameraDeviceNumber, bool useCVHighGUI) {	
+	VideoCapture videoCapture;
+
+	try {
+		videoCapture = VideoCapture(cameraDeviceNumber);
+	} catch (...) {
+		return false;
+	}
+
+	return processVideo(videoCapture, useCVHighGUI);
+}
+
+
+bool ImageAnalysis::processVideo(VideoCapture videoCapture, bool useCVHighGUI) {		
+	if (!videoCapture.isOpened()) {
+		return false;
+	}
+
+	_useCVHiGUI = useCVHighGUI;
+	_windowsInitialized = false;
+
+	int millisecPollingInterval = 1000 / _frameRate;
+	if (millisecPollingInterval < 10)
+		millisecPollingInterval = 10;
+	
+	Mat currentFrame;	
+	while (videoCapture.read(currentFrame)) {
+		try {
+			processImage(currentFrame, useCVHighGUI);
+		} catch(...) {}
+		
+		if (waitKey(millisecPollingInterval) == ESC_KEYCODE) {
+			break;
+		}
+	}
+
+	if (useCVHighGUI) {
+		cv::destroyAllWindows();
+	}
+
+	return true;
+}
+// -------------------------------------------------------------------------------------  </Video processing>  ----------------------------------------------------------------------------------------
+
+
+
+// --------------------------------------------------------------------------------------  <OpenCV HighGUI>  ------------------------------------------------------------------------------------------
+void updateImageAnalysis(int position, void* userData) {		
+	ImageAnalysis* imgAnalysis = ((ImageAnalysis*)userData);
+	imgAnalysis->updateImage();
+}
+
+
+void ImageAnalysis::setupMainWindow() {
+	GUIUtils::addHighGUIWindow(0, 0, WINDOW_NAME_MAIN, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+}
+
+
+void ImageAnalysis::setupResultsWindows(bool optionsOneWindow) {
+	GUIUtils::addHighGUIWindow(1, 0, WINDOW_NAME_BILATERAL_FILTER, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	//GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	GUIUtils::addHighGUIWindow(3, 0, WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	
+	if (optionsOneWindow) {		
+		namedWindow(WINDOW_NAME_OPTIONS, CV_WINDOW_NORMAL);
+		resizeWindow(WINDOW_NAME_OPTIONS, WINDOW_OPTIONS_WIDTH - WINDOW_FRAME_THICKNESS * 2, WINDOW_OPTIONS_HIGHT);
+		moveWindow(WINDOW_NAME_OPTIONS, _screenWidth - WINDOW_OPTIONS_WIDTH, 0);
+	} else {						
+		GUIUtils::addHighGUITrackBarWindow(WINDOW_NAME_BILATERAL_FILTER_OPTIONS, 3, 0, 0, _screenWidth);		
+		GUIUtils::addHighGUITrackBarWindow(WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS, 3, 3, 1, _screenWidth);
+		GUIUtils::addHighGUITrackBarWindow(WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS, 2, 6, 2, _screenWidth);
+	}	
+	
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_DIST, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterDistance, 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_COLOR_SIG, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterSigmaColor, 200, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_SPACE_SIG, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterSigmaSpace, 200, updateImageAnalysis, (void*)this);
+	
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_CLIP, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehClipLimit, 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_X, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehTileXSize, 20, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_Y, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehTileYSize, 20, updateImageAnalysis, (void*)this);
+
+	cv::createTrackbar(TRACK_BAR_NAME_CONTRAST, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), &_contrast, 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BRIGHTNESS, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), &_brightness, 1000, updateImageAnalysis, (void*)this);
+}
+// --------------------------------------------------------------------------------------  </OpenCV HighGUI>  -----------------------------------------------------------------------------------------
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </Image analysis>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
