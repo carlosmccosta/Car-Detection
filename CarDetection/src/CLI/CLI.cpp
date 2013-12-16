@@ -101,6 +101,7 @@ void CLI::setupTraining() {
 	int bowTrainerSelection = selectBOWTrainer();
 	cout << "\n\n\n";
 	int classifierSelection = selectClassifier();
+	cout << "\n\n\n";
 
 	Ptr<FeatureDetector> featureDetector;
 	Ptr<DescriptorExtractor> descriptorExtractor;
@@ -145,17 +146,19 @@ void CLI::setupTraining() {
 		default: break;
 	}
 
-	string vocabularyFilename = VOCABULARY_TAG + trainingConfigsTag.str() + VOCABULARY_EXTENSION;
-	string classifierFilename = CLASSIFIER_TAG + trainingConfigsTag.str() + CLASSIFIER_EXTENSION;
+	stringstream vocabularyFilenameSS;
+	stringstream classifierFilenameSS;
+	vocabularyFilenameSS << TRAINING_DIRECTORY << VOCABULARY_TAG << trainingConfigsTag.str() << VOCABULARY_EXTENSION;
+	classifierFilenameSS << TRAINING_DIRECTORY << CLASSIFIER_TAG << trainingConfigsTag.str() << CLASSIFIER_EXTENSION;
 
-	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilename);
+	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str());
 	
 	switch (bowTrainerSelection) {
-		case 1: { _imageClassifier = new ImageClassifierSVM(_bowVocabulary); break; }
+		case 1: { _imageClassifier = new ImageClassifierSVM(_bowVocabulary, classifierFilenameSS.str()); break; }
 		default: break;
 	}
 
-	_imageClassifier->train(VOCABULARY_IMG_LIST, CLASSIFIER_IMG_LIST);
+	_imageClassifier->train(VOCABULARY_IMAGES_LIST, CLASSIFIER_IMGAGES_LIST);
 }
 
 

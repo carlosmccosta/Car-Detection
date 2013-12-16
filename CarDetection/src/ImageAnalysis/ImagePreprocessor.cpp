@@ -51,20 +51,28 @@ void ImagePreprocessor::preprocessImage(Mat& image, bool useCVHighGUI) {
 
 
 void ImagePreprocessor::histogramEqualization(Mat& image, bool useCLAHE, bool useCVHighGUI) {
-	cvtColor(image, image, CV_BGR2YCrCb);
 	vector<Mat> channels;
-	cv::split(image, channels);
+	if (image.channels() > 1) {
+		cvtColor(image, image, CV_BGR2YCrCb);		
+		cv::split(image, channels);
+	}
 
 	if (useCLAHE) {
 		cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE((_claehClipLimit < 1 ? 1 : _claehClipLimit), Size((_claehTileXSize < 1 ? 1 : _claehTileXSize), (_claehTileYSize < 1 ? 1 : _claehTileYSize)));
-		clahe->apply(channels[0], channels[0]);
-	}
-	else {
+		if (image.channels() > 1) {
+			clahe->apply(channels[0], channels[0]);
+		} else {
+			clahe->apply(image, image);
+		}
+	} else {
 		cv::equalizeHist(channels[0], channels[0]);
 	}
+	
+	if (image.channels() > 1) {
+		cv::merge(channels, image);
+		cvtColor(image, image, CV_YCrCb2BGR);
+	}
 
-	cv::merge(channels, image);
-	cvtColor(image, image, CV_YCrCb2BGR);
 	if (useCVHighGUI) {
 		if (useCLAHE) {
 			imshow(WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, image);

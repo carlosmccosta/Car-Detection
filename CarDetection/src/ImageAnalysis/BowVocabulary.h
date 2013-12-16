@@ -11,6 +11,7 @@
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // std includes
 #include <vector>
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -26,6 +27,8 @@
 
 // namespace specific imports to avoid namespace pollution
 using std::vector;
+using std::cout;
+using std::endl;
 using std::string;
 using std::stringstream;
 using std::ifstream;
@@ -46,16 +49,39 @@ using cv::FileStorage;
 
 
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <Training data>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+class TrainingData {
+public:
+	TrainingData() {}
+	TrainingData(const Mat& trainSamples, const Mat& trainLabels) : _trainSamples(trainSamples), _trainLabels(trainLabels) {}
+	virtual ~TrainingData() {}
+
+	// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
+	Mat getTrainSamples() const { return _trainSamples; }
+	void setTrainSamples(const Mat& val) { _trainSamples = val; }
+	Mat getTrainLabels() const { return _trainLabels; }
+	void setTrainLabels(const Mat& val) { _trainLabels = val; }
+	// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
+
+private:
+	Mat _trainSamples;	
+	Mat _trainLabels;	
+};
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </Training data>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 class BowVocabulary {
 	public:
 		BowVocabulary(Ptr<FeatureDetector> featureDetector, Ptr<DescriptorExtractor> descriptorExtractor, Ptr<DescriptorMatcher> descriptorMatcher, Ptr<BOWTrainer> bowTrainer,
-			Ptr<ImagePreprocessor> imagePreprocessor, string vocabularyFilename = "vocabulary.xml");
+			Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename);
 		virtual ~BowVocabulary();
 
 		bool loadVocabulary(Mat& vocabularyOut);
 		bool saveVocabulary(const Mat& vocabularyOut);
-		bool computeVocabulary(Mat& vocabularyOut, string vocabularyImgsList);
+		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList);
+		bool computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList);
 
 
 		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
@@ -76,7 +102,7 @@ class BowVocabulary {
 		void setImagePreprocessor(Ptr<ImagePreprocessor> val) { _imagePreprocessor = val; }
 
 		string getVocabularyFilename() const { return _vocabularyFilename; }
-		void setVocabularyFilename(string val) { _vocabularyFilename = val; }
+		void setVocabularyFilename(const string& val) { _vocabularyFilename = val; }
 		// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
 
 	private:

@@ -29,8 +29,7 @@ Recognition
 		+ SIFT
 		+ SURF
 		+ GFTT
-		+ FAST
-		- FREAK		
+		+ FAST		
 		- ORB
 		- MSER
 		- STAR

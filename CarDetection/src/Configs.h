@@ -26,9 +26,11 @@
 #define MASK_TOKEN ".mask."
 #define MASK_EXTENSION ".png"
 
-#define IMGS_DIRECTORY "imgs/devImgs/cars/"
-#define VOCABULARY_IMG_LIST "imgs/devImgs/cars_train.txt"
-#define CLASSIFIER_IMG_LIST "imgs/devImgs/cars_train.txt"
+#define IMGS_DIRECTORY "imgs/ig02-v1.0-cars/cars/"
+#define VOCABULARY_IMAGES_LIST "imgs/ig02-v1.0-cars/cars_train.txt"
+#define CLASSIFIER_IMGAGES_LIST "imgs/ig02-v1.0-cars/cars_train.txt"
+
+#define TRAINING_DIRECTORY "training/"
 
 #define VOCABULARY_WORD_COUNT 1000
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

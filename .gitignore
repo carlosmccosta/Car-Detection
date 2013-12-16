@@ -13,3 +13,5 @@
 *.a
 
 imgs
+
+/CarDetection/training
