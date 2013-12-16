@@ -40,6 +40,11 @@ Recognition
 		+ FREAK
 		- BRIEF		
 		- BRISK
+	+ Descriptor matcher
+		+ FlannBasedMatcher
+		+ BFMatcher
+	+ BowTrainer
+		+ BOWKMeansTrainer
 	+ Visual vocabulary
 		+ k-means (BOWTrainer - http://docs.opencv.org/modules/features2d/doc/object_categorization.html)
 	+ Feature representation

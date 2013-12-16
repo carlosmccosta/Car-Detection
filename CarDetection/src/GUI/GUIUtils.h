@@ -24,6 +24,10 @@
 #include <opencv2/highgui/highgui.hpp>
 
 
+// project includes
+#include "../Configs.h"
+
+
 // namespace specific imports to avoid namespace pollution
 using std::string;
 using cv::Mat;

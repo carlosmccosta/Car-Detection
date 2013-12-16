@@ -45,6 +45,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -70,6 +71,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierSVM.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifier.cpp" />
+    <ClCompile Include="src\ImageAnalysis\BowVocabulary.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImagePreprocessor.cpp" />
     <ClCompile Include="src\GUI\GUIUtils.cpp" />
     <ClCompile Include="src\CLI\CLI.cpp" />
     <ClCompile Include="src\CLI\ConsoleInput.cpp" />
@@ -77,6 +82,11 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierSVM.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifier.h" />
+    <ClInclude Include="src\ImageAnalysis\BowVocabulary.h" />
+    <ClInclude Include="src\Configs.h" />
+    <ClInclude Include="src\ImageAnalysis\ImagePreprocessor.h" />
     <ClInclude Include="src\GUI\GUIUtils.h" />
     <ClInclude Include="src\CLI\CLI.h" />
     <ClInclude Include="src\CLI\ConsoleInput.h" />

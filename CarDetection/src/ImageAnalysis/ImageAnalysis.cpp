@@ -2,12 +2,10 @@
 
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <Image analysis>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-ImageAnalysis::ImageAnalysis() :
+ImageAnalysis::ImageAnalysis(Ptr<ImagePreprocessor> imagePreprocessor, Ptr<ImageClassifier> imageClassifierSVM) :
 	_useCVHiGUI(true), _windowsInitialized(false), _optionsOneWindow(false),
 	_frameRate(30), _screenWidth(1920), _screenHeight(1080),
-	_claehClipLimit(2), _claehTileXSize(2), _claehTileYSize(2),
-	_bilateralFilterDistance(9), _bilateralFilterSigmaColor(50), _bilateralFilterSigmaSpace(10),
-	_contrast(11), _brightness(25) {};
+	_imagePreprocessorPtr(imagePreprocessor), _imageClassifierSVM(imageClassifierSVM) {};
 
 
 ImageAnalysis::~ImageAnalysis() {
@@ -72,57 +70,12 @@ bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
 		imshow(WINDOW_NAME_MAIN, _originalImage);
 	}
 
-	_preprocessedImage = image.clone();	
-	preprocessImage(_preprocessedImage, useCVHighGUI);	
+	_preprocessedImage = image.clone();
+	_imagePreprocessorPtr->preprocessImage(_preprocessedImage, useCVHighGUI);
 
 	// TODO processing algorithms
 
 	return true;
-}
-
-
-void ImageAnalysis::preprocessImage(Mat& image, bool useCVHighGUI ) {	
-	// remove noise with bilateral filter
-	cv::bilateralFilter(image.clone(), image, _bilateralFilterDistance, _bilateralFilterSigmaColor, _bilateralFilterSigmaSpace);
-	if (useCVHighGUI) {
-		imshow(WINDOW_NAME_BILATERAL_FILTER, image);
-	}
-
-	// histogram equalization to improve color segmentation
-	//histogramEqualization(image.clone(), false, useCVHighGUI);
-	histogramEqualization(image, true, useCVHighGUI);
-
-	// increase contrast and brightness
-	image.convertTo(image, -1, (double)_contrast / 10.0, (double)_brightness / 10.0);
-
-	cv::bilateralFilter(image.clone(), image, _bilateralFilterDistance, _bilateralFilterSigmaColor, _bilateralFilterSigmaSpace);
-	if (useCVHighGUI) {
-		imshow(WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, image);	
-	}
-}
-
-
-void ImageAnalysis::histogramEqualization(Mat& image, bool useCLAHE, bool useCVHighGUI) {	
-	cvtColor(image, image, CV_BGR2YCrCb);
-	vector<Mat> channels;
-	cv::split(image, channels);
-
-	if (useCLAHE) {
-		cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE((_claehClipLimit < 1 ? 1 : _claehClipLimit), cv::Size((_claehTileXSize < 1 ? 1 : _claehTileXSize) , (_claehTileYSize < 1? 1 : _claehTileYSize)));
-		clahe->apply(channels[0], channels[0]);
-	} else {
-		cv::equalizeHist(channels[0], channels[0]);
-	}
-
-	cv::merge(channels, image);
-	cvtColor(image, image, CV_YCrCb2BGR);	
-	if (useCVHighGUI) {
-		if (useCLAHE) {
-			imshow(WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, image);
-		} else {
-			imshow(WINDOW_NAME_HISTOGRAM_EQUALIZATION, image);
-		}
-	}
 }
 
 
@@ -220,16 +173,16 @@ void ImageAnalysis::setupResultsWindows(bool optionsOneWindow) {
 		GUIUtils::addHighGUITrackBarWindow(WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS, 2, 6, 2, _screenWidth);
 	}	
 	
-	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_DIST, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterDistance, 100, updateImageAnalysis, (void*)this);
-	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_COLOR_SIG, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterSigmaColor, 200, updateImageAnalysis, (void*)this);
-	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_SPACE_SIG, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), &_bilateralFilterSigmaSpace, 200, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_DIST, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), _imagePreprocessorPtr->getBilateralFilterDistancePtr(), 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_COLOR_SIG, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), _imagePreprocessorPtr->getBilateralFilterSigmaColorPtr(), 200, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BILATERAL_FILTER_SPACE_SIG, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_BILATERAL_FILTER_OPTIONS), _imagePreprocessorPtr->getBilateralFilterSigmaSpacePtr(), 200, updateImageAnalysis, (void*)this);
 	
-	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_CLIP, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehClipLimit, 100, updateImageAnalysis, (void*)this);
-	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_X, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehTileXSize, 20, updateImageAnalysis, (void*)this);
-	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_Y, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), &_claehTileYSize, 20, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_CLIP, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), _imagePreprocessorPtr->getClaehClipLimitPtr(), 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_X, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), _imagePreprocessorPtr->getClaehTileXSizePtr(), 20, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CLAHE_TILE_Y, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS), _imagePreprocessorPtr->getClaehTileYSizePtr(), 20, updateImageAnalysis, (void*)this);
 
-	cv::createTrackbar(TRACK_BAR_NAME_CONTRAST, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), &_contrast, 100, updateImageAnalysis, (void*)this);
-	cv::createTrackbar(TRACK_BAR_NAME_BRIGHTNESS, (optionsOneWindow? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), &_brightness, 1000, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_CONTRAST, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), _imagePreprocessorPtr->getContrastPtr(), 100, updateImageAnalysis, (void*)this);
+	cv::createTrackbar(TRACK_BAR_NAME_BRIGHTNESS, (optionsOneWindow ? WINDOW_NAME_OPTIONS : WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS), _imagePreprocessorPtr->getBrightnessPtr(), 1000, updateImageAnalysis, (void*)this);
 }
 // --------------------------------------------------------------------------------------  </OpenCV HighGUI>  -----------------------------------------------------------------------------------------
 

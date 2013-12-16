@@ -1,0 +1,28 @@
+Vocabulary
+	* for every train image
+		+ compute keypoints features
+		+ extract keypoints descriptors
+			+ add keypoints descriptors to BOWKMeansTrainer		
+
+	+ vocabulary = cluster() points in BOWKMeansTrainer
+	+ setVocabulary in BOWImgDescriptorExtractor
+
+Samples
+	+ compute car samples
+		+ use compute(img, keyPoints, imgDescriptors) in BOWImgDescriptorExtractor
+		+ compute keypoints labels (car / non-car)
+			+ use red masks to detect if keypoint is car or not
+
+Train classifier
+	+ train classifier
+		+ train_auto -> use imgDescriptors and labels
+
+Test classifier
+	* for every test image
+		+ compute keypoints features
+		+ extract keypoints descriptors with BOWImgDescriptorExtractor
+		+ use classifier to predict if car is in image
+
+	+ Precision-Recall curve
+		+ Precision -> true positives / detected cars
+		+ Recall -> true positives / total number of cars in image
