@@ -81,7 +81,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 		}
 		vocabularyOut = _bowTrainer->cluster();
 		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
-		cout << "    -> Building finished\n" << endl;
+		cout << "    -> Finished building vocabulary with " << vocabularyOut.rows << " word size\n" << endl;
 
 		saveVocabulary(vocabularyOut);
 
@@ -114,40 +114,44 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 		Mat trainSamples(0, samplesWordSize, CV_32FC1);
 		Mat trainLabels(0, 1, CV_32SC1);
 
-		cout << "    -> Computing " << numberOfFiles << " training samples..." << endl;
-		#pragma omp parallel for schedule(dynamic)
+		cout << "    -> Analysing " << numberOfFiles << " training images..." << endl;
+		//#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
 			if (_imagePreprocessor->loadAndPreprocessImage(fileNames[i] + IMAGE_TOKEN, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
 				vector<KeyPoint> keypoints;				
 				_featureDetector->detect(imagePreprocessed, keypoints);
 
-				vector<KeyPoint> keypointsTargetClass;
+				vector< vector <KeyPoint> > keypointsTargetClass;
 				vector<KeyPoint> keypointsNonTargetClass;
 
-				ImageUtils::splitKeypoints(fileNames[i], keypoints, keypointsTargetClass, keypointsNonTargetClass);
+				ImageUtils::splitKeyPoints(fileNames[i], keypoints, keypointsTargetClass, keypointsNonTargetClass);
 
 				Mat descriptorsTargetClass;
 				Mat descriptorsNonTargetClass;
 
-				_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsTargetClass, descriptorsTargetClass);
-				_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
+				for (size_t targetClassInstancePosition = 0; targetClassInstancePosition < keypointsTargetClass.size(); ++targetClassInstancePosition) {
+					if (!keypointsTargetClass[targetClassInstancePosition].empty()) {
+						_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], descriptorsTargetClass);
 
-				#pragma omp critical
-				{
-					if (descriptorsTargetClass.rows > 0 && descriptorsTargetClass.cols == samplesWordSize) {
-						trainSamples.push_back(descriptorsTargetClass);
-						trainLabels.push_back(1);
-					}
-
-					if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
-						trainSamples.push_back(descriptorsNonTargetClass);
-						trainLabels.push_back(0);
+						//#pragma omp critical
+						if (descriptorsTargetClass.rows > 0 && descriptorsTargetClass.cols == samplesWordSize) {
+							trainSamples.push_back(descriptorsTargetClass);
+							trainLabels.push_back(1);
+						}
 					}
 				}
+				
+				_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
+
+				//#pragma omp critical					
+				if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
+					trainSamples.push_back(descriptorsNonTargetClass);
+					trainLabels.push_back(0);
+				}				
 			}
 		}
-		cout << "    -> Training samples finished\n" << endl;
+		cout << "    -> Computed " << trainSamples.rows << " training samples from " << numberOfFiles << " images \n" << endl;
 
 		if (trainSamples.rows != trainLabels.rows || trainSamples.rows == 0 || trainLabels.rows == 0) {
 			cout << "\n    !> Invalid training data!\n\n\n" << endl;

@@ -22,28 +22,36 @@ void ImageUtils::loadImageMasks(string imagePath, vector<Mat>& masks) {
 }
 
 
-void ImageUtils::splitKeypoints(string imagePath, const vector<KeyPoint>& keypoints, vector<KeyPoint>& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass) {
+void ImageUtils::splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass) {
 	keypointsTargetClass.clear();
 	keypointsNonTargetClass.clear();
 
 	vector<Mat> masks;
 	loadImageMasks(imagePath, masks);
-	int keypointsSize = keypoints.size();
+	int keyPointsSize = keypoints.size();
+	vector<bool> targetKeypoints(keypoints.size());
+
+	keypointsTargetClass.resize(masks.size());
 
 	#pragma omp parallel for schedule(dynamic)
-	for (int keyPointPosition = 0; keyPointPosition < keypointsSize; ++keyPointPosition) {
-		for (size_t maskPosition = 0; maskPosition < masks.size(); ++maskPosition) {
-			Vec3b maskColorInKeyPointPosition = masks[maskPosition].at<Vec3b>(keypoints[keyPointPosition].pt);
+	for (int keyPointPosition = 0; keyPointPosition < keyPointsSize; ++keyPointPosition) {
+		bool keyPointIsNotCar = true;
 
+		for (size_t maskPosition = 0; maskPosition < masks.size(); ++maskPosition) {									
+			Vec3b maskColorInKeyPointPosition = masks[maskPosition].at<Vec3b>(keypoints[keyPointPosition].pt);
+						
+			if (maskColorInKeyPointPosition[2] == 255) {
+				#pragma omp critical
+				keypointsTargetClass[maskPosition].push_back(keypoints[keyPointPosition]);
+				
+				keyPointIsNotCar = false;
+				break;
+			}			
+		}
+		
+		if (keyPointIsNotCar) {
 			#pragma omp critical
-			{
-				if (maskColorInKeyPointPosition[2] == 255) {
-					keypointsTargetClass.push_back(keypoints[keyPointPosition]);
-				}
-				else {
-					keypointsNonTargetClass.push_back(keypoints[keyPointPosition]);
-				}
-			}
+			keypointsNonTargetClass.push_back(keypoints[keyPointPosition]);
 		}
 	}
 }
