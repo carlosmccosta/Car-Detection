@@ -23,6 +23,7 @@
 
 // project includes
 #include "ImagePreprocessor.h"
+#include "ImageUtils.h"
 
 
 // namespace specific imports to avoid namespace pollution
@@ -57,9 +58,9 @@ public:
 	virtual ~TrainingData() {}
 
 	// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
-	Mat getTrainSamples() const { return _trainSamples; }
+	Mat& getTrainSamples() { return _trainSamples; }
 	void setTrainSamples(const Mat& val) { _trainSamples = val; }
-	Mat getTrainLabels() const { return _trainLabels; }
+	Mat& getTrainLabels() { return _trainLabels; }
 	void setTrainLabels(const Mat& val) { _trainLabels = val; }
 	// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
 

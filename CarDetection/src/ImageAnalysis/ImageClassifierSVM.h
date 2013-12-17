@@ -36,13 +36,8 @@ class ImageClassifierSVM : public ImageClassifier {
 	public:
 		ImageClassifierSVM(Ptr<BowVocabulary> bowVocabulary, string classifierFilename);
 		virtual ~ImageClassifierSVM();
-
-		virtual bool loadClassifier();
-		virtual void saveClassifier();
+		
 		virtual bool train(const string& vocabularySetupImgsList, const string& classifierTrainImgsList);
 		virtual float predict(Mat& image);
-
-	private:
-		SVM _classifier;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifierSVM>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

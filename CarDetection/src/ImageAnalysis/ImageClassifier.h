@@ -12,6 +12,7 @@
 
 // OpenCV includes
 #include <opencv2/core/core.hpp>
+#include <opencv2/ml/ml.hpp>
 
 // project includes
 #include "BowVocabulary.h"
@@ -21,6 +22,8 @@ using std::string;
 
 using cv::Mat;
 using cv::Ptr;
+using cv::StatModel;
+using cv::FileStorage;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -52,14 +55,14 @@ class ClassifierEvaluationResult {
 /// Abstract class for defining Classifiers API
 class ImageClassifier {
 	public:
-		ImageClassifier(Ptr<BowVocabulary> bowVocabulary, string classifierFilename);
+		ImageClassifier(Ptr<BowVocabulary> bowVocabulary, string classifierFilename, Ptr<StatModel> classifier);
 		virtual ~ImageClassifier();
-		
-		virtual bool loadClassifier() = 0;
-		virtual void saveClassifier() = 0;
+				
 		virtual bool train(const string& vocabularySetupImgsList, const string& classifierTrainImgsList) = 0;
 		virtual float predict(Mat& image) = 0;
 
+		bool loadClassifier();
+		void saveClassifier();
 		ClassifierEvaluationResult evaluateClassifier(string testImgsList);
 		
 		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
@@ -71,6 +74,7 @@ class ImageClassifier {
 
 	protected:
 		Ptr<BowVocabulary> _bowVocabulary;
-		string _classifierFilename;		
+		string _classifierFilename;
+		Ptr<StatModel> _classifier;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifier>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

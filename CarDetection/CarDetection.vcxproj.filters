@@ -42,6 +42,9 @@
     <ClCompile Include="src\ImageAnalysis\ImageClassifierSVM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ImageAnalysis\ImageUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CLI\CLI.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ImageAnalysis\ImageClassifierSVM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImageAnalysis\ImageUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

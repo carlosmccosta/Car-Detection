@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ImageAnalysis\ImageUtils.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageClassifierSVM.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageClassifier.cpp" />
     <ClCompile Include="src\ImageAnalysis\BowVocabulary.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ImageAnalysis\ImageUtils.h" />
     <ClInclude Include="src\ImageAnalysis\ImageClassifierSVM.h" />
     <ClInclude Include="src\ImageAnalysis\ImageClassifier.h" />
     <ClInclude Include="src\ImageAnalysis\BowVocabulary.h" />
