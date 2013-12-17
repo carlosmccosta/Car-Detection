@@ -10,6 +10,7 @@
 #define WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS "2.1. Histogram equalization CLAHE options"
 #define WINDOW_NAME_CONTRAST_AND_BRIGHTNESS "3. Contrast, brightness and bilateral filtering (2nd pass)"
 #define WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS "3.1. Contrast and brightness options"
+#define WINDOW_NAME_TARGET_DETECTION "4. Target detection"
 
 #define TRACK_BAR_NAME_BILATERAL_FILTER_DIST "1Dist"
 #define TRACK_BAR_NAME_BILATERAL_FILTER_COLOR_SIG "1Color Sig"
@@ -31,6 +32,8 @@
 #define CLASSIFIER_IMGAGES_LIST "imgs/ig02-v1.0-cars/cars_train.txt"
 
 #define TRAINING_DIRECTORY "training/"
+
+#define TARGET_DETECTIONS_RECTANGLE_COLOR Scalar(45,255,255)
 
 #define VOCABULARY_WORD_COUNT 1000
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

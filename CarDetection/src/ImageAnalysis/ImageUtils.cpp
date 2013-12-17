@@ -55,4 +55,24 @@ void ImageUtils::splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoi
 		}
 	}
 }
+
+
+void ImageUtils::findMaskBoundingRectangles(const Mat& mask, vector<Rect>& targetsBoundingRectanglesOut) {
+	targetsBoundingRectanglesOut.clear();
+	
+	vector< vector<Point> > contours;
+	vector<Vec4i> hierarchy;
+
+	findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+	vector<vector<Point> > contours_poly(contours.size());
+	targetsBoundingRectanglesOut.resize(contours.size());	
+
+	for (size_t i = 0; i < contours.size(); i++) {
+		approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
+		targetsBoundingRectanglesOut[i] = boundingRect(Mat(contours_poly[i]));
+	}
+}
+
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -15,7 +15,7 @@
 
 // project includes
 #include "ImagePreprocessor.h"
-#include "ImageClassifier.h"
+#include "ImageDetector.h"
 #include "../GUI/GUIUtils.h"
 
 // namespace specific imports to avoid namespace pollution
@@ -55,7 +55,7 @@ class ImageAnalysis {
 	public:
 		
 		/// Constructor with initialization of parameters with default value		 		 
-		ImageAnalysis(Ptr<ImagePreprocessor> imagePreprocessor, Ptr<ImageClassifier> imageClassifierSVM);
+		ImageAnalysis(Ptr<ImagePreprocessor> imagePreprocessor, Ptr<ImageDetector> imageClassifierSVM);
 		
 		/// ImageAnalysis destructor that performs cleanup of OpenCV HighGUI windows (in case they are used)		 
 		virtual ~ImageAnalysis();			
@@ -146,6 +146,6 @@ class ImageAnalysis {
 		int _screenHeight;		
 
 		Ptr<ImagePreprocessor> _imagePreprocessorPtr;
-		Ptr<ImageClassifier> _imageClassifierSVM;
+		Ptr<ImageDetector> _imageDetector;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <Image analysis>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -23,30 +23,31 @@ void CLI::startInteractiveCLI() {
 	bool classifierTrained = false;
 
 	do {
-		ConsoleInput::getInstance()->clearConsoleScreen();
-		showConsoleHeader();
+		try {
+			ConsoleInput::getInstance()->clearConsoleScreen();
+			showConsoleHeader();
 		
-		if (classifierTrained) {
-			userOption = getUserOption();
-			if (userOption == 1) {
-				setupTraining();
-			} else {
-				if (userOption == 2 || userOption == 3) {
-					filename = "";
-					do {
-						cout << "  >> Path to file: ";
-						filename = ConsoleInput::getInstance()->getLineCin();
+			if (classifierTrained) {
+				userOption = getUserOption();
+				if (userOption == 1) {
+					setupTraining();
+				} else {
+					if (userOption == 2 || userOption == 3) {
+						filename = "";
+						do {
+							cout << "  >> Path to file: ";
+							filename = ConsoleInput::getInstance()->getLineCin();
 
-						if (filename == "") {
-							cerr << "  => File path can't be empty!\n" << endl;
-						}
-					} while (filename == "");
-				} else if (userOption == 4) {
-					cameraDeviceNumber = ConsoleInput::getInstance()->getIntCin("  >> Insert the camera device number to use (default: 0): ", "  => Camera device number must be >= 0 !!!\n", 0);
-				}
+							if (filename == "") {
+								cerr << "  => File path can't be empty!\n" << endl;
+							}
+						} while (filename == "");
+					} else if (userOption == 4) {
+						cameraDeviceNumber = ConsoleInput::getInstance()->getIntCin("  >> Insert the camera device number to use (default: 0): ", "  => Camera device number must be >= 0 !!!\n", 0);
+					}
 
-				try {
-					ImageAnalysis imageAnalysis(_imagePreprocessor, _imageClassifier);
+				
+					ImageAnalysis imageAnalysis(_imagePreprocessor, _imageDetector);
 					imageAnalysis.setScreenWidth(screenWidth);
 					imageAnalysis.setScreenHeight(screenHeight);
 					imageAnalysis.setOptionsOneWindow(optionsOneWindow);
@@ -56,17 +57,19 @@ void CLI::startInteractiveCLI() {
 						case 4: { if (!imageAnalysis.processVideo(cameraDeviceNumber)) { cerr << "  => Failed to open camera " << cameraDeviceNumber << "!" << endl; } break; }
 						default: break;
 					}
+				
 				}
-				catch (...) {}
+			} else {
+				setupTraining();
+				classifierTrained = true;
 			}
-		} else {
-			setupTraining();
-			classifierTrained = true;
-		}
 
-		if (userOption != 0) {
-			cout << "\n\n" << endl;
-			ConsoleInput::getInstance()->getUserInput();
+			if (userOption != 0) {
+				cout << "\n\n" << endl;
+				ConsoleInput::getInstance()->getUserInput();
+			}
+		} catch (...) {
+			cerr << "\n\n\n!!!!! Caught unexpected exception !!!!!\n\n\n" << endl;
 		}
 	} while (userOption != 0);
 
@@ -159,6 +162,8 @@ void CLI::setupTraining() {
 	}
 
 	_imageClassifier->train(VOCABULARY_IMAGES_LIST, CLASSIFIER_IMGAGES_LIST);
+
+	_imageDetector = new ImageDetectorSlidingWindow(_imageClassifier);
 }
 
 

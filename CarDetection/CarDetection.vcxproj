@@ -61,6 +61,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,6 +72,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ImageAnalysis\ImageDetectorSlidingWindow.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageDetector.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageUtils.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageClassifierSVM.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageClassifier.cpp" />
@@ -83,6 +86,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ImageAnalysis\ImageDetectorSlidingWindow.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageDetector.h" />
     <ClInclude Include="src\ImageAnalysis\ImageUtils.h" />
     <ClInclude Include="src\ImageAnalysis\ImageClassifierSVM.h" />
     <ClInclude Include="src\ImageAnalysis\ImageClassifier.h" />

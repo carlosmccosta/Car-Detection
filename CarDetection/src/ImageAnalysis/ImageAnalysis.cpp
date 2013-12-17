@@ -2,10 +2,10 @@
 
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <Image analysis>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-ImageAnalysis::ImageAnalysis(Ptr<ImagePreprocessor> imagePreprocessor, Ptr<ImageClassifier> imageClassifierSVM) :
+ImageAnalysis::ImageAnalysis(Ptr<ImagePreprocessor> imagePreprocessor, Ptr<ImageDetector> imageClassifierSVM) :
 	_useCVHiGUI(true), _windowsInitialized(false), _optionsOneWindow(false),
 	_frameRate(30), _screenWidth(1920), _screenHeight(1080),
-	_imagePreprocessorPtr(imagePreprocessor), _imageClassifierSVM(imageClassifierSVM) {};
+	_imagePreprocessorPtr(imagePreprocessor), _imageDetector(imageClassifierSVM) {};
 
 
 ImageAnalysis::~ImageAnalysis() {
@@ -73,7 +73,15 @@ bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
 	_preprocessedImage = image.clone();
 	_imagePreprocessorPtr->preprocessImage(_preprocessedImage, useCVHighGUI);
 
-	// TODO processing algorithms
+	// target detection
+	vector<Rect> targetsBoundingRectanglesOut;
+	_imageDetector->detectTargets(_processedImage, targetsBoundingRectanglesOut, true);
+
+	for (size_t i = 0; i < targetsBoundingRectanglesOut.size(); i++) {
+		cv::rectangle(_processedImage, targetsBoundingRectanglesOut[i], TARGET_DETECTIONS_RECTANGLE_COLOR, 2);
+	}
+
+	imshow(WINDOW_NAME_TARGET_DETECTION, _processedImage);
 
 	return true;
 }
@@ -161,7 +169,8 @@ void ImageAnalysis::setupResultsWindows(bool optionsOneWindow) {
 	GUIUtils::addHighGUIWindow(1, 0, WINDOW_NAME_BILATERAL_FILTER, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
 	//GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
 	GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
-	GUIUtils::addHighGUIWindow(3, 0, WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	GUIUtils::addHighGUIWindow(0, 1, WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	GUIUtils::addHighGUIWindow(1, 1, WINDOW_NAME_TARGET_DETECTION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);	
 	
 	if (optionsOneWindow) {		
 		namedWindow(WINDOW_NAME_OPTIONS, CV_WINDOW_NORMAL);

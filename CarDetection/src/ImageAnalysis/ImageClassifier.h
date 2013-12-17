@@ -59,7 +59,7 @@ class ImageClassifier {
 		virtual ~ImageClassifier();
 				
 		virtual bool train(const string& vocabularySetupImgsList, const string& classifierTrainImgsList) = 0;
-		virtual float predict(Mat& image) = 0;
+		virtual float predict(Mat& image, bool drawKeyPoints = false) = 0;
 
 		bool loadClassifier();
 		void saveClassifier();

@@ -6,7 +6,8 @@ ImageClassifierSVM::~ImageClassifierSVM() {}
 
 
 bool ImageClassifierSVM::train(const string& vocabularySetupImgsList, const string& classifierTrainImgsList) {
-	if (loadClassifier()) {
+	if (loadClassifier()) {		
+		getBowVocabulary()->loadVocabulary(Mat());
 		return true;
 	}	
 	
@@ -30,8 +31,26 @@ bool ImageClassifierSVM::train(const string& vocabularySetupImgsList, const stri
 }
 
 
-float ImageClassifierSVM::predict(Mat& image) {
-	// TODO predict
-	return 0;
+float ImageClassifierSVM::predict(Mat& image, bool drawKeyPoints) {
+	int vocabularyWordSize = getBowVocabulary()->getBowImgDescriptorExtractor()->getVocabulary().rows;
+	if (vocabularyWordSize < 1) {
+		return 0;
+	}
+
+	vector<KeyPoint> windowKeyPoints;
+	getBowVocabulary()->getFeatureDetector()->detect(image, windowKeyPoints);
+
+	Mat windowBoWDescriptors(0, vocabularyWordSize, CV_32FC1);
+	getBowVocabulary()->getBowImgDescriptorExtractor()->compute(image, windowKeyPoints, windowBoWDescriptors);
+
+	if (drawKeyPoints) {
+		cv::drawKeypoints(image, windowKeyPoints, image);
+	}
+
+	if (windowBoWDescriptors.rows > 0) {
+		return ((Ptr<SVM>)_classifier)->predict(windowBoWDescriptors);
+	} else {
+		return 0;
+	}
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifierSVM>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -16,7 +16,10 @@
 #include "ConsoleInput.h"
 #include "../ImageAnalysis/ImageAnalysis.h"
 #include "../ImageAnalysis/BowVocabulary.h"
+#include "../ImageAnalysis/ImageClassifier.h"
 #include "../ImageAnalysis/ImageClassifierSVM.h"
+#include "../ImageAnalysis/ImageDetector.h"
+#include "../ImageAnalysis/ImageDetectorSlidingWindow.h"
 #include "../Configs.h"
 
 // namespace specific imports to avoid namespace pollution
@@ -57,5 +60,6 @@ class CLI {
 		Ptr<ImagePreprocessor> _imagePreprocessor;
 		Ptr<BowVocabulary> _bowVocabulary;
 		Ptr<ImageClassifier> _imageClassifier;
+		Ptr<ImageDetector> _imageDetector;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </Commnd Line user Interface>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

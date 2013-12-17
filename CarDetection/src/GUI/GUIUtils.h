@@ -70,7 +70,7 @@ namespace GUIUtils {
 	pair< pair<int, int>, pair<int, int> > addHighGUIWindow(int column, int row, string windowName,
 		int imageWidth = -1, int imageHeight = -1, int screenWidth = 1920, int screenHeight = 1080,
 		int xOffset = 0, int yOffset = 0,
-		int numberColumns = 4, int numberRows = 2);
+		int numberColumns = 3, int numberRows = 2);
 
 
 	/*!
