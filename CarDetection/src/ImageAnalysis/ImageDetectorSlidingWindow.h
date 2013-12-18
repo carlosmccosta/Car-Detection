@@ -3,7 +3,7 @@
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #define SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT 0.1
 
-#define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_START 0.3
+#define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_START 0.1
 #define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_INCREMENT 0.1
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -12,6 +12,7 @@
 // std includes
 #include <vector>
 #include <string>
+#include <limits>
 
 // OpenCV includes
 #include <opencv2/core/core.hpp>

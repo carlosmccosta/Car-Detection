@@ -61,7 +61,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

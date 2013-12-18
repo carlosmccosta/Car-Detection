@@ -86,7 +86,7 @@ class BowVocabulary {
 
 		bool loadVocabulary(Mat& vocabularyOut);
 		bool saveVocabulary(const Mat& vocabularyOut);
-		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true);
+		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true, bool useOnlyTargetRegions = false);
 		bool computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList, bool outputAnalyzedImages = true);
 
 

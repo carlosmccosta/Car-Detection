@@ -41,8 +41,7 @@ void ImageUtils::splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoi
 
 	vector<Mat> masks;
 	loadImageMasks(imagePath, masks);
-	int keyPointsSize = keypoints.size();
-	vector<bool> targetKeypoints(keypoints.size());
+	int keyPointsSize = keypoints.size();	
 
 	keypointsTargetClass.resize(masks.size());
 

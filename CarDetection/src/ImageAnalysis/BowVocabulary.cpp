@@ -48,7 +48,7 @@ bool BowVocabulary::saveVocabulary(const Mat& vocabularyOut) {
 }
 
 
-bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages) {
+bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages, bool useOnlyTargetRegions) {
 	if (loadVocabulary(vocabularyOut)) {
 		return true;
 	}	
@@ -79,18 +79,38 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 					outputImage = imagePreprocessed.clone();
 				}
 
-				vector<Mat> masks;
-				ImageUtils::retriveTargetsMasks(IMGS_DIRECTORY + fileNames[i], masks);				
-				for (size_t maskIndex = 0; maskIndex < masks.size(); ++maskIndex) {
+				if (useOnlyTargetRegions) {
+					vector<Mat> masks;
+					ImageUtils::retriveTargetsMasks(IMGS_DIRECTORY + fileNames[i], masks);
+					for (size_t maskIndex = 0; maskIndex < masks.size(); ++maskIndex) {
+						vector<KeyPoint> keypoints;
+						Mat targetMask = masks[maskIndex];
+						_featureDetector->detect(imagePreprocessed, keypoints, targetMask);
+						//_featureDetector->detect(imagePreprocessed, keypoints, masks[maskIndex]);
+
+						if (keypoints.size() > 3) {
+							Mat descriptors;
+							_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
+							descriptors.convertTo(descriptors, CV_32FC1);
+
+							if (descriptors.rows > 0) {
+								#pragma omp critical
+								_bowTrainer->add(descriptors);
+							}
+
+							if (outputAnalyzedImages) {
+								cv::drawKeypoints(outputImage, keypoints, outputImage);
+							}
+						}
+					}
+				} else {
 					vector<KeyPoint> keypoints;
-					Mat targetMask = masks[maskIndex];
-					_featureDetector->detect(imagePreprocessed, keypoints, targetMask);
-					//_featureDetector->detect(imagePreprocessed, keypoints, masks[maskIndex]);
+					_featureDetector->detect(imagePreprocessed, keypoints);
 
 					if (keypoints.size() > 3) {
 						Mat descriptors;
 						_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
-						descriptors.convertTo(descriptors, CV_32FC1);						
+						descriptors.convertTo(descriptors, CV_32FC1);
 
 						if (descriptors.rows > 0) {
 							#pragma omp critical
@@ -100,7 +120,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 						if (outputAnalyzedImages) {
 							cv::drawKeypoints(outputImage, keypoints, outputImage);
 						}
-					}
+					}					
 				}
 				
 				if (outputAnalyzedImages) {

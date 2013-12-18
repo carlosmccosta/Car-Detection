@@ -17,13 +17,13 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	int windowMovingXIncrement = (int)(image.cols * SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT);
 	int windowMovingYIncrement = (int)(image.rows * SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT);
 
-	int numberYIterations = image.rows / windowMovingYIncrement;
-	int numberOfVotes = 0;
+	//int numberYIterations = image.rows / windowMovingYIncrement;
+	int numberOfWindows = 0;
 
 	#pragma omp parallel for schedule(dynamic) reduction(+ : numberOfVotes)
-	//for (int yPosition = 0; yPosition <= image.rows; yPosition += windowMovingYIncrement) {
-	for (int yIteration = 0; yIteration <= numberYIterations; ++yIteration) {
-		int yPosition = yIteration * windowMovingYIncrement;
+	for (int yPosition = 0; yPosition <= image.rows; yPosition += windowMovingYIncrement) {
+	//for (int yIteration = 0; yIteration <= numberYIterations; ++yIteration) {
+		//int yPosition = yIteration * windowMovingYIncrement;
 		for (int xPosition = 0; xPosition < image.cols; xPosition += windowMovingXIncrement) {
 			for (double boxSizePercentage = SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_START; boxSizePercentage <= 1.0; boxSizePercentage += SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_INCREMENT) {
 				int windowSizeX = (int)(boxSizePercentage * image.cols);
@@ -36,12 +36,12 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 				
 				if (window.cols > 6 && window.rows > 6) {
 					float prediction = getImageClassifier()->predict(window);
-					++numberOfVotes;
+					++numberOfWindows;
 					cout << prediction << " ";
-					if (prediction > 0.9) {
+					if (prediction > 0.2) {
 						for (int xWindow = 0; xWindow < window.cols; ++xWindow) {
 							for (int yWindow = 0; yWindow < window.rows; ++yWindow) {
-								#pragma omp atomic
+								//#pragma omp atomic
 								++votingMask.at<unsigned char>(yPosition + yWindow, xPosition + xWindow);
 							}
 						}
@@ -55,9 +55,23 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	if (showImageKeyPoints) {
 		getImageClassifier()->predict(image, showImageKeyPoints);		
 	}
+		
+	/*double minVote;
+	double maxVote;
+	cv::minMaxLoc(votingMask, &minVote, &maxVote);
+
+	Mat scaledVotingMask;
+	double convertionScale = (double)maxVote / (double)(std::numeric_limits<unsigned char>::max)();
+	votingMask.convertTo(scaledVotingMask, CV_8UC1, convertionScale);
 	
+	Mat detectionMask = scaledVotingMask.clone();
+	cv::threshold(detectionMask, detectionMask, 0.25, -1, CV_THRESH_BINARY);*/
+	
+	// --
+
 	Mat detectionMask = votingMask.clone();
-	cv::threshold(detectionMask, detectionMask, numberOfVotes * 0.50, 255, CV_THRESH_BINARY);
+	cv::threshold(detectionMask, detectionMask, numberOfWindows * 0.2, (std::numeric_limits<unsigned char>::max)(), CV_THRESH_BINARY);
+
 	ImageUtils::findMaskBoundingRectangles(detectionMask, targetsBoundingRectanglesOut);
 
 	if (showTargetBoundingRectangles) {
@@ -66,8 +80,9 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 		}
 	}
 
-	cout << "    -> Detected " << targetsBoundingRectanglesOut.size() << " targets in " << performanceTimer.getElapsedTimeFormated() << " with " << numberOfVotes << " ROIs" << endl;
+	cout << "    -> Detected " << targetsBoundingRectanglesOut.size() << " targets in " << performanceTimer.getElapsedTimeFormated() << " with " << numberOfWindows << " ROIs" << endl;
 
 	return votingMask;
+	//return scaledVotingMask;
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageDetectorSlidingWindow>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
