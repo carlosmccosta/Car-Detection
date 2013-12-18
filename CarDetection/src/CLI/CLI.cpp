@@ -31,8 +31,10 @@ void CLI::startInteractiveCLI() {
 				userOption = getUserOption();
 				if (userOption == 1) {
 					setupTraining();
+				} else if (userOption == 2) {
+					_imageDetector->evaluateDetector(TEST_IMGAGES_LIST);
 				} else {
-					if (userOption == 2 || userOption == 3) {
+					if (userOption == 3 || userOption == 4) {
 						filename = "";
 						do {
 							cout << "  >> Path to file: ";
@@ -42,7 +44,7 @@ void CLI::startInteractiveCLI() {
 								cerr << "  => File path can't be empty!\n" << endl;
 							}
 						} while (filename == "");
-					} else if (userOption == 4) {
+					} else if (userOption == 5) {
 						cameraDeviceNumber = ConsoleInput::getInstance()->getIntCin("  >> Insert the camera device number to use (default: 0): ", "  => Camera device number must be >= 0 !!!\n", 0);
 					}
 				
@@ -51,9 +53,9 @@ void CLI::startInteractiveCLI() {
 					imageAnalysis.setScreenHeight(screenHeight);
 					imageAnalysis.setOptionsOneWindow(optionsOneWindow);
 					switch (userOption) {
-						case 2: { if (!imageAnalysis.processImage(filename)) { cerr << "  => Failed to load image " << filename << "!" << endl; } break; }
-						case 3: { if (!imageAnalysis.processVideo(filename)) { cerr << "  => Failed to load video " << filename << "!" << endl; } break; }
-						case 4: { if (!imageAnalysis.processVideo(cameraDeviceNumber)) { cerr << "  => Failed to open camera " << cameraDeviceNumber << "!" << endl; } break; }
+						case 3: { if (!imageAnalysis.processImage(filename)) { cerr << "  => Failed to load image " << filename << "!" << endl; } break; }
+						case 4: { if (!imageAnalysis.processVideo(filename)) { cerr << "  => Failed to load video " << filename << "!" << endl; } break; }
+						case 5: { if (!imageAnalysis.processVideo(cameraDeviceNumber)) { cerr << "  => Failed to open camera " << cameraDeviceNumber << "!" << endl; } break; }
 						default: break;
 					}				
 				}
@@ -81,12 +83,13 @@ void CLI::startInteractiveCLI() {
 int CLI::getUserOption() {
 	cout << " ## Detect car from:\n";
 	cout << "   1 - Train classifier\n";
-	cout << "   2 - Test classifier from image\n";
-	cout << "   3 - Test classifier from video\n";
-	cout << "   4 - Test classifier from camera\n";
+	cout << "   2 - Evaluate detector\n";
+	cout << "   3 - Test detector from image\n";
+	cout << "   4 - Test detector from video\n";
+	cout << "   5 - Test detector from camera\n";
 	cout << "   0 - Exit\n";
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [0, 4]: ", "Select one of the options above!", 0, 5);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [0, 4]: ", "Select one of the options above!", 0, 6);
 }
 
 

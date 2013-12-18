@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 // OpenCV includes
 #include <opencv2/core/core.hpp>
@@ -24,6 +25,7 @@ using std::stringstream;
 using std::vector;
 using std::map;
 using std::pair;
+using std::cout;
 
 using cv::Mat;
 using cv::Rect;

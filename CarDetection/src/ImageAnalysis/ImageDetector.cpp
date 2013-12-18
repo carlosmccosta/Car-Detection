@@ -5,7 +5,7 @@ ImageDetector::ImageDetector(Ptr<ImageClassifier> imageClassifier) : _imageClass
 ImageDetector::~ImageDetector() {}
 
 
-DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList) {
+DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bool saveResults) {
 	double precision = 0;
 	double recall = 0;
 
@@ -14,24 +14,40 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList) {
 		string filename;
 		vector<string> fileNames;
 		while (getline(imgsList, filename)) {
-			stringstream imagePath;
-			imagePath << IMGS_DIRECTORY << filename;
-			fileNames.push_back(imagePath.str());
+			fileNames.push_back(filename);
 		}
 		int numberOfFiles = fileNames.size();
 
+		cout << "    -> Evaluating detector..." << endl;
+		PerformanceTimer performanceTimer;
+		performanceTimer.start();
 
-		#pragma omp parallel for schedule(dynamic)
+		//#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
-			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(fileNames[i] + IMAGE_TOKEN, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
+			string imageFilename = IMGS_DIRECTORY + fileNames[i] + IMAGE_TOKEN;
+
+			cout << "\n    -> Evaluating image " << imageFilename << "..." << endl;
+			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
 				vector<Rect> targetsBoundingRectanglesOut;
-				detectTargets(imagePreprocessed, targetsBoundingRectanglesOut);
+				Mat votingMask = detectTargets(imagePreprocessed, targetsBoundingRectanglesOut, true, true);
 
+				if (saveResults) {
+					stringstream imageOutputFilename;
+					imageOutputFilename << TEST_OUTPUT_DIRECTORY << fileNames[i] << FILENAME_SEPARATOR << _imageClassifier->getClassifierFilename();
 
+					stringstream imageOutputFilenameMask;
+					imageOutputFilenameMask << imageOutputFilename.str() << FILENAME_SEPARATOR << DETECTION_VOTE_MASK << IMAGE_OUTPUT_EXTENSION;
+
+					imageOutputFilename << IMAGE_OUTPUT_EXTENSION;
+
+					imwrite(imageOutputFilename.str(), imagePreprocessed);
+					imwrite(imageOutputFilenameMask.str(), votingMask);
+				}
 			}
+			cout << "    -> Evaluation of image " << imageFilename << " finished" << endl;
 		}
-
+		cout << "\n    -> Finished evaluation of detector in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;
 	}
 
 	return DetectorEvaluationResult(precision, recall);

@@ -18,7 +18,20 @@ void ImageUtils::loadImageMasks(string imagePath, vector<Mat>& masks) {
 		}
 
 		++imageMaskNumber;
-	}	
+	}
+}
+
+
+void ImageUtils::retriveTargetsMasks(string imagePath, vector<Mat>& masks) {
+	loadImageMasks(imagePath, masks);
+	for (size_t i = 0; i < masks.size(); ++i) {
+		Mat before = masks[i];
+		Mat after;
+		cv::inRange(before, Scalar(0, 0, 254), Scalar(0, 0, 255), after);
+		masks[i] = after;
+
+		//cv::inRange(masks[i], Scalar(0, 254, 0), Scalar(0, 255, 0), masks[i]);
+	}
 }
 
 

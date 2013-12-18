@@ -74,24 +74,40 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 			Mat imagePreprocessed;
 			string imageFilename = IMGS_DIRECTORY + fileNames[i] + IMAGE_TOKEN;
 			if (_imagePreprocessor->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
-				vector<KeyPoint> keypoints;				
-				_featureDetector->detect(imagePreprocessed, keypoints);
+				Mat outputImage;
+				if (outputAnalyzedImages) {
+					outputImage = imagePreprocessed.clone();
+				}
 
-				Mat descriptors;
-				_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
-				descriptors.convertTo(descriptors, CV_32FC1);
+				vector<Mat> masks;
+				ImageUtils::retriveTargetsMasks(IMGS_DIRECTORY + fileNames[i], masks);				
+				for (size_t maskIndex = 0; maskIndex < masks.size(); ++maskIndex) {
+					vector<KeyPoint> keypoints;
+					Mat targetMask = masks[maskIndex];
+					_featureDetector->detect(imagePreprocessed, keypoints, targetMask);
+					//_featureDetector->detect(imagePreprocessed, keypoints, masks[maskIndex]);
 
+					if (keypoints.size() > 3) {
+						Mat descriptors;
+						_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
+						descriptors.convertTo(descriptors, CV_32FC1);						
+
+						if (descriptors.rows > 0) {
+							#pragma omp critical
+							_bowTrainer->add(descriptors);
+						}
+
+						if (outputAnalyzedImages) {
+							cv::drawKeypoints(outputImage, keypoints, outputImage);
+						}
+					}
+				}
+				
 				if (outputAnalyzedImages) {
 					stringstream imageOutputFilename;
 					imageOutputFilename << VOCABULARY_BUILD_OUTPUT_DIRECTORY << fileNames[i] << FILENAME_SEPARATOR << _vocabularyFilename << IMAGE_OUTPUT_EXTENSION;
-					cv::drawKeypoints(imagePreprocessed, keypoints, imagePreprocessed);
-					imwrite(imageOutputFilename.str(), imagePreprocessed);
-				}
-
-				if (descriptors.rows > 2) {
-					#pragma omp critical
-					_bowTrainer->add(descriptors);
-				}
+					imwrite(imageOutputFilename.str(), outputImage);
+				}				
 			}
 		}
 		vocabularyOut = _bowTrainer->cluster();
@@ -148,7 +164,7 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 				ImageUtils::splitKeyPoints(imageFilenameShort, keypoints, keypointsTargetClass, keypointsNonTargetClass);
 
 				for (size_t targetClassInstancePosition = 0; targetClassInstancePosition < keypointsTargetClass.size(); ++targetClassInstancePosition) {
-					if (!keypointsTargetClass[targetClassInstancePosition].empty()) {
+					if (keypointsTargetClass[targetClassInstancePosition].size() > 3) {
 						Mat descriptorsTargetClass;						
 						_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], descriptorsTargetClass);
 
@@ -160,25 +176,32 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 					}
 				}
 				
-				Mat descriptorsNonTargetClass;
-				_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
+				if (keypointsNonTargetClass.size() > 3) {
+					Mat descriptorsNonTargetClass;
+					_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
+
+					#pragma omp critical
+					if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
+						trainSamples.push_back(descriptorsNonTargetClass);
+						trainLabels.push_back(0);
+					}
+				}
 
 				if (outputAnalyzedImages) {
 					stringstream imageOutputFilename;
 					imageOutputFilename << SAMPLES_BUILD_OUTPUT_DIRECTORY << fileNames[i] << FILENAME_SEPARATOR << _vocabularyFilename << IMAGE_OUTPUT_EXTENSION;
 					for (size_t targetClassInstancePosition = 0; targetClassInstancePosition < keypointsTargetClass.size(); ++targetClassInstancePosition) {
-						cv::drawKeypoints(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], imagePreprocessed, TARGET_KEYPOINT_COLOR);
+						if (keypointsTargetClass[targetClassInstancePosition].size() > 0) {
+							cv::drawKeypoints(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], imagePreprocessed, TARGET_KEYPOINT_COLOR);
+						}
 					}
 
-					cv::drawKeypoints(imagePreprocessed, keypointsNonTargetClass, imagePreprocessed, NONTARGET_KEYPOINT_COLOR);
-					imwrite(imageOutputFilename.str(), imagePreprocessed);
-				}
+					if (keypointsNonTargetClass.size() > 0) {
+						cv::drawKeypoints(imagePreprocessed, keypointsNonTargetClass, imagePreprocessed, NONTARGET_KEYPOINT_COLOR);
+					}
 
-				#pragma omp critical
-				if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
-					trainSamples.push_back(descriptorsNonTargetClass);
-					trainLabels.push_back(0);
-				}				
+					imwrite(imageOutputFilename.str(), imagePreprocessed);
+				}					
 			}
 		}
 		cout << "    -> Computed " << trainSamples.rows << " training samples from " << numberOfFiles << " images in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;

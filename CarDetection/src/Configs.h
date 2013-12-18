@@ -46,5 +46,5 @@
 
 #define FILENAME_SEPARATOR "__"
 
-#define VOCABULARY_WORD_COUNT 100
+#define VOCABULARY_WORD_COUNT 1000
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

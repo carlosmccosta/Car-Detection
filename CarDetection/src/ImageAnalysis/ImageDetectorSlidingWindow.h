@@ -21,6 +21,7 @@
 #include "ImageDetector.h"
 #include "ImageClassifier.h"
 #include "ImageUtils.h"
+#include "../libs/PerformanceTimer.h"
 
 // namespace specific imports to avoid namespace pollution
 using std::string;
@@ -39,6 +40,6 @@ class ImageDetectorSlidingWindow : public ImageDetector {
 		ImageDetectorSlidingWindow(Ptr<ImageClassifier> imageClassifier);
 		virtual ~ImageDetectorSlidingWindow();
 
-		virtual void detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showImageKeyPoints = false);
+		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true);
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageDetectorSlidingWindow>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

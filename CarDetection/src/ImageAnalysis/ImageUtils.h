@@ -25,6 +25,7 @@ using cv::Vec3b;
 using cv::Vec4i;
 using cv::Point;
 using cv::KeyPoint;
+using cv::Scalar;
 using cv::Rect;
 using cv::imread;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -33,6 +34,7 @@ using cv::imread;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 namespace ImageUtils {
 	void loadImageMasks(string imagePath, vector<Mat>& masks);
+	void retriveTargetsMasks(string imagePath, vector<Mat>& masks);
 	void splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass);
 
 	void findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectangles);
