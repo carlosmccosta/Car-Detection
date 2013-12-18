@@ -35,6 +35,6 @@ namespace ImageUtils {
 	void loadImageMasks(string imagePath, vector<Mat>& masks);
 	void splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass);
 
-	void findMaskBoundingRectangles(const Mat& mask, vector<Rect>& targetsBoundingRectangles);
+	void findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectangles);
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

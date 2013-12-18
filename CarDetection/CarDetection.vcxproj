@@ -83,6 +83,8 @@
     <ClCompile Include="src\CLI\CLI.cpp" />
     <ClCompile Include="src\CLI\ConsoleInput.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageAnalysis.cpp" />
+    <ClCompile Include="src\libs\PerformanceTimer.cpp" />
+    <ClCompile Include="src\libs\TimeUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +100,8 @@
     <ClInclude Include="src\CLI\CLI.h" />
     <ClInclude Include="src\CLI\ConsoleInput.h" />
     <ClInclude Include="src\ImageAnalysis\ImageAnalysis.h" />
+    <ClInclude Include="src\libs\PerformanceTimer.h" />
+    <ClInclude Include="src\libs\TimeUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

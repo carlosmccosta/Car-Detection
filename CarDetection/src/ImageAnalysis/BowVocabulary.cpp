@@ -14,8 +14,10 @@ BowVocabulary::~BowVocabulary() {}
 bool BowVocabulary::loadVocabulary(Mat& vocabularyOut) {
 	FileStorage fs;
 
-	if (fs.open(_vocabularyFilename, FileStorage::READ)) {
-		cout << "    -> Loading vocabulary from " << _vocabularyFilename << endl;
+	stringstream vocabularyFilenameFull;
+	vocabularyFilenameFull << TRAINING_DIRECTORY << _vocabularyFilename + VOCABULARY_EXTENSION;
+	if (fs.open(vocabularyFilenameFull.str(), FileStorage::READ)) {
+		cout << "    -> Loading vocabulary from " << vocabularyFilenameFull.str() << endl;
 		fs[VOCABULARY_TAG] >> vocabularyOut;
 		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
 		cout << "    -> Loading finished\n" << endl;
@@ -31,8 +33,10 @@ bool BowVocabulary::loadVocabulary(Mat& vocabularyOut) {
 bool BowVocabulary::saveVocabulary(const Mat& vocabularyOut) {
 	FileStorage fs;
 
-	if (fs.open(_vocabularyFilename, FileStorage::WRITE)) {
-		cout << "    -> Saving vocabulary to " << _vocabularyFilename << endl;
+	stringstream vocabularyFilenameFull;
+	vocabularyFilenameFull << TRAINING_DIRECTORY << _vocabularyFilename + VOCABULARY_EXTENSION;
+	if (fs.open(vocabularyFilenameFull.str(), FileStorage::WRITE)) {
+		cout << "    -> Saving vocabulary to " << vocabularyFilenameFull.str() << endl;
 		fs << VOCABULARY_TAG << vocabularyOut;
 		cout << "    -> Saving finished\n" << endl;
 
@@ -44,7 +48,7 @@ bool BowVocabulary::saveVocabulary(const Mat& vocabularyOut) {
 }
 
 
-bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList) {
+bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages) {
 	if (loadVocabulary(vocabularyOut)) {
 		return true;
 	}	
@@ -52,36 +56,47 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 	_bowTrainer->clear();
 
 	ifstream imgsList(vocabularyImgsList);
-	if (imgsList.is_open()) {
-		string filename;		
-
+	if (imgsList.is_open()) {		
 		vector<string> fileNames;
-		while (getline(imgsList, filename)) {			
-			stringstream imagePath;
-			imagePath << IMGS_DIRECTORY << filename << IMAGE_TOKEN;			
-			fileNames.push_back(imagePath.str());
+		string filename;
+		while (getline(imgsList, filename)) {									
+			fileNames.push_back(filename);
 		}
 		int numberOfFiles = fileNames.size();
 
 
 		cout << "    -> Building vocabulary with " << numberOfFiles << " images..." << endl;
+		PerformanceTimer performanceTimer;
+		performanceTimer.start();
+
 		#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
-			if (_imagePreprocessor->loadAndPreprocessImage(fileNames[i], imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
+			string imageFilename = IMGS_DIRECTORY + fileNames[i] + IMAGE_TOKEN;
+			if (_imagePreprocessor->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
 				vector<KeyPoint> keypoints;				
 				_featureDetector->detect(imagePreprocessed, keypoints);
 
-				Mat descriptors;				
+				Mat descriptors;
 				_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
+				descriptors.convertTo(descriptors, CV_32FC1);
 
-				#pragma omp critical
-				_bowTrainer->add(descriptors);
+				if (outputAnalyzedImages) {
+					stringstream imageOutputFilename;
+					imageOutputFilename << VOCABULARY_BUILD_OUTPUT_DIRECTORY << fileNames[i] << FILENAME_SEPARATOR << _vocabularyFilename << IMAGE_OUTPUT_EXTENSION;
+					cv::drawKeypoints(imagePreprocessed, keypoints, imagePreprocessed);
+					imwrite(imageOutputFilename.str(), imagePreprocessed);
+				}
+
+				if (descriptors.rows > 2) {
+					#pragma omp critical
+					_bowTrainer->add(descriptors);
+				}
 			}
 		}
 		vocabularyOut = _bowTrainer->cluster();
-		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
-		cout << "    -> Finished building vocabulary with " << vocabularyOut.rows << " word size\n" << endl;
+		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);		
+		cout << "    -> Finished building vocabulary with " << vocabularyOut.rows << " word size in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;
 
 		saveVocabulary(vocabularyOut);
 
@@ -93,48 +108,51 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 }
 
 
-bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList) {
-	Mat vocabulary;
-	if (!computeVocabulary(vocabulary, vocabularyImgsList)) {
-		return false;
+bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList, bool outputAnalyzedImages) {	
+	if (_bowImgDescriptorExtractor->getVocabulary().rows == 0) {
+		Mat vocabulary;
+		if (!computeVocabulary(vocabulary, vocabularyImgsList)) {
+			return false;
+		}
 	}
 
 	ifstream imgsList(vocabularyImgsList);
-	if (imgsList.is_open()) {
-		string filename;
+	if (imgsList.is_open()) {		
 		vector<string> fileNames;
-		while (getline(imgsList, filename)) {
-			stringstream imagePath;
-			imagePath << IMGS_DIRECTORY << filename;
-			fileNames.push_back(imagePath.str());
+		string filename;
+		while (getline(imgsList, filename)) {			
+			fileNames.push_back(filename);
 		}
 		int numberOfFiles = fileNames.size();
 
 		int samplesWordSize = _bowImgDescriptorExtractor->getVocabulary().rows;
-		Mat trainSamples(0, samplesWordSize, CV_32FC1);
-		Mat trainLabels(0, 1, CV_32SC1);
+		Mat trainSamples;
+		Mat trainLabels;
 
 		cout << "    -> Analysing " << numberOfFiles << " training images..." << endl;
-		//#pragma omp parallel for schedule(dynamic)
+		PerformanceTimer performanceTimer;
+		performanceTimer.start();
+
+		#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
-			if (_imagePreprocessor->loadAndPreprocessImage(fileNames[i] + IMAGE_TOKEN, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
+			string imageFilenameShort = IMGS_DIRECTORY + fileNames[i];
+			string imageFilenameFull = imageFilenameShort + IMAGE_TOKEN;
+			if (_imagePreprocessor->loadAndPreprocessImage(imageFilenameFull, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
 				vector<KeyPoint> keypoints;				
 				_featureDetector->detect(imagePreprocessed, keypoints);
 
 				vector< vector <KeyPoint> > keypointsTargetClass;
 				vector<KeyPoint> keypointsNonTargetClass;
 
-				ImageUtils::splitKeyPoints(fileNames[i], keypoints, keypointsTargetClass, keypointsNonTargetClass);
-
-				Mat descriptorsTargetClass;
-				Mat descriptorsNonTargetClass;
+				ImageUtils::splitKeyPoints(imageFilenameShort, keypoints, keypointsTargetClass, keypointsNonTargetClass);
 
 				for (size_t targetClassInstancePosition = 0; targetClassInstancePosition < keypointsTargetClass.size(); ++targetClassInstancePosition) {
 					if (!keypointsTargetClass[targetClassInstancePosition].empty()) {
+						Mat descriptorsTargetClass;						
 						_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], descriptorsTargetClass);
 
-						//#pragma omp critical
+						#pragma omp critical
 						if (descriptorsTargetClass.rows > 0 && descriptorsTargetClass.cols == samplesWordSize) {
 							trainSamples.push_back(descriptorsTargetClass);
 							trainLabels.push_back(1);
@@ -142,16 +160,28 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 					}
 				}
 				
+				Mat descriptorsNonTargetClass;
 				_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
 
-				//#pragma omp critical					
+				if (outputAnalyzedImages) {
+					stringstream imageOutputFilename;
+					imageOutputFilename << SAMPLES_BUILD_OUTPUT_DIRECTORY << fileNames[i] << FILENAME_SEPARATOR << _vocabularyFilename << IMAGE_OUTPUT_EXTENSION;
+					for (size_t targetClassInstancePosition = 0; targetClassInstancePosition < keypointsTargetClass.size(); ++targetClassInstancePosition) {
+						cv::drawKeypoints(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], imagePreprocessed, TARGET_KEYPOINT_COLOR);
+					}
+
+					cv::drawKeypoints(imagePreprocessed, keypointsNonTargetClass, imagePreprocessed, NONTARGET_KEYPOINT_COLOR);
+					imwrite(imageOutputFilename.str(), imagePreprocessed);
+				}
+
+				#pragma omp critical
 				if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
 					trainSamples.push_back(descriptorsNonTargetClass);
 					trainLabels.push_back(0);
 				}				
 			}
 		}
-		cout << "    -> Computed " << trainSamples.rows << " training samples from " << numberOfFiles << " images \n" << endl;
+		cout << "    -> Computed " << trainSamples.rows << " training samples from " << numberOfFiles << " images in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;
 
 		if (trainSamples.rows != trainLabels.rows || trainSamples.rows == 0 || trainLabels.rows == 0) {
 			cout << "\n    !> Invalid training data!\n\n\n" << endl;

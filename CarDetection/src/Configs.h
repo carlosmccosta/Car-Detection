@@ -10,7 +10,8 @@
 #define WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE_OPTIONS "2.1. Histogram equalization CLAHE options"
 #define WINDOW_NAME_CONTRAST_AND_BRIGHTNESS "3. Contrast, brightness and bilateral filtering (2nd pass)"
 #define WINDOW_NAME_CONTRAST_AND_BRIGHTNESS_OPTIONS "3.1. Contrast and brightness options"
-#define WINDOW_NAME_TARGET_DETECTION "4. Target detection"
+#define WINDOW_NAME_TARGET_DETECTION_VOTER_MASK "4. Target detection voter mask"
+#define WINDOW_NAME_TARGET_DETECTION "5. Target detection"
 
 #define TRACK_BAR_NAME_BILATERAL_FILTER_DIST "1Dist"
 #define TRACK_BAR_NAME_BILATERAL_FILTER_COLOR_SIG "1Color Sig"
@@ -27,13 +28,23 @@
 #define MASK_TOKEN ".mask."
 #define MASK_EXTENSION ".png"
 
-#define IMGS_DIRECTORY "imgs/ig02-v1.0-cars/cars/"
-#define VOCABULARY_IMAGES_LIST "imgs/ig02-v1.0-cars/cars_train.txt"
-#define CLASSIFIER_IMGAGES_LIST "imgs/ig02-v1.0-cars/cars_train.txt"
+#define IMGS_DIRECTORY "imgs/imgsDB/"
+#define VOCABULARY_IMAGES_LIST "imgs/listBuildVocabulary.txt"
+#define CLASSIFIER_IMGAGES_LIST "imgs/listBuildSamples.txt"
+#define TEST_IMGAGES_LIST "imgs/listTest.txt"
 
 #define TRAINING_DIRECTORY "training/"
+#define VOCABULARY_BUILD_OUTPUT_DIRECTORY "training/vocabularyBuildOutput/"
+#define SAMPLES_BUILD_OUTPUT_DIRECTORY "training/samplesBuildOutput/"
+#define TEST_OUTPUT_DIRECTORY "testResults/"
 
 #define TARGET_DETECTIONS_RECTANGLE_COLOR Scalar(45,255,255)
+#define TARGET_KEYPOINT_COLOR Scalar(0,255,0)
+#define NONTARGET_KEYPOINT_COLOR Scalar(0,0,255)
 
-#define VOCABULARY_WORD_COUNT 1000
+#define IMAGE_OUTPUT_EXTENSION ".png"
+
+#define FILENAME_SEPARATOR "__"
+
+#define VOCABULARY_WORD_COUNT 100
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

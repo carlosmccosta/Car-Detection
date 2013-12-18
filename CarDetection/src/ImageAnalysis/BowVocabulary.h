@@ -20,10 +20,13 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/nonfree/features2d.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 // project includes
 #include "ImagePreprocessor.h"
 #include "ImageUtils.h"
+#include "../libs/PerformanceTimer.h"
+#include "../Configs.h"
 
 
 // namespace specific imports to avoid namespace pollution
@@ -40,12 +43,14 @@ using cv::Rect;
 using cv::RotatedRect;
 using cv::Ptr;
 using cv::KeyPoint;
+using cv::Scalar;
 using cv::FeatureDetector;
 using cv::DescriptorExtractor;
 using cv::DescriptorMatcher;
 using cv::BOWTrainer;
 using cv::BOWImgDescriptorExtractor;
 using cv::FileStorage;
+using cv::imwrite;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -81,8 +86,8 @@ class BowVocabulary {
 
 		bool loadVocabulary(Mat& vocabularyOut);
 		bool saveVocabulary(const Mat& vocabularyOut);
-		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList);
-		bool computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList);
+		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true);
+		bool computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList, bool outputAnalyzedImages = true);
 
 
 		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
@@ -95,7 +100,7 @@ class BowVocabulary {
 
 		Ptr<BOWTrainer> getBowTrainer() const { return _bowTrainer; }
 		void setBowTrainer(Ptr<BOWTrainer> val) { _bowTrainer = val; }
-		Ptr<BOWImgDescriptorExtractor> getBowImgDescriptorExtractor() const { return _bowImgDescriptorExtractor; }
+		Ptr<BOWImgDescriptorExtractor> getBowImgDescriptorExtractor() { return _bowImgDescriptorExtractor; }
 		void setBowImgDescriptorExtractor(Ptr<BOWImgDescriptorExtractor> val) { _bowImgDescriptorExtractor = val; }
 
 

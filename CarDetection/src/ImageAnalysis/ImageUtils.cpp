@@ -57,7 +57,7 @@ void ImageUtils::splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoi
 }
 
 
-void ImageUtils::findMaskBoundingRectangles(const Mat& mask, vector<Rect>& targetsBoundingRectanglesOut) {
+void ImageUtils::findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectanglesOut) {
 	targetsBoundingRectanglesOut.clear();
 	
 	vector< vector<Point> > contours;

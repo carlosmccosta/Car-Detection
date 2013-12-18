@@ -56,8 +56,7 @@ bool ImageAnalysis::processImage(string path, bool useCVHighGUI) {
 
 
 bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
-	_originalImage = image.clone();
-	_processedImage = image;
+	_originalImage = image.clone();	
 	_useCVHiGUI = useCVHighGUI;
 	
 	if (useCVHighGUI) {		
@@ -72,6 +71,7 @@ bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
 
 	_preprocessedImage = image.clone();
 	_imagePreprocessorPtr->preprocessImage(_preprocessedImage, useCVHighGUI);
+	_processedImage = _preprocessedImage.clone();
 
 	// target detection
 	vector<Rect> targetsBoundingRectanglesOut;
@@ -170,7 +170,8 @@ void ImageAnalysis::setupResultsWindows(bool optionsOneWindow) {
 	//GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
 	GUIUtils::addHighGUIWindow(2, 0, WINDOW_NAME_HISTOGRAM_EQUALIZATION_CLAHE, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
 	GUIUtils::addHighGUIWindow(0, 1, WINDOW_NAME_CONTRAST_AND_BRIGHTNESS, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
-	GUIUtils::addHighGUIWindow(1, 1, WINDOW_NAME_TARGET_DETECTION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);	
+	GUIUtils::addHighGUIWindow(1, 1, WINDOW_NAME_TARGET_DETECTION_VOTER_MASK, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
+	GUIUtils::addHighGUIWindow(2, 1, WINDOW_NAME_TARGET_DETECTION, _originalImage.size().width, _originalImage.size().height, _screenWidth, _screenHeight);
 	
 	if (optionsOneWindow) {		
 		namedWindow(WINDOW_NAME_OPTIONS, CV_WINDOW_NORMAL);

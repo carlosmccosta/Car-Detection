@@ -7,10 +7,16 @@ ImageClassifier::~ImageClassifier() {}
 
 
 bool ImageClassifier::loadClassifier() {
-	FileStorage fs(_classifierFilename, FileStorage::READ);
+	if (!getBowVocabulary()->loadVocabulary(Mat())) {
+		return false;
+	}
+
+	stringstream classifierFilenameFull;
+	classifierFilenameFull << TRAINING_DIRECTORY << _classifierFilename + CLASSIFIER_EXTENSION;
+	FileStorage fs(classifierFilenameFull.str(), FileStorage::READ);
 	if (fs.isOpened()) {
-		cout << "    -> Loading classifier from " << _classifierFilename << endl;
-		_classifier->load(_classifierFilename.c_str(), CLASSIFIER_TAG);
+		cout << "    -> Loading classifier from " << classifierFilenameFull.str() << endl;
+		_classifier->load(classifierFilenameFull.str().c_str(), CLASSIFIER_TAG);
 		cout << "    -> Loading finished\n" << endl;
 		fs.release();
 		return true;
@@ -21,18 +27,10 @@ bool ImageClassifier::loadClassifier() {
 
 
 void ImageClassifier::saveClassifier() {
-	cout << "    -> Saving classifier to " << _classifierFilename << endl;
-	_classifier->save(_classifierFilename.c_str(), CLASSIFIER_TAG);
+	stringstream classifierFilenameFull;
+	classifierFilenameFull << TRAINING_DIRECTORY << _classifierFilename + CLASSIFIER_EXTENSION;
+	cout << "    -> Saving classifier to " << classifierFilenameFull.str() << endl;
+	_classifier->save(classifierFilenameFull.str().c_str(), CLASSIFIER_TAG);
 	cout << "    -> Saving finished\n" << endl;
-}
-
-
-ClassifierEvaluationResult ImageClassifier::evaluateClassifier(string testImgsList) {
-	double precision = 0;
-	double recall = 0;	
-
-	// TODO evaluateClassifier
-
-	return ClassifierEvaluationResult(precision, recall);
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifier>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

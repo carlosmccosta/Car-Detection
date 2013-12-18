@@ -45,7 +45,6 @@ void CLI::startInteractiveCLI() {
 					} else if (userOption == 4) {
 						cameraDeviceNumber = ConsoleInput::getInstance()->getIntCin("  >> Insert the camera device number to use (default: 0): ", "  => Camera device number must be >= 0 !!!\n", 0);
 					}
-
 				
 					ImageAnalysis imageAnalysis(_imagePreprocessor, _imageDetector);
 					imageAnalysis.setScreenWidth(screenWidth);
@@ -56,8 +55,7 @@ void CLI::startInteractiveCLI() {
 						case 3: { if (!imageAnalysis.processVideo(filename)) { cerr << "  => Failed to load video " << filename << "!" << endl; } break; }
 						case 4: { if (!imageAnalysis.processVideo(cameraDeviceNumber)) { cerr << "  => Failed to open camera " << cameraDeviceNumber << "!" << endl; } break; }
 						default: break;
-					}
-				
+					}				
 				}
 			} else {
 				setupTraining();
@@ -127,9 +125,11 @@ void CLI::setupTraining() {
 	switch (descriptorExtractorSelection) {
 		case 1: { descriptorExtractor = new cv::SiftDescriptorExtractor();	trainingConfigsTag << "_SIFT-Extractor"; break; }
 		case 2: { descriptorExtractor = new cv::SurfDescriptorExtractor();	trainingConfigsTag << "_SURF-Extractor"; break; }
-		case 3: { descriptorExtractor = new cv::FREAK();					trainingConfigsTag << "_FREAK-Extractor"; break; }
-		case 4: { descriptorExtractor = new cv::BriefDescriptorExtractor();	trainingConfigsTag << "_BRIEF-Extractor"; break; }
-		case 5: { descriptorExtractor = new cv::BRISK();					trainingConfigsTag << "_BRISK-Extractor";  break; }
+		case 3: { descriptorExtractor = new cv::BriefDescriptorExtractor();	trainingConfigsTag << "_BRIEF-Extractor"; break; }
+		case 4: { descriptorExtractor = new cv::BRISK();					trainingConfigsTag << "_BRISK-Extractor";  break; }
+		case 5: { descriptorExtractor = new cv::OrbDescriptorExtractor();	trainingConfigsTag << "_ORB-Extractor";  break; }
+		case 6: { descriptorExtractor = new cv::FREAK();					trainingConfigsTag << "_FREAK-Extractor"; break; }		
+		
 		default: break;
 	}
 
@@ -151,8 +151,8 @@ void CLI::setupTraining() {
 
 	stringstream vocabularyFilenameSS;
 	stringstream classifierFilenameSS;
-	vocabularyFilenameSS << TRAINING_DIRECTORY << VOCABULARY_TAG << trainingConfigsTag.str() << VOCABULARY_EXTENSION;
-	classifierFilenameSS << TRAINING_DIRECTORY << CLASSIFIER_TAG << trainingConfigsTag.str() << CLASSIFIER_EXTENSION;
+	vocabularyFilenameSS << VOCABULARY_TAG << trainingConfigsTag.str();
+	classifierFilenameSS << CLASSIFIER_TAG << trainingConfigsTag.str();
 
 	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str());
 	
@@ -185,11 +185,13 @@ int CLI::selectDescriptorExtractor() {
 	cout << "  => Select descriptor extractor:\n";
 	cout << "    1 - SIFT\n";
 	cout << "    2 - SURF\n";
-	cout << "    3 - FREAK\n";
-	cout << "    4 - BRIEF\n";
-	cout << "    5 - BRISK\n";	
+	cout << "    3 - BRIEF\n";	
+	cout << "    4 - BRISK\n";
+	cout << "    5 - ORB\n";
+	cout << "    6 - FREAK\n";
+	
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 5]: ", "Select one of the options above!", 1, 6);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 6]: ", "Select one of the options above!", 1, 7);
 }
 
 
@@ -206,7 +208,7 @@ int CLI::selectBOWTrainer() {
 	cout << "  => Select Bag of Words trainer:\n";
 	cout << "    1 - BOWKMeansTrainer\n";	
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [0]: ", "Select one of the options above!", 1, 2);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1]: ", "Select one of the options above!", 1, 2);
 }
 
 
@@ -214,7 +216,7 @@ int CLI::selectClassifier() {
 	cout << "  => Select classifier:\n";
 	cout << "    1 - SVM\n";
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [0]: ", "Select one of the options above!", 1, 2);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1]: ", "Select one of the options above!", 1, 2);
 }
 
 

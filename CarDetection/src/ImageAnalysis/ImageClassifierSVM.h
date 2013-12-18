@@ -18,6 +18,7 @@
 // project includes
 #include "ImageClassifier.h"
 #include "BowVocabulary.h"
+#include "../libs/PerformanceTimer.h"
 
 
 // namespace specific imports to avoid namespace pollution

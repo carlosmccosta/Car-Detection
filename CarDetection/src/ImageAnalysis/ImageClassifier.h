@@ -28,28 +28,6 @@ using cv::FileStorage;
 
 
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-class ClassifierEvaluationResult {
-	public:
-		ClassifierEvaluationResult() {}
-		ClassifierEvaluationResult(double precision, double recall) : _precision(precision), _recall(recall) {}
-		virtual ~ClassifierEvaluationResult() {}
-
-		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
-		double getPrecision() const { return _precision; }
-		void setPrecision(double val) { _precision = val; }
-		double getRecall() const { return _recall; }
-		void setRecall(double val) { _recall = val; }
-		// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
-
-	private:
-		double _precision;		
-		double _recall;		
-};
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageClassifier>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 /// Abstract class for defining Classifiers API
@@ -62,11 +40,10 @@ class ImageClassifier {
 		virtual float predict(Mat& image, bool drawKeyPoints = false) = 0;
 
 		bool loadClassifier();
-		void saveClassifier();
-		ClassifierEvaluationResult evaluateClassifier(string testImgsList);
+		void saveClassifier();		
 		
 		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
-		Ptr<BowVocabulary> getBowVocabulary() const { return _bowVocabulary; }
+		Ptr<BowVocabulary> getBowVocabulary() { return _bowVocabulary; }
 		void setBowVocabulary(Ptr<BowVocabulary> val) { _bowVocabulary = val; }
 		string getClassifierFilename() const { return _classifierFilename; }
 		void setClassifierFilename(string val) { _classifierFilename = val; }

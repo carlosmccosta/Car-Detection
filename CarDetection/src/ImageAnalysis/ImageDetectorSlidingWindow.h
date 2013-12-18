@@ -1,7 +1,9 @@
 #pragma once
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-#define SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT 0.05
+#define SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT 0.1
+
+#define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_START 0.3
 #define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_INCREMENT 0.1
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
