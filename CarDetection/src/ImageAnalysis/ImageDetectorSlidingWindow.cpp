@@ -6,7 +6,7 @@ ImageDetectorSlidingWindow::ImageDetectorSlidingWindow(Ptr<ImageClassifier> imag
 ImageDetectorSlidingWindow::~ImageDetectorSlidingWindow() {}
 
 
-Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles, bool showImageKeyPoints) {
+Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles, bool showImageKeyPoints, size_t* numberOfWindowsOut) {
 	cout << "    -> Detecting targets..." << endl;
 	PerformanceTimer performanceTimer;
 	performanceTimer.start();
@@ -17,10 +17,10 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	int windowMovingXIncrement = (int)(image.cols * SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT);
 	int windowMovingYIncrement = (int)(image.rows * SLIDING_WINDOW_MOVING_PERCENTAGE_INCREMENT);
 
-	//int numberYIterations = image.rows / windowMovingYIncrement;
-	int numberOfWindows = 0;
+	int numberYIterations = image.rows / windowMovingYIncrement;
+	size_t numberOfWindows = 0;
 
-	#pragma omp parallel for schedule(dynamic) reduction(+ : numberOfVotes)
+	//#pragma omp parallel for schedule(dynamic) reduction(+ : numberOfWindows)
 	for (int yPosition = 0; yPosition <= image.rows; yPosition += windowMovingYIncrement) {
 	//for (int yIteration = 0; yIteration <= numberYIterations; ++yIteration) {
 		//int yPosition = yIteration * windowMovingYIncrement;
@@ -37,7 +37,7 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 				if (window.cols > 6 && window.rows > 6) {
 					float prediction = getImageClassifier()->predict(window);
 					++numberOfWindows;
-					cout << prediction << " ";
+					//cout << prediction << " ";
 					if (prediction > 0.2) {
 						for (int xWindow = 0; xWindow < window.cols; ++xWindow) {
 							for (int yWindow = 0; yWindow < window.rows; ++yWindow) {
@@ -81,6 +81,10 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	}
 
 	cout << "    -> Detected " << targetsBoundingRectanglesOut.size() << " targets in " << performanceTimer.getElapsedTimeFormated() << " with " << numberOfWindows << " ROIs" << endl;
+
+	if (numberOfWindowsOut != NULL) {
+		*numberOfWindowsOut = numberOfWindows;
+	}
 
 	return votingMask;
 	//return scaledVotingMask;

@@ -69,7 +69,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 		PerformanceTimer performanceTimer;
 		performanceTimer.start();
 
-		#pragma omp parallel for schedule(dynamic)
+		//#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
 			string imageFilename = IMGS_DIRECTORY + fileNames[i] + IMAGE_TOKEN;
@@ -85,7 +85,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 					for (size_t maskIndex = 0; maskIndex < masks.size(); ++maskIndex) {
 						vector<KeyPoint> keypoints;
 						Mat targetMask = masks[maskIndex];
-						_featureDetector->detect(imagePreprocessed, keypoints, targetMask);
+						_featureDetector->detect(imagePreprocessed, keypoints, targetMask);						
 						//_featureDetector->detect(imagePreprocessed, keypoints, masks[maskIndex]);
 
 						if (keypoints.size() > 3) {
@@ -94,7 +94,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 							descriptors.convertTo(descriptors, CV_32FC1);
 
 							if (descriptors.rows > 0) {
-								#pragma omp critical
+								//#pragma omp critical
 								_bowTrainer->add(descriptors);
 							}
 
@@ -113,7 +113,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 						descriptors.convertTo(descriptors, CV_32FC1);
 
 						if (descriptors.rows > 0) {
-							#pragma omp critical
+							//#pragma omp critical
 							_bowTrainer->add(descriptors);
 						}
 
@@ -169,7 +169,7 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 		PerformanceTimer performanceTimer;
 		performanceTimer.start();
 
-		#pragma omp parallel for schedule(dynamic)
+		//#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
 			string imageFilenameShort = IMGS_DIRECTORY + fileNames[i];
@@ -188,7 +188,7 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 						Mat descriptorsTargetClass;						
 						_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsTargetClass[targetClassInstancePosition], descriptorsTargetClass);
 
-						#pragma omp critical
+						//#pragma omp critical
 						if (descriptorsTargetClass.rows > 0 && descriptorsTargetClass.cols == samplesWordSize) {
 							trainSamples.push_back(descriptorsTargetClass);
 							trainLabels.push_back(1);
@@ -200,7 +200,7 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 					Mat descriptorsNonTargetClass;
 					_bowImgDescriptorExtractor->compute(imagePreprocessed, keypointsNonTargetClass, descriptorsNonTargetClass);
 
-					#pragma omp critical
+					//#pragma omp critical
 					if (descriptorsNonTargetClass.rows > 0 && descriptorsNonTargetClass.cols == samplesWordSize) {
 						trainSamples.push_back(descriptorsNonTargetClass);
 						trainLabels.push_back(0);

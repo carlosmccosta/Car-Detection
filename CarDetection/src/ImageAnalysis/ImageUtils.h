@@ -12,6 +12,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 // project includes
+#include "DetectorEvaluationResult.h"
 #include "../Configs.h"
 
 // namespace specific imports to avoid namespace pollution
@@ -38,5 +39,6 @@ namespace ImageUtils {
 	void splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass);
 
 	void findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectangles);
+	DetectorEvaluationResult evaluateTargetDetection(Mat& votingMask, vector<Mat>& targetMasks, size_t votingMaskThreshold = 1);	
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

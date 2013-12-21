@@ -41,6 +41,6 @@ class ImageDetectorSlidingWindow : public ImageDetector {
 		ImageDetectorSlidingWindow(Ptr<ImageClassifier> imageClassifier);
 		virtual ~ImageDetectorSlidingWindow();
 
-		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true);
+		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL);
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageDetectorSlidingWindow>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -6,11 +6,20 @@ ImageDetector::~ImageDetector() {}
 
 
 DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bool saveResults) {
-	double precision = 0;
-	double recall = 0;
+	double globalPrecision = 0;
+	double globalRecall = 0;
+	double globalAccuracy = 0;
+	size_t numberTestImages = 0;
+
+	stringstream resultsFilename;
+	resultsFilename << TEST_OUTPUT_DIRECTORY << _imageClassifier->getClassifierFilename() << FILENAME_SEPARATOR << RESULTS_FILE;
+	ofstream resutlsFile(resultsFilename.str());
 
 	ifstream imgsList(testImgsList);
-	if (imgsList.is_open()) {
+	if (resutlsFile.is_open() && imgsList.is_open()) {
+		resutlsFile << RESULTS_FILE_HEADER << "\n" << endl;
+
+
 		string filename;
 		vector<string> fileNames;
 		while (getline(imgsList, filename)) {
@@ -27,10 +36,21 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 			Mat imagePreprocessed;
 			string imageFilename = IMGS_DIRECTORY + fileNames[i] + IMAGE_TOKEN;
 
+			stringstream detectorEvaluationResultSS;
+			DetectorEvaluationResult detectorEvaluationResult;
 			cout << "\n    -> Evaluating image " << imageFilename << "..." << endl;
-			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {
-				vector<Rect> targetsBoundingRectanglesOut;
-				Mat votingMask = detectTargets(imagePreprocessed, targetsBoundingRectanglesOut, true, true);
+			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {								
+				vector<Rect> targetsBoundingRectangles;
+				Mat votingMask = detectTargets(imagePreprocessed, targetsBoundingRectangles, true, true);
+
+				vector<Mat> masks;
+				ImageUtils::loadImageMasks(imageFilename, masks);
+
+				detectorEvaluationResult = ImageUtils::evaluateTargetDetection(votingMask, masks);
+				globalPrecision += detectorEvaluationResult.getPrecision();
+				globalRecall += detectorEvaluationResult.getRecall();
+
+				++numberTestImages;
 
 				if (saveResults) {
 					stringstream imageOutputFilename;
@@ -43,13 +63,27 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 
 					imwrite(imageOutputFilename.str(), imagePreprocessed);
 					imwrite(imageOutputFilenameMask.str(), votingMask);
+
+					detectorEvaluationResultSS << PRECISION_TOKEN << ": " << detectorEvaluationResult.getPrecision() << " | " << RECALL_TOKEN << ": " << detectorEvaluationResult.getRecall() << " | " << ACCURACY_TOKEN << ": " << detectorEvaluationResult.getAccuracy();
+					resutlsFile << imageFilename << " -> " << detectorEvaluationResultSS.str() << endl;
 				}
 			}
 			cout << "    -> Evaluation of image " << imageFilename << " finished" << endl;
+			cout << "    -> " << detectorEvaluationResultSS.str() << endl;
 		}
-		cout << "\n    -> Finished evaluation of detector in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;
+
+		globalPrecision /= (double)numberTestImages;
+		globalRecall /= (double)numberTestImages;
+		globalAccuracy /= (double)numberTestImages;
+
+		stringstream detectorEvaluationGloablResultSS;
+		detectorEvaluationGloablResultSS << GLOBAL_PRECISION_TOKEN << ": " << globalPrecision << " | " << GLOBAL_RECALL_TOKEN << ": " << globalRecall << " | " << GLOBAL_ACCURACY_TOKEN << ": " << globalAccuracy;
+
+		resutlsFile << "\n\n" << RESULTS_FILE_FOOTER << endl;
+		resutlsFile << " ==>" << detectorEvaluationGloablResultSS.str() << endl;
+		cout << "\n    -> Finished evaluation of detector in " << performanceTimer.getElapsedTimeFormated() << " || " << detectorEvaluationGloablResultSS.str() << "\n" << endl;
 	}
 
-	return DetectorEvaluationResult(precision, recall);
+	return DetectorEvaluationResult(globalPrecision, globalRecall, globalAccuracy);
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageDetector>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

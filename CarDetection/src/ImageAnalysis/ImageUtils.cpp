@@ -87,4 +87,13 @@ void ImageUtils::findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoun
 }
 
 
+DetectorEvaluationResult ImageUtils::evaluateTargetDetection(Mat& votingMask, vector<Mat>& targetMasks, size_t votingMaskThreshold) {
+	size_t truePositives = 0;
+	size_t trueNegatives = 0;
+	size_t falsePositives = 0;
+	size_t falseNegatives = 0;
+	
+
+	return DetectorEvaluationResult(trueNegatives, trueNegatives, falsePositives, falseNegatives);
+}
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

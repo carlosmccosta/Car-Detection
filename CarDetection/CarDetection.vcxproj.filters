@@ -57,6 +57,9 @@
     <ClCompile Include="src\libs\TimeUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ImageAnalysis\DetectorEvaluationResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CLI\CLI.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\libs\TimeUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImageAnalysis\DetectorEvaluationResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

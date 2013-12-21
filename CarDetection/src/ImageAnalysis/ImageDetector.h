@@ -3,6 +3,15 @@
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #define DETECTION_VOTE_MASK "voterMask"
+#define RESULTS_FILE "resultsAnalysis.txt"
+#define RESULTS_FILE_HEADER ">>>>> Detector image results analysis <<<<<"
+#define RESULTS_FILE_FOOTER ">>>>> Detector global results analysis <<<<<"
+#define PRECISION_TOKEN "Precision"
+#define RECALL_TOKEN "Recall"
+#define ACCURACY_TOKEN "Accuracy"
+#define GLOBAL_PRECISION_TOKEN "Global precision"
+#define GLOBAL_RECALL_TOKEN "Global recall"
+#define GLOBAL_ACCURACY_TOKEN "Global accuracy"
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -10,6 +19,7 @@
 // std includes
 #include <string>
 #include <vector>
+#include <fstream>
 
 // OpenCV includes
 #include <opencv2/core/core.hpp>
@@ -17,39 +27,21 @@
 
 // project includes
 #include "ImageClassifier.h"
+#include "DetectorEvaluationResult.h"
 #include "../Configs.h"
 #include "../libs/PerformanceTimer.h"
 
 // namespace specific imports to avoid namespace pollution
 using std::string;
 using std::vector;
+using std::ifstream;
+using std::ofstream;
 
 using cv::Mat;
 using cv::Ptr;
 using cv::Rect;
 using cv::imwrite;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-class DetectorEvaluationResult {
-public:
-	DetectorEvaluationResult() {}
-	DetectorEvaluationResult(double precision, double recall) : _precision(precision), _recall(recall) {}
-	virtual ~DetectorEvaluationResult() {}
-
-	// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
-	double getPrecision() const { return _precision; }
-	void setPrecision(double val) { _precision = val; }
-	double getRecall() const { return _recall; }
-	void setRecall(double val) { _recall = val; }
-	// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
-
-private:
-	double _precision;
-	double _recall;
-};
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
@@ -59,7 +51,7 @@ class ImageDetector {
 		ImageDetector(Ptr<ImageClassifier> imageClassifier);
 		virtual ~ImageDetector();
 
-		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true) = 0;
+		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL) = 0;
 
 		DetectorEvaluationResult evaluateDetector(string testImgsList, bool saveResults = true);
 
