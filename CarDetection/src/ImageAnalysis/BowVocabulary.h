@@ -4,6 +4,10 @@
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #define VOCABULARY_TAG "Vocabulary"
 #define VOCABULARY_EXTENSION ".xml"
+#define TRAINING_SAMPLES_TAG "trainingSamples"
+#define TRAINING_SAMPLES_EXTENSION ".xml"
+#define TRAINING_LABELS_TAG "trainingLabels"
+#define TRAINING_LABELS_EXTENSION ".xml"
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -81,13 +85,18 @@ private:
 class BowVocabulary {
 	public:
 		BowVocabulary(Ptr<FeatureDetector> featureDetector, Ptr<DescriptorExtractor> descriptorExtractor, Ptr<DescriptorMatcher> descriptorMatcher, Ptr<BOWTrainer> bowTrainer,
-			Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename);
+			Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename);
 		virtual ~BowVocabulary();
 
-		bool loadVocabulary(Mat& vocabularyOut);
-		bool saveVocabulary(const Mat& vocabularyOut);
-		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true, bool useOnlyTargetRegions = false);
+		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true, bool useOnlyTargetRegions = true);
 		bool computeTrainingData(TrainingData& trainingDataOut, const string& vocabularyImgsList, const string& samplesImgsList, bool outputAnalyzedImages = true);
+
+		bool loadVocabulary(Mat& vocabularyOut);
+		bool saveVocabulary(const Mat& vocabulary);
+		bool loadTrainingSamples(Mat& trainingSamplesOut);
+		bool saveTrainingSamples(const Mat& trainingSamples);
+		bool loadTrainingLabels(Mat& trainingLabelsOut);
+		bool saveTrainingLabels(const Mat& trainingLabels);
 
 
 		// ------------------------------------------------------------------------------  <gets | sets> -------------------------------------------------------------------------------
@@ -122,5 +131,6 @@ class BowVocabulary {
 		Ptr<ImagePreprocessor> _imagePreprocessor;
 		
 		string _vocabularyFilename;
+		string _trainingDataFilename;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

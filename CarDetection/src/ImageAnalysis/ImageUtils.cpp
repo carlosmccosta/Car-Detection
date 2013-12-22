@@ -24,13 +24,17 @@ void ImageUtils::loadImageMasks(string imagePath, vector<Mat>& masks) {
 
 void ImageUtils::retriveTargetsMasks(string imagePath, vector<Mat>& masks) {
 	loadImageMasks(imagePath, masks);
-	for (size_t i = 0; i < masks.size(); ++i) {
-		Mat before = masks[i];
+
+	int masksSize = masks.size();
+
+	#pragma omp parallel for schedule(dynamic)
+	for (int i = 0; i < masksSize; ++i) {
+		Mat& before = masks[i];
 		Mat after;
 		cv::inRange(before, Scalar(0, 0, 254), Scalar(0, 0, 255), after);
 		masks[i] = after;
 
-		//cv::inRange(masks[i], Scalar(0, 254, 0), Scalar(0, 255, 0), masks[i]);
+		//cv::inRange(masks[i], Scalar(0, 0, 254), Scalar(0, 0, 255), masks[i]);
 	}
 }
 
@@ -79,21 +83,38 @@ void ImageUtils::findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoun
 
 	vector<vector<Point> > contours_poly(contours.size());
 	targetsBoundingRectanglesOut.resize(contours.size());	
+	int contoursSize = contours.size();
 
-	for (size_t i = 0; i < contours.size(); i++) {
+	#pragma omp parallel for schedule(dynamic)
+	for (int i = 0; i < contoursSize; ++i) {
 		approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
 		targetsBoundingRectanglesOut[i] = boundingRect(Mat(contours_poly[i]));
 	}
 }
 
 
-DetectorEvaluationResult ImageUtils::evaluateTargetDetection(Mat& votingMask, vector<Mat>& targetMasks, size_t votingMaskThreshold) {
-	size_t truePositives = 0;
-	size_t trueNegatives = 0;
-	size_t falsePositives = 0;
-	size_t falseNegatives = 0;
-	
+bool ImageUtils::loadMatrix(string filename, string tag, Mat& matrixOut) {
+	FileStorage fs;
+	if (fs.open(filename, FileStorage::READ)) {		
+		fs[tag] >> matrixOut;
 
-	return DetectorEvaluationResult(trueNegatives, trueNegatives, falsePositives, falseNegatives);
+		fs.release();
+		return true;
+	}
+
+	return false;
+}
+
+
+bool ImageUtils::saveMatrix(string filename, string tag, const Mat& matrix) {
+	FileStorage fs;
+	if (fs.open(filename, FileStorage::WRITE)) {		
+		fs << tag << matrix;
+
+		fs.release();
+		return true;
+	}
+
+	return false;
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

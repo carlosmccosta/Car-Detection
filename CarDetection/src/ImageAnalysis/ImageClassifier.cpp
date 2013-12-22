@@ -14,10 +14,9 @@ bool ImageClassifier::loadClassifier() {
 	stringstream classifierFilenameFull;
 	classifierFilenameFull << TRAINING_DIRECTORY << _classifierFilename + CLASSIFIER_EXTENSION;
 	FileStorage fs(classifierFilenameFull.str(), FileStorage::READ);
-	if (fs.isOpened()) {
-		cout << "    -> Loading classifier from " << classifierFilenameFull.str() << endl;
+	if (fs.isOpened()) {		
 		_classifier->load(classifierFilenameFull.str().c_str(), CLASSIFIER_TAG);
-		cout << "    -> Loading finished\n" << endl;
+		cout << "    -> Loaded classifier from " << classifierFilenameFull.str() << endl;
 		fs.release();
 		return true;
 	} else {
@@ -28,9 +27,8 @@ bool ImageClassifier::loadClassifier() {
 
 void ImageClassifier::saveClassifier() {
 	stringstream classifierFilenameFull;
-	classifierFilenameFull << TRAINING_DIRECTORY << _classifierFilename + CLASSIFIER_EXTENSION;
-	cout << "    -> Saving classifier to " << classifierFilenameFull.str() << endl;
+	classifierFilenameFull << TRAINING_DIRECTORY << _classifierFilename + CLASSIFIER_EXTENSION;	
 	_classifier->save(classifierFilenameFull.str().c_str(), CLASSIFIER_TAG);
-	cout << "    -> Saving finished\n" << endl;
+	cout << "    -> Saved classifier to " << classifierFilenameFull.str() << endl;	
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifier>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

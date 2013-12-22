@@ -2,50 +2,14 @@
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 BowVocabulary::BowVocabulary(Ptr<FeatureDetector> featureDetector, Ptr<DescriptorExtractor> descriptorExtractor, Ptr<DescriptorMatcher> descriptorMatcher, Ptr<BOWTrainer> bowTrainer,
-	Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename) :
+	Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename) :
 	_featureDetector(featureDetector), _descriptorExtractor(descriptorExtractor), _descriptorMatcher(descriptorMatcher), _bowTrainer(bowTrainer),
 	_bowImgDescriptorExtractor(new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)),
 	_imagePreprocessor(imagePreprocessor),
-	_vocabularyFilename(vocabularyFilename) {}
+	_vocabularyFilename(vocabularyFilename),
+	_trainingDataFilename(trainingDataFilename) {}
 
 BowVocabulary::~BowVocabulary() {}
-
-
-bool BowVocabulary::loadVocabulary(Mat& vocabularyOut) {
-	FileStorage fs;
-
-	stringstream vocabularyFilenameFull;
-	vocabularyFilenameFull << TRAINING_DIRECTORY << _vocabularyFilename + VOCABULARY_EXTENSION;
-	if (fs.open(vocabularyFilenameFull.str(), FileStorage::READ)) {
-		cout << "    -> Loading vocabulary from " << vocabularyFilenameFull.str() << endl;
-		fs[VOCABULARY_TAG] >> vocabularyOut;
-		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
-		cout << "    -> Loading finished\n" << endl;
-
-		fs.release();
-		return true;
-	}
-	
-	return false;
-}
-
-
-bool BowVocabulary::saveVocabulary(const Mat& vocabularyOut) {
-	FileStorage fs;
-
-	stringstream vocabularyFilenameFull;
-	vocabularyFilenameFull << TRAINING_DIRECTORY << _vocabularyFilename + VOCABULARY_EXTENSION;
-	if (fs.open(vocabularyFilenameFull.str(), FileStorage::WRITE)) {
-		cout << "    -> Saving vocabulary to " << vocabularyFilenameFull.str() << endl;
-		fs << VOCABULARY_TAG << vocabularyOut;
-		cout << "    -> Saving finished\n" << endl;
-
-		fs.release();
-		return true;
-	}
-	
-	return false;
-}
 
 
 bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages, bool useOnlyTargetRegions) {
@@ -152,6 +116,15 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 		}
 	}
 
+	Mat trainSamples;
+	Mat trainLabels(0, 1, CV_32SC1);
+
+	if (loadTrainingSamples(trainSamples) && loadTrainingLabels(trainLabels)) {
+		trainingDataOut.setTrainSamples(trainSamples);
+		trainingDataOut.setTrainLabels(trainLabels);
+		return true;
+	}
+
 	ifstream imgsList(vocabularyImgsList);
 	if (imgsList.is_open()) {		
 		vector<string> fileNames;
@@ -161,11 +134,9 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 		}
 		int numberOfFiles = fileNames.size();
 
-		int samplesWordSize = _bowImgDescriptorExtractor->getVocabulary().rows;
-		Mat trainSamples;
-		Mat trainLabels;
+		int samplesWordSize = _bowImgDescriptorExtractor->getVocabulary().rows;		
 
-		cout << "    -> Analysing " << numberOfFiles << " training images..." << endl;
+		cout << "\n    -> Analysing " << numberOfFiles << " training images..." << endl;
 		PerformanceTimer performanceTimer;
 		performanceTimer.start();
 
@@ -233,9 +204,79 @@ bool BowVocabulary::computeTrainingData(TrainingData& trainingDataOut, const str
 
 		trainingDataOut.setTrainSamples(trainSamples);
 		trainingDataOut.setTrainLabels(trainLabels);
+
+		saveTrainingSamples(trainSamples);
+		saveTrainingLabels(trainLabels);
 		return true;
 	}
 
+	return false;
+}
+
+
+bool BowVocabulary::loadVocabulary(Mat& vocabularyOut) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _vocabularyFilename << VOCABULARY_EXTENSION;
+	if (ImageUtils::loadMatrix(filename.str(), VOCABULARY_TAG, vocabularyOut)) {
+		cout << "    -> Loaded vocabulary from " << filename.str() << endl;
+		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
+		return true;
+	}
+	return false;
+}
+
+
+bool BowVocabulary::saveVocabulary(const Mat& vocabulary) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _vocabularyFilename << VOCABULARY_EXTENSION;
+	if (ImageUtils::saveMatrix(filename.str(), VOCABULARY_TAG, vocabulary)) {
+		cout << "    -> Saved vocabulary to " << filename.str() << endl;
+		return true;
+	}
+	return false;
+}
+
+
+bool BowVocabulary::loadTrainingSamples(Mat& trainingSamplesOut) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _trainingDataFilename << FILENAME_SEPARATOR << TRAINING_SAMPLES_TAG << TRAINING_SAMPLES_EXTENSION;
+	if (ImageUtils::loadMatrix(filename.str(), TRAINING_SAMPLES_TAG, trainingSamplesOut)) {
+		cout << "    -> Loaded training samples from " << filename.str() << endl;
+		return true;
+	}
+	return false;
+}
+
+
+bool BowVocabulary::saveTrainingSamples(const Mat& trainingSamples) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _trainingDataFilename << FILENAME_SEPARATOR << TRAINING_SAMPLES_TAG << TRAINING_SAMPLES_EXTENSION;
+	if (ImageUtils::saveMatrix(filename.str(), TRAINING_SAMPLES_TAG, trainingSamples)) {
+		cout << "    -> Saved training samples to " << filename.str() << endl;
+		return true;
+	}
+	return false;
+}
+
+
+bool BowVocabulary::loadTrainingLabels(Mat& trainingLabelsOut) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _trainingDataFilename << FILENAME_SEPARATOR << TRAINING_LABELS_TAG << TRAINING_LABELS_EXTENSION;
+	if (ImageUtils::loadMatrix(filename.str(), TRAINING_LABELS_TAG, trainingLabelsOut)) {
+		cout << "    -> Loaded training labels from " << filename.str() << endl;
+		return true;
+	}
+	return false;
+}
+
+
+bool BowVocabulary::saveTrainingLabels(const Mat& trainingLabels) {
+	stringstream filename;
+	filename << TRAINING_DIRECTORY << _trainingDataFilename << FILENAME_SEPARATOR << TRAINING_LABELS_TAG << TRAINING_LABELS_EXTENSION;
+	if (ImageUtils::saveMatrix(filename.str(), TRAINING_LABELS_TAG, trainingLabels)) {
+		cout << "    -> Saved training labels to " << filename.str() << endl;
+		return true;
+	}
 	return false;
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

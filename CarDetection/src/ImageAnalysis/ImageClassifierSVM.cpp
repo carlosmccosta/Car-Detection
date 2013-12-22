@@ -26,7 +26,7 @@ bool ImageClassifierSVM::train(const string& vocabularySetupImgsList, const stri
 	cv::SVMParams params;
 	params.term_crit = cv::TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, SVM_TRAINING_MAX_ITERATIONS, FLT_EPSILON);
 
-	cout << "    -> Training SVM with " << trainingSamples32f.rows << " samples of " << trainingSamples32f.cols << " word size with at most " << SVM_TRAINING_MAX_ITERATIONS << " iterations..." << endl;	
+	cout << "\n    -> Training SVM with " << trainingSamples32f.rows << " samples of " << trainingSamples32f.cols << " word size with at most " << SVM_TRAINING_MAX_ITERATIONS << " iterations..." << endl;	
 	PerformanceTimer performanceTimer;
 	performanceTimer.start();
 	((Ptr<SVM>)_classifier)->train_auto(trainingSamples32f, trainingLabels32f, varIdx, samIdx, params);

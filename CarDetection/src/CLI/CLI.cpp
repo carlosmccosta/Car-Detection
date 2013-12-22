@@ -120,8 +120,8 @@ void CLI::setupTraining() {
 		case 3: { featureDetector = new cv::GoodFeaturesToTrackDetector();	trainingConfigsTag << "_GFTT-Detector"; break; }
 		case 4: { featureDetector = new cv::FastFeatureDetector();			trainingConfigsTag << "_FAST-Detector"; break; }		
 		case 5: { featureDetector = new cv::OrbFeatureDetector();			trainingConfigsTag << "_ORB-Detector";  break; }
-		case 6: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }
-		case 7: { featureDetector = new cv::StarFeatureDetector();			trainingConfigsTag << "_STAR-Detector"; break; }
+		case 6: { featureDetector = new cv::StarFeatureDetector();			trainingConfigsTag << "_STAR-Detector"; break; }
+		case 7: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }		
 		default: break;
 	}
 
@@ -147,6 +147,8 @@ void CLI::setupTraining() {
 		default: break;
 	}
 
+	string trainingDataFilename = trainingConfigsTag.str();
+
 	switch (bowTrainerSelection) {
 		case 1: { trainingConfigsTag << "_SVM-Classifier"; break; }
 		default: break;
@@ -157,7 +159,7 @@ void CLI::setupTraining() {
 	vocabularyFilenameSS << VOCABULARY_TAG << trainingConfigsTag.str();
 	classifierFilenameSS << CLASSIFIER_TAG << trainingConfigsTag.str();
 
-	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str());
+	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str(), CLASSIFIER_TAG + trainingDataFilename);
 	
 	switch (bowTrainerSelection) {
 		case 1: { _imageClassifier = new ImageClassifierSVM(_bowVocabulary, classifierFilenameSS.str()); break; }
@@ -177,8 +179,8 @@ int CLI::selectFeatureDetector() {
 	cout << "    3 - GFTT\n";
 	cout << "    4 - FAST\n";	
 	cout << "    5 - ORB\n";
-	cout << "    6 - MSER\n";
-	cout << "    7 - STAR\n";
+	cout << "    6 - STAR\n";
+	cout << "    7 - MSER\n";	
 
 	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 7]: ", "Select one of the options above!", 1, 8);
 }

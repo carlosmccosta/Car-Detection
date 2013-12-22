@@ -46,7 +46,7 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 				vector<Mat> masks;
 				ImageUtils::loadImageMasks(imageFilename, masks);
 
-				detectorEvaluationResult = ImageUtils::evaluateTargetDetection(votingMask, masks);
+				detectorEvaluationResult = DetectorEvaluationResult(votingMask, masks);
 				globalPrecision += detectorEvaluationResult.getPrecision();
 				globalRecall += detectorEvaluationResult.getRecall();
 

@@ -1,11 +1,29 @@
 #pragma once
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// std includes
+#include <vector>
+
+// OpenCV includes
+#include <opencv2/core/core.hpp>
+
+
+// namespace specific imports to avoid namespace pollution
+using std::vector;
+
+using cv::Mat;
+using cv::Vec3b;
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 class DetectorEvaluationResult {
 public:
 	DetectorEvaluationResult();
 	DetectorEvaluationResult(size_t truePositives, size_t trueNegatives, size_t falsePositives, size_t falseNegatives);
 	DetectorEvaluationResult(double precision, double recall, double accuracy);
+	DetectorEvaluationResult(Mat& votingMask, vector<Mat>& targetMasks, unsigned short votingMaskThreshold = 1);
 	virtual ~DetectorEvaluationResult() {}
 
 	static double computePrecision(size_t truePositives, size_t falsePositives);
@@ -31,14 +49,14 @@ public:
 	// ------------------------------------------------------------------------------  </gets | sets> ------------------------------------------------------------------------------
 
 private:
-	size_t _truePositives = 0;	
-	size_t _trueNegatives = 0;	
-	size_t _falsePositives = 0;	
-	size_t _falseNegatives = 0;	
-
 	double _precision;	// truePositives / (truePositives + falsePositives)
 	double _recall;		// truePositives / (truePositives + falseNegatives)
-	double _accuracy;	// (truePositives + trueNegatives) / (truePositives + trueNegatives + falsePositives + falseNegatives)	
+	double _accuracy;	// (truePositives + trueNegatives) / (truePositives + trueNegatives + falsePositives + falseNegatives)
+	
+	size_t _truePositives;
+	size_t _trueNegatives;
+	size_t _falsePositives;
+	size_t _falseNegatives;	
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ClassifierEvaluationResult>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

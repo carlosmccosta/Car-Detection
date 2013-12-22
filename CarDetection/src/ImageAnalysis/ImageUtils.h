@@ -28,6 +28,7 @@ using cv::Point;
 using cv::KeyPoint;
 using cv::Scalar;
 using cv::Rect;
+using cv::FileStorage;
 using cv::imread;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -39,6 +40,8 @@ namespace ImageUtils {
 	void splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass);
 
 	void findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectangles);
-	DetectorEvaluationResult evaluateTargetDetection(Mat& votingMask, vector<Mat>& targetMasks, size_t votingMaskThreshold = 1);	
+	
+	bool loadMatrix(string filename, string tag, Mat& matrixOut);
+	bool saveMatrix(string filename, string tag, const Mat& matrix);
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
