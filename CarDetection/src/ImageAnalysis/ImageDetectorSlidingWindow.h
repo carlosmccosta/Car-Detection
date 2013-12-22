@@ -5,10 +5,6 @@
 
 #define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_START 0.2
 #define SLIDING_WINDOW_BOX_GROWING_PERCENTAGE_INCREMENT 0.1
-
-
-#define GRAYSCALE_CONVERTION_MAX_NUMBER_WINDOWS_RATIO 0.25
-#define DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO 0.05
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -45,6 +41,6 @@ class ImageDetectorSlidingWindow : public ImageDetector {
 		ImageDetectorSlidingWindow(Ptr<ImageClassifier> imageClassifier);
 		virtual ~ImageDetectorSlidingWindow();
 
-		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL);
+		virtual void detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, Mat& votingMaskOut, Mat& scaledVotingMaskOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL);
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageDetectorSlidingWindow>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -6,13 +6,13 @@ ImageDetectorSlidingWindow::ImageDetectorSlidingWindow(Ptr<ImageClassifier> imag
 ImageDetectorSlidingWindow::~ImageDetectorSlidingWindow() {}
 
 
-Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles, bool showImageKeyPoints, size_t* numberOfWindowsOut) {
+void ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, Mat& votingMaskOut, Mat& scaledVotingMaskOut, bool showTargetBoundingRectangles, bool showImageKeyPoints, size_t* numberOfWindowsOut) {
 	cout << "    -> Detecting targets..." << endl;
 	PerformanceTimer performanceTimer;
 	performanceTimer.start();
 
 	float bestMatch = 0;		
-	Mat votingMask = Mat::zeros(image.rows, image.cols, CV_16UC1);	
+	votingMaskOut = Mat::zeros(image.rows, image.cols, CV_16UC1);	
 	
 	size_t numberOfWindows = 0;
 	
@@ -39,7 +39,7 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 						for (int yWindow = 0; yWindow < window.rows; ++yWindow) {
 							for (int xWindow = 0; xWindow < window.cols; ++xWindow) {							
 								#pragma omp atomic
-								++votingMask.at<unsigned short>(yPosition + yWindow, xPosition + xWindow);
+								++votingMaskOut.at<unsigned short>(yPosition + yWindow, xPosition + xWindow);
 							}
 						}
 					}
@@ -55,7 +55,7 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	
 	Mat detectionMask;
 	//cv::threshold(votingMask, detectionMask, numberOfWindows * DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO, (std::numeric_limits<unsigned char>::max)(), CV_THRESH_BINARY);
-	cv::inRange(votingMask, Scalar(numberOfWindows * DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO), Scalar((std::numeric_limits<unsigned char>::max)()), detectionMask);
+	cv::inRange(votingMaskOut, Scalar(numberOfWindows * DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO), Scalar((std::numeric_limits<unsigned char>::max)()), detectionMask);
 
 	ImageUtils::findMaskBoundingRectangles(detectionMask, targetsBoundingRectanglesOut);
 
@@ -78,11 +78,7 @@ Mat ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targetsB
 	double convertionScale = (double)maxVote / (double)(std::numeric_limits<unsigned char>::max)();*/
 
 	double convertionScale = (double)(std::numeric_limits<unsigned char>::max)() / (double)(numberOfWindows * GRAYSCALE_CONVERTION_MAX_NUMBER_WINDOWS_RATIO);
-
-	Mat scaledVotingMask;
-	votingMask.convertTo(scaledVotingMask, CV_8UC1, convertionScale);
-
-	//return votingMask;
-	return scaledVotingMask;
+	
+	votingMaskOut.convertTo(scaledVotingMaskOut, CV_8UC1, convertionScale);
 }
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageDetectorSlidingWindow>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

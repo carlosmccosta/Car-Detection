@@ -15,18 +15,52 @@ DetectorEvaluationResult::DetectorEvaluationResult(size_t truePositives, size_t 
 }
 
 DetectorEvaluationResult::DetectorEvaluationResult(Mat& votingMask, vector<Mat>& targetMasks, unsigned short votingMaskThreshold) :
-_truePositives(0), _trueNegatives(0), _falsePositives(0), _falseNegatives(0){	
-	/*for (int y = 0; y < votingMask.rows; ++y) {
-		for (int x = 0; x < votingMask.cols; ++x) {
-			if (votingMask.at<unsigned short>(y, x) > votingMaskThreshold) {
+_truePositives(0), _trueNegatives(0), _falsePositives(0), _falseNegatives(0){
+	Mat mergedTargetsMask;
+	if (ImageUtils::mergeTargetMasks(targetMasks, mergedTargetsMask)) {
+		computeMasksSimilarity(votingMask, mergedTargetsMask, votingMaskThreshold, &_truePositives, &_trueNegatives, &_falsePositives, &_falseNegatives);
 
+		_precision = computePrecision(_truePositives, _falsePositives);
+		_recall = computeRecall(_truePositives, _falseNegatives);
+		_accuracy = computeAccuracy(_truePositives, _trueNegatives, _falsePositives, _falseNegatives);
+	}
+}
+
+
+bool DetectorEvaluationResult::computeMasksSimilarity(Mat& votingMask, Mat& mergedTargetsMask, unsigned short votingMaskThreshold,
+	size_t* truePositivesOut, size_t* trueNegativesOut, size_t* falsePositivesOut, size_t* falseNegativesOut) {
+	if (votingMask.rows == mergedTargetsMask.rows && votingMask.cols == mergedTargetsMask.cols) {
+		size_t truePositives = 0;
+		size_t trueNegatives = 0;
+		size_t falsePositives = 0;
+		size_t falseNegatives = 0;
+
+		for (int votingMaskY = 0; votingMaskY < votingMask.rows; ++votingMaskY) {
+			for (int votingMaskX = 0; votingMaskX < votingMask.cols; ++votingMaskX) {
+				if (votingMask.at<unsigned short>(votingMaskY, votingMaskX) > votingMaskThreshold) {
+					if (mergedTargetsMask.at<unsigned char>(votingMaskY, votingMaskX) > 0) {
+						++truePositives;
+					} else {
+						++falsePositives;
+					}
+				} else {
+					if (mergedTargetsMask.at<unsigned char>(votingMaskY, votingMaskX) > 0) {
+						++falseNegatives;
+					} else {
+						++trueNegatives;
+					}
+				}
 			}
 		}
-	}*/
 
-	_precision = computePrecision(_truePositives, _falsePositives);
-	_recall = computeRecall(_truePositives, _falseNegatives);
-	_accuracy = computeAccuracy(_truePositives, _trueNegatives, _falsePositives, _falseNegatives);
+		*truePositivesOut = truePositives;
+		*trueNegativesOut = trueNegatives;
+		*falsePositivesOut = falsePositives;
+		*falseNegativesOut = falseNegatives;
+		return true;
+	}
+
+	return false;
 }
 
 

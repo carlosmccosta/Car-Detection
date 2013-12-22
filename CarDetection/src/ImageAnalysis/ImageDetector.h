@@ -12,6 +12,9 @@
 #define GLOBAL_PRECISION_TOKEN "Global precision"
 #define GLOBAL_RECALL_TOKEN "Global recall"
 #define GLOBAL_ACCURACY_TOKEN "Global accuracy"
+
+#define GRAYSCALE_CONVERTION_MAX_NUMBER_WINDOWS_RATIO 0.25
+#define DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO 0.05
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -51,7 +54,7 @@ class ImageDetector {
 		ImageDetector(Ptr<ImageClassifier> imageClassifier);
 		virtual ~ImageDetector();
 
-		virtual Mat detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL) = 0;
+		virtual void detectTargets(Mat& image, vector<Rect>& targetsBoundingRectanglesOut, Mat& votingMaskOut, Mat& scaledVotingMaskOut, bool showTargetBoundingRectangles = true, bool showImageKeyPoints = true, size_t* numberOfWindowsOut = NULL) = 0;
 
 		DetectorEvaluationResult evaluateDetector(string testImgsList, bool saveResults = true);
 

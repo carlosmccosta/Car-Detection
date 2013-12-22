@@ -36,7 +36,9 @@ using cv::imread;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageUtils> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 namespace ImageUtils {
 	void loadImageMasks(string imagePath, vector<Mat>& masks);
-	void retriveTargetsMasks(string imagePath, vector<Mat>& masks);
+	void retriveTargetsMasks(string imagePath, vector<Mat>& masks, Scalar lowerRange = Scalar(0, 0, 254), Scalar higherRange = Scalar(0, 0, 255));
+	bool mergeTargetMasks(vector<Mat>& masks, Mat& mergedMask);
+
 	void splitKeyPoints(string imagePath, const vector<KeyPoint>& keypoints, vector< vector <KeyPoint> >& keypointsTargetClass, vector<KeyPoint>& keypointsNonTargetClass);
 
 	void findMaskBoundingRectangles(Mat& mask, vector<Rect>& targetsBoundingRectangles);

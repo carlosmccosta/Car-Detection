@@ -7,6 +7,9 @@
 // OpenCV includes
 #include <opencv2/core/core.hpp>
 
+// project includes
+#include "ImageUtils.h"
+
 
 // namespace specific imports to avoid namespace pollution
 using std::vector;
@@ -25,6 +28,9 @@ public:
 	DetectorEvaluationResult(double precision, double recall, double accuracy);
 	DetectorEvaluationResult(Mat& votingMask, vector<Mat>& targetMasks, unsigned short votingMaskThreshold = 1);
 	virtual ~DetectorEvaluationResult() {}
+
+	static bool computeMasksSimilarity(Mat& votingMask, Mat& mergedTargetsMask, unsigned short votingMaskThreshold,
+		size_t* truePositivesOut, size_t* trueNegativesOut, size_t* falsePositivesOut, size_t* falseNegativesOut);
 
 	static double computePrecision(size_t truePositives, size_t falsePositives);
 	static double computeRecall(size_t truePositives, size_t falseNegatives);

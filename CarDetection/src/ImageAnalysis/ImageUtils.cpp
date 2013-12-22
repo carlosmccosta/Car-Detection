@@ -22,20 +22,54 @@ void ImageUtils::loadImageMasks(string imagePath, vector<Mat>& masks) {
 }
 
 
-void ImageUtils::retriveTargetsMasks(string imagePath, vector<Mat>& masks) {
+void ImageUtils::retriveTargetsMasks(string imagePath, vector<Mat>& masks, Scalar lowerRange, Scalar higherRange) {
 	loadImageMasks(imagePath, masks);
-
 	int masksSize = masks.size();
 
 	#pragma omp parallel for schedule(dynamic)
 	for (int i = 0; i < masksSize; ++i) {
-		Mat& before = masks[i];
+		/*Mat& before = masks[i];
 		Mat after;
-		cv::inRange(before, Scalar(0, 0, 254), Scalar(0, 0, 255), after);
-		masks[i] = after;
+		cv::inRange(before, lowerRange, higherRange, after);
+		masks[i] = after;*/
 
-		//cv::inRange(masks[i], Scalar(0, 0, 254), Scalar(0, 0, 255), masks[i]);
+		cv::inRange(masks[i], lowerRange, higherRange, masks[i]);
 	}
+}
+
+
+bool ImageUtils::mergeTargetMasks(vector<Mat>& masks, Mat& mergedMask) {
+	int masksSize = masks.size();
+	if (masksSize == 0){
+		return false;
+	}
+
+	int maxRows = 0;
+	int maxCols = 0;
+	for (int i = 0; i < masksSize; ++i) {
+		int rowsMask = masks[i].rows;
+		int colsMask = masks[i].cols;
+		if (rowsMask > maxRows) {
+			maxRows = rowsMask;
+		}
+
+		if (colsMask > maxCols) {
+			maxCols = colsMask;
+		}
+	}	
+	
+	if (maxRows == 0 || maxCols == 0) {
+		return false;
+	}
+
+	mergedMask = Mat::zeros(maxRows, maxCols, CV_8UC1);
+	for (int i = 0; i < masksSize; ++i) {
+		if (masks[i].rows == maxRows && masks[i].cols == maxCols) {
+			cv::bitwise_or(mergedMask, masks[i], mergedMask);
+		}
+	}	
+
+	return true;
 }
 
 

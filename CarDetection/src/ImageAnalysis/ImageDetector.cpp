@@ -41,14 +41,18 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 			cout << "\n    -> Evaluating image " << imageFilename << "..." << endl;
 			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {								
 				vector<Rect> targetsBoundingRectangles;
-				Mat votingMask = detectTargets(imagePreprocessed, targetsBoundingRectangles, true, true);
+				Mat votingMask;
+				Mat votingMaskScaled;
+				size_t numberOfWindows = 0;
+				detectTargets(imagePreprocessed, targetsBoundingRectangles, votingMask, votingMaskScaled, true, true, &numberOfWindows);
 
 				vector<Mat> masks;
-				ImageUtils::loadImageMasks(imageFilename, masks);
+				ImageUtils::retriveTargetsMasks(IMGS_DIRECTORY + fileNames[i], masks);
 
-				detectorEvaluationResult = DetectorEvaluationResult(votingMask, masks);
+				detectorEvaluationResult = DetectorEvaluationResult(votingMask, masks, (unsigned short) (numberOfWindows * DETECTION_MASK_THRESHOLD_NUMBER_WINDOWS_RATIO));
 				globalPrecision += detectorEvaluationResult.getPrecision();
 				globalRecall += detectorEvaluationResult.getRecall();
+				globalAccuracy += detectorEvaluationResult.getAccuracy();
 
 				++numberTestImages;
 
@@ -62,7 +66,7 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 					imageOutputFilename << IMAGE_OUTPUT_EXTENSION;
 
 					imwrite(imageOutputFilename.str(), imagePreprocessed);
-					imwrite(imageOutputFilenameMask.str(), votingMask);
+					imwrite(imageOutputFilenameMask.str(), votingMaskScaled);
 
 					detectorEvaluationResultSS << PRECISION_TOKEN << ": " << detectorEvaluationResult.getPrecision() << " | " << RECALL_TOKEN << ": " << detectorEvaluationResult.getRecall() << " | " << ACCURACY_TOKEN << ": " << detectorEvaluationResult.getAccuracy();
 					resutlsFile << imageFilename << " -> " << detectorEvaluationResultSS.str() << endl;

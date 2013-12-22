@@ -76,9 +76,11 @@ bool ImageAnalysis::processImage(Mat& image, bool useCVHighGUI) {
 	// target detection
 	cout << "\n\n";
 	vector<Rect> targetsBoundingRectanglesOut;
-	Mat votingMask = _imageDetector->detectTargets(_processedImage, targetsBoundingRectanglesOut, true, true);
+	Mat votingMask;
+	Mat votingMaskScaled;
+	_imageDetector->detectTargets(_processedImage, targetsBoundingRectanglesOut, votingMask, votingMaskScaled, true, true);
 	imshow(WINDOW_NAME_TARGET_DETECTION, _processedImage);
-	imshow(WINDOW_NAME_TARGET_DETECTION_VOTER_MASK, votingMask);	
+	imshow(WINDOW_NAME_TARGET_DETECTION_VOTER_MASK, votingMaskScaled);
 
 	return true;
 }
