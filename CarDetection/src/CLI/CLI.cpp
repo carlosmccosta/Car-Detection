@@ -120,25 +120,37 @@ void CLI::setupTraining() {
 		case 3: { featureDetector = new cv::GoodFeaturesToTrackDetector();	trainingConfigsTag << "_GFTT-Detector"; break; }
 		case 4: { featureDetector = new cv::FastFeatureDetector();			trainingConfigsTag << "_FAST-Detector"; break; }		
 		case 5: { featureDetector = new cv::OrbFeatureDetector();			trainingConfigsTag << "_ORB-Detector";  break; }
-		case 6: { featureDetector = new cv::StarFeatureDetector();			trainingConfigsTag << "_STAR-Detector"; break; }
-		case 7: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }		
+		case 6: { featureDetector = new cv::BRISK();						trainingConfigsTag << "_BRISK-Detector"; break; }
+		case 7: { featureDetector = new cv::StarFeatureDetector();			trainingConfigsTag << "_STAR-Detector"; break; }
+		//case 8: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }		
 		default: break;
 	}
 
 	switch (descriptorExtractorSelection) {
 		case 1: { descriptorExtractor = new cv::SiftDescriptorExtractor();	trainingConfigsTag << "_SIFT-Extractor"; break; }
 		case 2: { descriptorExtractor = new cv::SurfDescriptorExtractor();	trainingConfigsTag << "_SURF-Extractor"; break; }
-		case 3: { descriptorExtractor = new cv::BriefDescriptorExtractor();	trainingConfigsTag << "_BRIEF-Extractor"; break; }
-		case 4: { descriptorExtractor = new cv::BRISK();					trainingConfigsTag << "_BRISK-Extractor";  break; }
+		case 3: { descriptorExtractor = new cv::FREAK();					trainingConfigsTag << "_FREAK-Extractor"; break; }
+		case 4: { descriptorExtractor = new cv::BriefDescriptorExtractor();	trainingConfigsTag << "_BRIEF-Extractor"; break; }		
 		case 5: { descriptorExtractor = new cv::OrbDescriptorExtractor();	trainingConfigsTag << "_ORB-Extractor";  break; }
-		case 6: { descriptorExtractor = new cv::FREAK();					trainingConfigsTag << "_FREAK-Extractor"; break; }		
+		case 6: { descriptorExtractor = new cv::BRISK();					trainingConfigsTag << "_BRISK-Extractor";  break; }
 		
 		default: break;
 	}
 
+	int bfNormType;
+	Ptr<cv::flann::IndexParams> flannIndexParams/* = new cv::flann::AutotunedIndexParams()*/;
+	if (descriptorExtractorSelection > 2) { // binary descriptors
+		bfNormType = cv::NORM_HAMMING;
+		//flannIndexParams = new cv::flann::HierarchicalClusteringIndexParams();
+		flannIndexParams = new cv::flann::LshIndexParams(20, 10, 2);
+	} else { // float descriptors
+		bfNormType = cv::NORM_L2;
+		flannIndexParams = new cv::flann::KDTreeIndexParams();
+	}
+
 	switch (descriptorMatcherSelection) {
-		case 1: { descriptorMatcher = new cv::FlannBasedMatcher();	trainingConfigsTag << "_Flann-Matcher"; break; }
-		case 2: { descriptorMatcher = new cv::BFMatcher();			trainingConfigsTag << "_BF-Matcher"; break; }
+		case 1: { descriptorMatcher = new cv::FlannBasedMatcher(flannIndexParams);	trainingConfigsTag << "_Flann-Matcher"; break; }
+		case 2: { descriptorMatcher = new cv::BFMatcher(bfNormType, true);			trainingConfigsTag << "_BF-Matcher"; break; }
 		default: break;
 	}
 
@@ -179,8 +191,9 @@ int CLI::selectFeatureDetector() {
 	cout << "    3 - GFTT\n";
 	cout << "    4 - FAST\n";	
 	cout << "    5 - ORB\n";
-	cout << "    6 - STAR\n";
-	cout << "    7 - MSER\n";	
+	cout << "    6 - BRISK\n";
+	cout << "    7 - STAR\n";
+	//cout << "    8 - MSER\n";	
 
 	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 7]: ", "Select one of the options above!", 1, 8);
 }
@@ -190,11 +203,10 @@ int CLI::selectDescriptorExtractor() {
 	cout << "  => Select descriptor extractor:\n";
 	cout << "    1 - SIFT\n";
 	cout << "    2 - SURF\n";
-	cout << "    3 - BRIEF\n";	
-	cout << "    4 - BRISK\n";
+	cout << "    3 - FREAK\n";
+	cout << "    4 - BRIEF\n";			
 	cout << "    5 - ORB\n";
-	cout << "    6 - FREAK\n";
-	
+	cout << "    6 - BRISK\n";	
 
 	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 6]: ", "Select one of the options above!", 1, 7);
 }

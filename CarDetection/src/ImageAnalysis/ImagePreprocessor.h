@@ -28,9 +28,9 @@ using cv::imread;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> <ImagePreprocessor> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 class ImagePreprocessor {
 	public:
-		ImagePreprocessor(int claehClipLimit = 2, int claehTileXSize = 2, int claehTileYSize = 2,
-			int bilateralFilterDistance = 9, int bilateralFilterSigmaColor = 50, int bilateralFilterSigmaSpace = 10,
-			int contrastMultipliedBy10 = 11, int brightnessMultipliedBy10 = 25);
+		ImagePreprocessor(int claehClipLimit = 2, int claehTileXSize = 4, int claehTileYSize = 4,
+			int bilateralFilterDistance = 8, int bilateralFilterSigmaColor = 16, int bilateralFilterSigmaSpace = 12,
+			int contrastMultipliedBy10 = 9, int brightnessMultipliedBy10 = 24);
 		virtual ~ImagePreprocessor();
 	
 

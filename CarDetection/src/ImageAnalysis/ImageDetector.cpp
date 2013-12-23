@@ -27,7 +27,7 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 		}
 		int numberOfFiles = fileNames.size();
 
-		cout << "    -> Evaluating detector..." << endl;
+		cout << "    -> Evaluating detector with " << numberOfFiles << " test images..." << endl;
 		PerformanceTimer performanceTimer;
 		performanceTimer.start();
 

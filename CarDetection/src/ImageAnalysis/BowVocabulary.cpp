@@ -33,6 +33,8 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 		PerformanceTimer performanceTimer;
 		performanceTimer.start();
 
+		int descriptorsOriginalMatrixType = CV_32FC1;
+
 		//#pragma omp parallel for schedule(dynamic)
 		for (int i = 0; i < numberOfFiles; ++i) {
 			Mat imagePreprocessed;
@@ -55,6 +57,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 						if (keypoints.size() > 3) {
 							Mat descriptors;
 							_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
+							descriptorsOriginalMatrixType = descriptors.type();
 							descriptors.convertTo(descriptors, CV_32FC1);
 
 							if (descriptors.rows > 0) {
@@ -74,6 +77,7 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 					if (keypoints.size() > 3) {
 						Mat descriptors;
 						_descriptorExtractor->compute(imagePreprocessed, keypoints, descriptors);
+						descriptorsOriginalMatrixType = descriptors.type();
 						descriptors.convertTo(descriptors, CV_32FC1);
 
 						if (descriptors.rows > 0) {
@@ -95,10 +99,12 @@ bool BowVocabulary::computeVocabulary(Mat& vocabularyOut, const string& vocabula
 			}
 		}
 		vocabularyOut = _bowTrainer->cluster();
+		saveVocabulary(vocabularyOut);
+
+		vocabularyOut.convertTo(vocabularyOut, descriptorsOriginalMatrixType);
 		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);		
 		cout << "    -> Finished building vocabulary with " << vocabularyOut.rows << " word size in " << performanceTimer.getElapsedTimeFormated() << "\n" << endl;
-
-		saveVocabulary(vocabularyOut);
+		
 
 		_bowTrainer->clear();
 		return true;

@@ -35,18 +35,23 @@ bool DetectorEvaluationResult::computeMasksSimilarity(Mat& votingMask, Mat& merg
 		size_t falsePositives = 0;
 		size_t falseNegatives = 0;
 
+		#pragma omp parallel for schedule(dynamic)
 		for (int votingMaskY = 0; votingMaskY < votingMask.rows; ++votingMaskY) {
 			for (int votingMaskX = 0; votingMaskX < votingMask.cols; ++votingMaskX) {
 				if (votingMask.at<unsigned short>(votingMaskY, votingMaskX) > votingMaskThreshold) {
 					if (mergedTargetsMask.at<unsigned char>(votingMaskY, votingMaskX) > 0) {
+						#pragma omp atomic
 						++truePositives;
 					} else {
+						#pragma omp atomic
 						++falsePositives;
 					}
 				} else {
 					if (mergedTargetsMask.at<unsigned char>(votingMaskY, votingMaskX) > 0) {
+						#pragma omp atomic
 						++falseNegatives;
 					} else {
+						#pragma omp atomic
 						++trueNegatives;
 					}
 				}
