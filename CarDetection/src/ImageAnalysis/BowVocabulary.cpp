@@ -2,12 +2,13 @@
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 BowVocabulary::BowVocabulary(Ptr<FeatureDetector> featureDetector, Ptr<DescriptorExtractor> descriptorExtractor, Ptr<DescriptorMatcher> descriptorMatcher, Ptr<BOWTrainer> bowTrainer,
-	Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename) :
+	Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename, bool binaryDescriptor) :
 	_featureDetector(featureDetector), _descriptorExtractor(descriptorExtractor), _descriptorMatcher(descriptorMatcher), _bowTrainer(bowTrainer),
 	_bowImgDescriptorExtractor(new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher)),
 	_imagePreprocessor(imagePreprocessor),
 	_vocabularyFilename(vocabularyFilename),
-	_trainingDataFilename(trainingDataFilename) {}
+	_trainingDataFilename(trainingDataFilename),
+	_binaryDescriptor(binaryDescriptor) {}
 
 BowVocabulary::~BowVocabulary() {}
 
@@ -225,6 +226,11 @@ bool BowVocabulary::loadVocabulary(Mat& vocabularyOut) {
 	filename << TRAINING_DIRECTORY << _vocabularyFilename << VOCABULARY_EXTENSION;
 	if (ImageUtils::loadMatrix(filename.str(), VOCABULARY_TAG, vocabularyOut)) {
 		cout << "    -> Loaded vocabulary from " << filename.str() << endl;
+
+		if (_binaryDescriptor) {
+			vocabularyOut.convertTo(vocabularyOut, CV_8UC1);
+		}
+
 		_bowImgDescriptorExtractor->setVocabulary(vocabularyOut);
 		return true;
 	}

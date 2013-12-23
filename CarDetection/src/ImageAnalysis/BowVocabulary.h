@@ -85,7 +85,7 @@ private:
 class BowVocabulary {
 	public:
 		BowVocabulary(Ptr<FeatureDetector> featureDetector, Ptr<DescriptorExtractor> descriptorExtractor, Ptr<DescriptorMatcher> descriptorMatcher, Ptr<BOWTrainer> bowTrainer,
-			Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename);
+			Ptr<ImagePreprocessor> imagePreprocessor, const string& vocabularyFilename, string trainingDataFilename, bool binaryDescriptor);
 		virtual ~BowVocabulary();
 
 		bool computeVocabulary(Mat& vocabularyOut, const string& vocabularyImgsList, bool outputAnalyzedImages = true, bool useOnlyTargetRegions = true);
@@ -132,5 +132,7 @@ class BowVocabulary {
 		
 		string _vocabularyFilename;
 		string _trainingDataFilename;
+
+		bool _binaryDescriptor;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </BowVocabulary>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

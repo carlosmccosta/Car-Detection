@@ -137,20 +137,23 @@ void CLI::setupTraining() {
 		default: break;
 	}
 
+	bool binaryDescriptor;
 	int bfNormType;
 	Ptr<cv::flann::IndexParams> flannIndexParams/* = new cv::flann::AutotunedIndexParams()*/;
 	if (descriptorExtractorSelection > 2) { // binary descriptors
+		binaryDescriptor = true;
 		bfNormType = cv::NORM_HAMMING;
 		//flannIndexParams = new cv::flann::HierarchicalClusteringIndexParams();
 		flannIndexParams = new cv::flann::LshIndexParams(20, 10, 2);
 	} else { // float descriptors
+		binaryDescriptor = false;
 		bfNormType = cv::NORM_L2;
 		flannIndexParams = new cv::flann::KDTreeIndexParams();
 	}
 
 	switch (descriptorMatcherSelection) {
 		case 1: { descriptorMatcher = new cv::FlannBasedMatcher(flannIndexParams);	trainingConfigsTag << "_Flann-Matcher"; break; }
-		case 2: { descriptorMatcher = new cv::BFMatcher(bfNormType, true);			trainingConfigsTag << "_BF-Matcher"; break; }
+		case 2: { descriptorMatcher = new cv::BFMatcher(bfNormType, false);			trainingConfigsTag << "_BF-Matcher"; break; }
 		default: break;
 	}
 
@@ -171,7 +174,7 @@ void CLI::setupTraining() {
 	vocabularyFilenameSS << VOCABULARY_TAG << trainingConfigsTag.str();
 	classifierFilenameSS << CLASSIFIER_TAG << trainingConfigsTag.str();
 
-	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str(), CLASSIFIER_TAG + trainingDataFilename);
+	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str(), CLASSIFIER_TAG + trainingDataFilename, binaryDescriptor);
 	
 	switch (bowTrainerSelection) {
 		case 1: { _imageClassifier = new ImageClassifierSVM(_bowVocabulary, classifierFilenameSS.str()); break; }
