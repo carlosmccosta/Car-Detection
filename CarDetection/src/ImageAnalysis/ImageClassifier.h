@@ -33,11 +33,14 @@ using cv::FileStorage;
 /// Abstract class for defining Classifiers API
 class ImageClassifier {
 	public:
-		ImageClassifier(Ptr<BowVocabulary> bowVocabulary, string classifierFilename, Ptr<StatModel> classifier);
+		ImageClassifier(Ptr<BowVocabulary> bowVocabulary, string classifierFilename, Ptr<StatModel> classifier, string classifierName);
 		virtual ~ImageClassifier();
 				
-		virtual bool train(const string& vocabularySetupImgsList, const string& classifierTrainImgsList) = 0;
-		virtual float predict(Mat& image, bool drawKeyPoints = false) = 0;
+		bool trainClassifier(const string& vocabularySetupImgsList, const string& classifierTrainImgsList);
+		virtual bool train(const Mat& trainingSamples32f, const Mat& trainingLabels32s) = 0;
+
+		virtual float analyzeImage(Mat& image, bool drawKeyPoints = false);
+		virtual float predict(const Mat& imageBoWDescriptors) = 0;
 
 		bool loadClassifier();
 		void saveClassifier();		
@@ -51,7 +54,8 @@ class ImageClassifier {
 
 	protected:
 		Ptr<BowVocabulary> _bowVocabulary;
-		string _classifierFilename;
+		string _classifierFilename;		
 		Ptr<StatModel> _classifier;
+		string _classifierName;
 };
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </ImageClassifier>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

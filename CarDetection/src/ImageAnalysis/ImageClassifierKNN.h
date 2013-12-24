@@ -1,7 +1,7 @@
 #pragma once
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-#define SVM_TRAINING_MAX_ITERATIONS 100000
+#define KNN_CLASSIFIER_K 3
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </constants definitions> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -24,16 +24,16 @@
 using std::string;
 
 using cv::Ptr;
-using cv::SVM;
+using cv::KNearest;
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  </includes> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  <ImageClassifierSVM>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-class ImageClassifierSVM : public ImageClassifier {
+class ImageClassifierKNN : public ImageClassifier {
 	public:
-		ImageClassifierSVM(Ptr<BowVocabulary> bowVocabulary, string classifierFilename);
-		virtual ~ImageClassifierSVM();
+		ImageClassifierKNN(Ptr<BowVocabulary> bowVocabulary, string classifierFilename);
+		virtual ~ImageClassifierKNN();
 		
 		virtual bool train(const Mat& trainingSamples32f, const Mat& trainingLabels32s);
 		virtual float predict(const Mat& imageBoWDescriptors);

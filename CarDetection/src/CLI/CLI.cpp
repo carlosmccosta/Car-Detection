@@ -122,7 +122,7 @@ void CLI::setupTraining() {
 		case 5: { featureDetector = new cv::OrbFeatureDetector();			trainingConfigsTag << "_ORB-Detector";  break; }
 		case 6: { featureDetector = new cv::BRISK();						trainingConfigsTag << "_BRISK-Detector"; break; }
 		case 7: { featureDetector = new cv::StarFeatureDetector();			trainingConfigsTag << "_STAR-Detector"; break; }
-		//case 8: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }		
+		case 8: { featureDetector = new cv::MserFeatureDetector();			trainingConfigsTag << "_MSER-Detector"; break; }	
 		default: break;
 	}
 
@@ -164,24 +164,41 @@ void CLI::setupTraining() {
 
 	string trainingDataFilename = trainingConfigsTag.str();
 
-	switch (bowTrainerSelection) {
+	stringstream vocabularyFilenameSS;
+	vocabularyFilenameSS << VOCABULARY_TAG << trainingConfigsTag.str();
+
+	switch (classifierSelection) {
 		case 1: { trainingConfigsTag << "_SVM-Classifier"; break; }
+		case 2: { trainingConfigsTag << "_Bayes-Classifier"; break; }		
+		case 3: { trainingConfigsTag << "_DT-Classifier"; break; }
+		case 4: { trainingConfigsTag << "_BT-Classifier"; break; }
+		case 5: { trainingConfigsTag << "_GBT-Classifier"; break; }
+		case 6: { trainingConfigsTag << "_RT-Classifier"; break; }
+		case 7: { trainingConfigsTag << "_ERT-Classifier"; break; }
+		case 8: { trainingConfigsTag << "_ANN-Classifier"; break; }
+		//case 9: { trainingConfigsTag << "_KNN-Classifier"; break; }
 		default: break;
 	}
-
-	stringstream vocabularyFilenameSS;
-	stringstream classifierFilenameSS;
-	vocabularyFilenameSS << VOCABULARY_TAG << trainingConfigsTag.str();
+	
+	stringstream classifierFilenameSS;	
 	classifierFilenameSS << CLASSIFIER_TAG << trainingConfigsTag.str();
 
 	_bowVocabulary = new BowVocabulary(featureDetector, descriptorExtractor, descriptorMatcher, bowTrainer, _imagePreprocessor, vocabularyFilenameSS.str(), CLASSIFIER_TAG + trainingDataFilename, binaryDescriptor);
 	
-	switch (bowTrainerSelection) {
+	switch (classifierSelection) {
 		case 1: { _imageClassifier = new ImageClassifierSVM(_bowVocabulary, classifierFilenameSS.str()); break; }
+		case 2: { _imageClassifier = new ImageClassifierBayes(_bowVocabulary, classifierFilenameSS.str()); break; }		
+		case 3: { _imageClassifier = new ImageClassifierDecisionTrees(_bowVocabulary, classifierFilenameSS.str()); break; }
+		case 4: { _imageClassifier = new ImageClassifierBoost(_bowVocabulary, classifierFilenameSS.str()); break; }
+		case 5: { _imageClassifier = new ImageClassifierGradientBoostingTrees(_bowVocabulary, classifierFilenameSS.str()); break; }
+		case 6: { _imageClassifier = new ImageClassifierRandomTrees(_bowVocabulary, classifierFilenameSS.str()); break; }
+		case 7: { _imageClassifier = new ImageClassifierExtremelyRandomizedTrees(_bowVocabulary, classifierFilenameSS.str()); break; }		
+		case 8: { _imageClassifier = new ImageClassifierANN(_bowVocabulary, classifierFilenameSS.str()); break; }
+		//case 9: { _imageClassifier = new ImageClassifierKNN(_bowVocabulary, classifierFilenameSS.str()); break; }
 		default: break;
 	}
 
-	_imageClassifier->train(VOCABULARY_IMAGES_LIST, CLASSIFIER_IMGAGES_LIST);
+	_imageClassifier->trainClassifier(VOCABULARY_IMAGES_LIST, CLASSIFIER_IMGAGES_LIST);
 
 	_imageDetector = new ImageDetectorSlidingWindow(_imageClassifier);
 }
@@ -196,9 +213,9 @@ int CLI::selectFeatureDetector() {
 	cout << "    5 - ORB\n";
 	cout << "    6 - BRISK\n";
 	cout << "    7 - STAR\n";
-	//cout << "    8 - MSER\n";	
+	cout << "    8 - MSER\n";
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 7]: ", "Select one of the options above!", 1, 8);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1, 7]: ", "Select one of the options above!", 1, 9);
 }
 
 
@@ -234,9 +251,17 @@ int CLI::selectBOWTrainer() {
 
 int CLI::selectClassifier() {
 	cout << "  => Select classifier:\n";
-	cout << "    1 - SVM\n";
+	cout << "    1 - Support Vector Machines\n";
+	cout << "    2 - Normal Bayes Classifier\n";	
+	cout << "    3 - Decision Trees\n";
+	cout << "    4 - Boosting\n";
+	cout << "    5 - Gradient Boosted Trees\n";
+	cout << "    6 - Random Trees\n";
+	cout << "    7 - Extremely Randomized Trees\n";
+	cout << "    8 - Artificial Neural Networks\n";
+	//cout << "    9 - K-Nearest Neighbors\n";
 
-	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1]: ", "Select one of the options above!", 1, 2);
+	return ConsoleInput::getInstance()->getIntCin("\n >>> Option [1]: ", "Select one of the options above!", 1, 9);
 }
 
 

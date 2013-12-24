@@ -31,10 +31,10 @@ void ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targets
 				Mat window = image(Rect(xPosition, yPosition, windowSizeX, windowSizeY));
 				
 				if (window.cols > 6 && window.rows > 6) {
-					float prediction = getImageClassifier()->predict(window);
+					float prediction = getImageClassifier()->analyzeImage(window);
 					++numberOfWindows;
 					//cout << prediction << " ";
-					if (prediction > 0.2) {
+					if (prediction > 0.75) {
 						#pragma omp parallel for
 						for (int yWindow = 0; yWindow < window.rows; ++yWindow) {
 							for (int xWindow = 0; xWindow < window.cols; ++xWindow) {							
@@ -50,7 +50,7 @@ void ImageDetectorSlidingWindow::detectTargets(Mat& image, vector<Rect>& targets
 		
 
 	if (showImageKeyPoints) {
-		getImageClassifier()->predict(image, showImageKeyPoints);		
+		getImageClassifier()->analyzeImage(image, showImageKeyPoints);		
 	}			
 	
 	Mat detectionMask;

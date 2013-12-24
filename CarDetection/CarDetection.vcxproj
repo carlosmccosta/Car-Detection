@@ -73,6 +73,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ImageAnalysis\DetectorEvaluationResult.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierANN.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierBayes.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierBoost.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierDecisionTrees.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierExtremelyRandomizedTrees.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierGradientBoostingTrees.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierKNN.cpp" />
+    <ClCompile Include="src\ImageAnalysis\ImageClassifierRandomTrees.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageDetectorSlidingWindow.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageDetector.cpp" />
     <ClCompile Include="src\ImageAnalysis\ImageUtils.cpp" />
@@ -90,6 +98,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImageAnalysis\DetectorEvaluationResult.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierANN.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierBayes.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierBoost.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierDecisionTrees.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierExtremelyRandomizedTrees.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierGradientBoostingTrees.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierKNN.h" />
+    <ClInclude Include="src\ImageAnalysis\ImageClassifierRandomTrees.h" />
     <ClInclude Include="src\ImageAnalysis\ImageDetectorSlidingWindow.h" />
     <ClInclude Include="src\ImageAnalysis\ImageDetector.h" />
     <ClInclude Include="src\ImageAnalysis\ImageUtils.h" />

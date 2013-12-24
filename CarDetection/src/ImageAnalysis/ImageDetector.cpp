@@ -38,7 +38,7 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 
 			stringstream detectorEvaluationResultSS;
 			DetectorEvaluationResult detectorEvaluationResult;
-			cout << "\n    -> Evaluating image " << imageFilename << "..." << endl;
+			cout << "\n    -> Evaluating image " << imageFilename << " (" << (i + 1) << "/" << numberOfFiles << ")" << endl;
 			if (_imageClassifier->getBowVocabulary()->getImagePreprocessor()->loadAndPreprocessImage(imageFilename, imagePreprocessed, CV_LOAD_IMAGE_GRAYSCALE, false)) {								
 				vector<Rect> targetsBoundingRectangles;
 				Mat votingMask;
