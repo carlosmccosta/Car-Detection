@@ -1,0 +1,1083 @@
+####################################################################################################
+  >>>                                          Car detection                                   <<<
+####################################################################################################
+
+ ## Detect car from:
+   1 - Train classifier
+   2 - Evaluate detector
+   3 - Test detector from image
+   4 - Test detector from video
+   5 - Test detector from camera
+   0 - Exit
+
+ >>> Option [0, 4]: 2
+    -> Evaluating detector with 177 test images...
+
+    -> Evaluating image imgs/imgsDB/carsgraz_299.image.png (1/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.3676s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_299.image.png finished
+    -> Precision: 0.749718 | Recall: 0.343404 | Accuracy: 0.611683
+
+    -> Evaluating image imgs/imgsDB/carsgraz_142.image.png (2/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.21957s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_142.image.png finished
+    -> Precision: 0.22109 | Recall: 0.258124 | Accuracy: 0.756025
+
+    -> Evaluating image imgs/imgsDB/carsgraz_042.image.png (3/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.04527s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_042.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.924339
+
+    -> Evaluating image imgs/imgsDB/carsgraz_252.image.png (4/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.89214s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_252.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.945257
+
+    -> Evaluating image imgs/imgsDB/carsgraz_319.image.png (5/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.85132s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_319.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.983402
+
+    -> Evaluating image imgs/imgsDB/carsgraz_034.image.png (6/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.00374s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_034.image.png finished
+    -> Precision: 0.0532407 | Recall: 0.142151 | Accuracy: 0.928672
+
+    -> Evaluating image imgs/imgsDB/carsgraz_376.image.png (7/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.10184s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_376.image.png finished
+    -> Precision: 0.519115 | Recall: 0.285756 | Accuracy: 0.750745
+
+    -> Evaluating image imgs/imgsDB/carsgraz_401.image.png (8/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29297s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_401.image.png finished
+    -> Precision: 0.0599209 | Recall: 0.425044 | Accuracy: 0.867253
+
+    -> Evaluating image imgs/imgsDB/carsgraz_387.image.png (9/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.15304s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_387.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.912246
+
+    -> Evaluating image imgs/imgsDB/carsgraz_330.image.png (10/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.37942s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_330.image.png finished
+    -> Precision: 0.0687781 | Recall: 0.772431 | Accuracy: 0.770872
+
+    -> Evaluating image imgs/imgsDB/carsgraz_292.image.png (11/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.04424s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_292.image.png finished
+    -> Precision: 0.729329 | Recall: 0.122919 | Accuracy: 0.781009
+
+    -> Evaluating image imgs/imgsDB/carsgraz_402.image.png (12/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.78446s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_402.image.png finished
+    -> Precision: 0.710885 | Recall: 0.637149 | Accuracy: 0.727757
+
+    -> Evaluating image imgs/imgsDB/carsgraz_152.image.png (13/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.07653s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_152.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.851383
+
+    -> Evaluating image imgs/imgsDB/carsgraz_143.image.png (14/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.08111s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_143.image.png finished
+    -> Precision: 0.999849 | Recall: 0.159084 | Accuracy: 0.77207
+
+    -> Evaluating image imgs/imgsDB/carsgraz_054.image.png (15/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.09363s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_054.image.png finished
+    -> Precision: 0.282461 | Recall: 0.211127 | Accuracy: 0.809408
+
+    -> Evaluating image imgs/imgsDB/carsgraz_097.image.png (16/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.830515s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_097.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.868952
+
+    -> Evaluating image imgs/imgsDB/carsgraz_341.image.png (17/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.42472s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_341.image.png finished
+    -> Precision: 0.54243 | Recall: 0.478501 | Accuracy: 0.749613
+
+    -> Evaluating image imgs/imgsDB/carsgraz_109.image.png (18/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.60659s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_109.image.png finished
+    -> Precision: 0.688061 | Recall: 0.518686 | Accuracy: 0.692708
+
+    -> Evaluating image imgs/imgsDB/carsgraz_134.image.png (19/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.19927s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_134.image.png finished
+    -> Precision: 0.939944 | Recall: 0.383505 | Accuracy: 0.713285
+
+    -> Evaluating image imgs/imgsDB/carsgraz_272.image.png (20/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.08809s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_272.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.986377
+
+    -> Evaluating image imgs/imgsDB/carsgraz_112.image.png (21/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.730916s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_112.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.997715
+
+    -> Evaluating image imgs/imgsDB/carsgraz_244.image.png (22/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.30844s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_244.image.png finished
+    -> Precision: 0.426842 | Recall: 0.668748 | Accuracy: 0.832744
+
+    -> Evaluating image imgs/imgsDB/carsgraz_309.image.png (23/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.12354s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_309.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.883724
+
+    -> Evaluating image imgs/imgsDB/carsgraz_074.image.png (24/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.06084s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_074.image.png finished
+    -> Precision: 0.78125 | Recall: 0.0148717 | Accuracy: 0.870075
+
+    -> Evaluating image imgs/imgsDB/carsgraz_289.image.png (25/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.24541s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_289.image.png finished
+    -> Precision: 0.603862 | Recall: 0.380616 | Accuracy: 0.79404
+
+    -> Evaluating image imgs/imgsDB/carsgraz_111.image.png (26/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.820087s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_111.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.963118
+
+    -> Evaluating image imgs/imgsDB/carsgraz_050.image.png (27/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.11566s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_050.image.png finished
+    -> Precision: 0.0201295 | Recall: 0.0317097 | Accuracy: 0.889378
+
+    -> Evaluating image imgs/imgsDB/carsgraz_086.image.png (28/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.452324s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_086.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.993923
+
+    -> Evaluating image imgs/imgsDB/carsgraz_036.image.png (29/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 0.953506s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_036.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.968737
+
+    -> Evaluating image imgs/imgsDB/carsgraz_275.image.png (30/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.08907s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_275.image.png finished
+    -> Precision: 0.715656 | Recall: 0.886361 | Accuracy: 0.968737
+
+    -> Evaluating image imgs/imgsDB/carsgraz_242.image.png (31/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.19536s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_242.image.png finished
+    -> Precision: 0.041875 | Recall: 0.0606774 | Accuracy: 0.874502
+
+    -> Evaluating image imgs/imgsDB/carsgraz_340.image.png (32/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.42024s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_340.image.png finished
+    -> Precision: 0.521691 | Recall: 0.607557 | Accuracy: 0.826751
+
+    -> Evaluating image imgs/imgsDB/carsgraz_388.image.png (33/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.08224s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_388.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.992236
+
+    -> Evaluating image imgs/imgsDB/carsgraz_354.image.png (34/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.37662s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_354.image.png finished
+    -> Precision: 0.331288 | Recall: 0.624897 | Accuracy: 0.805339
+
+    -> Evaluating image imgs/imgsDB/carsgraz_166.image.png (35/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.03177s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_166.image.png finished
+    -> Precision: 0.265579 | Recall: 0.201513 | Accuracy: 0.812204
+
+    -> Evaluating image imgs/imgsDB/carsgraz_400.image.png (36/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.08416s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_400.image.png finished
+    -> Precision: 0.549504 | Recall: 0.18955 | Accuracy: 0.639502
+
+    -> Evaluating image imgs/imgsDB/carsgraz_182.image.png (37/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.2852s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_182.image.png finished
+    -> Precision: 0.330841 | Recall: 0.537423 | Accuracy: 0.805638
+
+    -> Evaluating image imgs/imgsDB/carsgraz_106.image.png (38/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.0125s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_106.image.png finished
+    -> Precision: 1 | Recall: 0.0251296 | Accuracy: 0.757539
+
+    -> Evaluating image imgs/imgsDB/carsgraz_172.image.png (39/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.1498s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_172.image.png finished
+    -> Precision: 0.138678 | Recall: 0.173577 | Accuracy: 0.78888
+
+    -> Evaluating image imgs/imgsDB/carsgraz_118.image.png (40/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.034s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_118.image.png finished
+    -> Precision: 0.0165017 | Recall: 0.362812 | Accuracy: 0.936087
+
+    -> Evaluating image imgs/imgsDB/carsgraz_353.image.png (41/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.902957s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_353.image.png finished
+    -> Precision: 0.99663 | Recall: 0.0662741 | Accuracy: 0.850775
+
+    -> Evaluating image imgs/imgsDB/carsgraz_343.image.png (42/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.22312s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_343.image.png finished
+    -> Precision: 0.768058 | Recall: 0.277019 | Accuracy: 0.829469
+
+    -> Evaluating image imgs/imgsDB/carsgraz_061.image.png (43/177)
+    -> Detecting targets...
+    -> Detected 3 targets in 1.16456s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_061.image.png finished
+    -> Precision: 0.0907452 | Recall: 0.017115 | Accuracy: 0.90054
+
+    -> Evaluating image imgs/imgsDB/carsgraz_227.image.png (44/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.981568s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_227.image.png finished
+    -> Precision: 0.523133 | Recall: 0.391555 | Accuracy: 0.93793
+
+    -> Evaluating image imgs/imgsDB/carsgraz_156.image.png (45/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 0.953974s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_156.image.png finished
+    -> Precision: 0.142361 | Recall: 0.0225275 | Accuracy: 0.934049
+
+    -> Evaluating image imgs/imgsDB/carsgraz_211.image.png (46/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29999s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_211.image.png finished
+    -> Precision: 0.124416 | Recall: 0.211324 | Accuracy: 0.828324
+
+    -> Evaluating image imgs/imgsDB/carsgraz_235.image.png (47/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.21411s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_235.image.png finished
+    -> Precision: 0.715648 | Recall: 0.590716 | Accuracy: 0.910765
+
+    -> Evaluating image imgs/imgsDB/carsgraz_253.image.png (48/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.37652s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_253.image.png finished
+    -> Precision: 0.331556 | Recall: 0.52236 | Accuracy: 0.760993
+
+    -> Evaluating image imgs/imgsDB/carsgraz_104.image.png (49/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 0.937282s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_104.image.png finished
+    -> Precision: 0.0172051 | Recall: 0.00709032 | Accuracy: 0.811312
+
+    -> Evaluating image imgs/imgsDB/carsgraz_261.image.png (50/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29425s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_261.image.png finished
+    -> Precision: 0.613374 | Recall: 0.330254 | Accuracy: 0.784974
+
+    -> Evaluating image imgs/imgsDB/carsgraz_352.image.png (51/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.08109s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_352.image.png finished
+    -> Precision: 0.260254 | Recall: 0.0435303 | Accuracy: 0.870837
+
+    -> Evaluating image imgs/imgsDB/carsgraz_220.image.png (52/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.23289s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_220.image.png finished
+    -> Precision: 0.584448 | Recall: 0.241372 | Accuracy: 0.61849
+
+    -> Evaluating image imgs/imgsDB/carsgraz_274.image.png (53/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 1.02842s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_274.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.971042
+
+    -> Evaluating image imgs/imgsDB/carsgraz_153.image.png (54/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.11167s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_153.image.png finished
+    -> Precision: 0.510965 | Recall: 0.440915 | Accuracy: 0.905492
+
+    -> Evaluating image imgs/imgsDB/carsgraz_236.image.png (55/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.992645s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_236.image.png finished
+    -> Precision: 0.317123 | Recall: 0.197012 | Accuracy: 0.890117
+
+    -> Evaluating image imgs/imgsDB/carsgraz_267.image.png (56/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.19686s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_267.image.png finished
+    -> Precision: 0.400583 | Recall: 0.842111 | Accuracy: 0.875635
+
+    -> Evaluating image imgs/imgsDB/carsgraz_139.image.png (57/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.913721s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_139.image.png finished
+    -> Precision: 0.953889 | Recall: 0.149322 | Accuracy: 0.743109
+
+    -> Evaluating image imgs/imgsDB/carsgraz_380.image.png (58/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.49155s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_380.image.png finished
+    -> Precision: 0.036195 | Recall: 0.480969 | Accuracy: 0.745837
+
+    -> Evaluating image imgs/imgsDB/carsgraz_128.image.png (59/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.12556s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_128.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.794961
+
+    -> Evaluating image imgs/imgsDB/carsgraz_239.image.png (60/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.061s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_239.image.png finished
+    -> Precision: 0.370438 | Recall: 0.454743 | Accuracy: 0.897324
+
+    -> Evaluating image imgs/imgsDB/carsgraz_164.image.png (61/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.946856s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_164.image.png finished
+    -> Precision: 0.170286 | Recall: 0.0566137 | Accuracy: 0.864769
+
+    -> Evaluating image imgs/imgsDB/carsgraz_218.image.png (62/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.18803s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_218.image.png finished
+    -> Precision: 0.84844 | Recall: 0.742995 | Accuracy: 0.930729
+
+    -> Evaluating image imgs/imgsDB/carsgraz_349.image.png (63/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.07107s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_349.image.png finished
+    -> Precision: 0.346164 | Recall: 0.1479 | Accuracy: 0.796419
+
+    -> Evaluating image imgs/imgsDB/carsgraz_225.image.png (64/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.972707s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_225.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.967064
+
+    -> Evaluating image imgs/imgsDB/carsgraz_238.image.png (65/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.27379s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_238.image.png finished
+    -> Precision: 0.665897 | Recall: 0.797296 | Accuracy: 0.908444
+
+    -> Evaluating image imgs/imgsDB/carsgraz_318.image.png (66/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.15111s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_318.image.png finished
+    -> Precision: 0.252732 | Recall: 0.309964 | Accuracy: 0.90012
+
+    -> Evaluating image imgs/imgsDB/carsgraz_113.image.png (67/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.559378s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_113.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.95998
+
+    -> Evaluating image imgs/imgsDB/carsgraz_240.image.png (68/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.0949s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_240.image.png finished
+    -> Precision: 0.303872 | Recall: 0.158203 | Accuracy: 0.856882
+
+    -> Evaluating image imgs/imgsDB/carsgraz_083.image.png (69/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.02524s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_083.image.png finished
+    -> Precision: 0.129585 | Recall: 0.360183 | Accuracy: 0.919518
+
+    -> Evaluating image imgs/imgsDB/carsgraz_027.image.png (70/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.10242s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_027.image.png finished
+    -> Precision: 0.319369 | Recall: 0.167217 | Accuracy: 0.804111
+
+    -> Evaluating image imgs/imgsDB/carsgraz_176.image.png (71/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.00282s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_176.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.927624
+
+    -> Evaluating image imgs/imgsDB/carsgraz_215.image.png (72/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.11666s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_215.image.png finished
+    -> Precision: 0.326122 | Recall: 0.820013 | Accuracy: 0.927318
+
+    -> Evaluating image imgs/imgsDB/carsgraz_255.image.png (73/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.960522s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_255.image.png finished
+    -> Precision: 1 | Recall: 0.012125 | Accuracy: 0.134339
+
+    -> Evaluating image imgs/imgsDB/carsgraz_257.image.png (74/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.35509s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_257.image.png finished
+    -> Precision: 0.140804 | Recall: 0.463966 | Accuracy: 0.768363
+
+    -> Evaluating image imgs/imgsDB/carsgraz_381.image.png (75/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.97827s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_381.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.934593
+
+    -> Evaluating image imgs/imgsDB/carsgraz_371.image.png (76/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.03293s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_371.image.png finished
+    -> Precision: 0.714931 | Recall: 0.175865 | Accuracy: 0.795511
+
+    -> Evaluating image imgs/imgsDB/carsgraz_055.image.png (77/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.0996s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_055.image.png finished
+    -> Precision: 0.00182149 | Recall: 0.00298661 | Accuracy: 0.816286
+
+    -> Evaluating image imgs/imgsDB/carsgraz_348.image.png (78/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.13242s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_348.image.png finished
+    -> Precision: 0.605436 | Recall: 0.524063 | Accuracy: 0.90556
+
+    -> Evaluating image imgs/imgsDB/carsgraz_066.image.png (79/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.937677s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_066.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.883848
+
+    -> Evaluating image imgs/imgsDB/carsgraz_345.image.png (80/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.26584s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_345.image.png finished
+    -> Precision: 0.0186415 | Recall: 0.0455099 | Accuracy: 0.79415
+
+    -> Evaluating image imgs/imgsDB/carsgraz_117.image.png (81/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.864127s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_117.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.976504
+
+    -> Evaluating image imgs/imgsDB/carsgraz_103.image.png (82/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.35893s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_103.image.png finished
+    -> Precision: 0.847296 | Recall: 0.596921 | Accuracy: 0.828301
+
+    -> Evaluating image imgs/imgsDB/carsgraz_321.image.png (83/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.859411s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_321.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.990329
+
+    -> Evaluating image imgs/imgsDB/carsgraz_262.image.png (84/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.3408s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_262.image.png finished
+    -> Precision: 0.181222 | Recall: 0.227535 | Accuracy: 0.764284
+
+    -> Evaluating image imgs/imgsDB/carsgraz_317.image.png (85/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.10334s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_317.image.png finished
+    -> Precision: 0.266617 | Recall: 0.0741942 | Accuracy: 0.946709
+
+    -> Evaluating image imgs/imgsDB/carsgraz_207.image.png (86/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.05079s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_207.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.973532
+
+    -> Evaluating image imgs/imgsDB/carsgraz_214.image.png (87/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 1.06817s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_214.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.957077
+
+    -> Evaluating image imgs/imgsDB/carsgraz_178.image.png (88/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.944209s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_178.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.903193
+
+    -> Evaluating image imgs/imgsDB/carsgraz_181.image.png (89/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.236s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_181.image.png finished
+    -> Precision: 0.381867 | Recall: 0.709974 | Accuracy: 0.892106
+
+    -> Evaluating image imgs/imgsDB/carsgraz_137.image.png (90/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29062s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_137.image.png finished
+    -> Precision: 0.00103832 | Recall: 0.00434539 | Accuracy: 0.759583
+
+    -> Evaluating image imgs/imgsDB/carsgraz_226.image.png (91/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.0734s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_226.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.877653
+
+    -> Evaluating image imgs/imgsDB/carsgraz_395.image.png (92/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.970064s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_395.image.png finished
+    -> Precision: 0.109375 | Recall: 0.0615339 | Accuracy: 0.889655
+
+    -> Evaluating image imgs/imgsDB/carsgraz_145.image.png (93/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.58959s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_145.image.png finished
+    -> Precision: 0.123511 | Recall: 0.206309 | Accuracy: 0.568493
+
+    -> Evaluating image imgs/imgsDB/carsgraz_284.image.png (94/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.02807s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_284.image.png finished
+    -> Precision: 0.819679 | Recall: 0.235396 | Accuracy: 0.738636
+
+    -> Evaluating image imgs/imgsDB/carsgraz_254.image.png (95/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.34397s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_254.image.png finished
+    -> Precision: 0.804695 | Recall: 0.715107 | Accuracy: 0.891986
+
+    -> Evaluating image imgs/imgsDB/carsgraz_159.image.png (96/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.980961s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_159.image.png finished
+    -> Precision: 0.242858 | Recall: 0.1213 | Accuracy: 0.792396
+
+    -> Evaluating image imgs/imgsDB/carsgraz_002.image.png (97/177)
+    -> Detecting targets...
+    -> Detected 4 targets in 1.04102s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_002.image.png finished
+    -> Precision: 0.0286458 | Recall: 0.0699523 | Accuracy: 0.986478
+
+    -> Evaluating image imgs/imgsDB/carsgraz_007.image.png (98/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.3101s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_007.image.png finished
+    -> Precision: 0.0922415 | Recall: 0.172251 | Accuracy: 0.72304
+
+    -> Evaluating image imgs/imgsDB/carsgraz_350.image.png (99/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.15056s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_350.image.png finished
+    -> Precision: 0.0167312 | Recall: 0.0603491 | Accuracy: 0.824316
+
+    -> Evaluating image imgs/imgsDB/carsgraz_029.image.png (100/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.953268s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_029.image.png finished
+    -> Precision: 0.504762 | Recall: 0.19061 | Accuracy: 0.884561
+
+    -> Evaluating image imgs/imgsDB/carsgraz_224.image.png (101/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.25383s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_224.image.png finished
+    -> Precision: 0.896162 | Recall: 0.62182 | Accuracy: 0.884421
+
+    -> Evaluating image imgs/imgsDB/carsgraz_004.image.png (102/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.920685s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_004.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.96403
+
+    -> Evaluating image imgs/imgsDB/carsgraz_031.image.png (103/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.989862s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_031.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.886693
+
+    -> Evaluating image imgs/imgsDB/carsgraz_206.image.png (104/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.909565s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_206.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.988164
+
+    -> Evaluating image imgs/imgsDB/carsgraz_351.image.png (105/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.05048s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_351.image.png finished
+    -> Precision: 1 | Recall: 0.118291 | Accuracy: 0.459603
+
+    -> Evaluating image imgs/imgsDB/carsgraz_326.image.png (106/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.1529s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_326.image.png finished
+    -> Precision: 0.0572597 | Recall: 0.318521 | Accuracy: 0.891478
+
+    -> Evaluating image imgs/imgsDB/carsgraz_313.image.png (107/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.25003s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_313.image.png finished
+    -> Precision: 0.0249395 | Recall: 0.594233 | Accuracy: 0.850566
+
+    -> Evaluating image imgs/imgsDB/carsgraz_127.image.png (108/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.989804s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_127.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.896615
+
+    -> Evaluating image imgs/imgsDB/carsgraz_268.image.png (109/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.40863s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_268.image.png finished
+    -> Precision: 0.455435 | Recall: 0.555758 | Accuracy: 0.767972
+
+    -> Evaluating image imgs/imgsDB/carsgraz_012.image.png (110/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.682133s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_012.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.896712
+
+    -> Evaluating image imgs/imgsDB/carsgraz_334.image.png (111/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.907396s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_334.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.912386
+
+    -> Evaluating image imgs/imgsDB/carsgraz_256.image.png (112/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.24031s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_256.image.png finished
+    -> Precision: 0.99828 | Recall: 0.435761 | Accuracy: 0.786908
+
+    -> Evaluating image imgs/imgsDB/carsgraz_405.image.png (113/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.2964s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_405.image.png finished
+    -> Precision: 0.602897 | Recall: 0.620135 | Accuracy: 0.866357
+
+    -> Evaluating image imgs/imgsDB/carsgraz_119.image.png (114/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.96606s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_119.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.931517
+
+    -> Evaluating image imgs/imgsDB/carsgraz_065.image.png (115/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.1264s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_065.image.png finished
+    -> Precision: 0.48236 | Recall: 0.504434 | Accuracy: 0.87668
+
+    -> Evaluating image imgs/imgsDB/carsgraz_037.image.png (116/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.924959s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_037.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.938639
+
+    -> Evaluating image imgs/imgsDB/carsgraz_361.image.png (117/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.01546s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_361.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.973721
+
+    -> Evaluating image imgs/imgsDB/carsgraz_281.image.png (118/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.17476s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_281.image.png finished
+    -> Precision: 0.623437 | Recall: 0.612491 | Accuracy: 0.869954
+
+    -> Evaluating image imgs/imgsDB/carsgraz_183.image.png (119/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.986338s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_183.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.982679
+
+    -> Evaluating image imgs/imgsDB/carsgraz_057.image.png (120/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.11478s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_057.image.png finished
+    -> Precision: 0.982662 | Recall: 0.376206 | Accuracy: 0.84665
+
+    -> Evaluating image imgs/imgsDB/carsgraz_323.image.png (121/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.03843s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_323.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.905322
+
+    -> Evaluating image imgs/imgsDB/carsgraz_130.image.png (122/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.90169s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_130.image.png finished
+    -> Precision: 0.229241 | Recall: 0.122685 | Accuracy: 0.894561
+
+    -> Evaluating image imgs/imgsDB/carsgraz_091.image.png (123/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.937871s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_091.image.png finished
+    -> Precision: 0.0316781 | Recall: 0.142035 | Accuracy: 0.94709
+
+    -> Evaluating image imgs/imgsDB/carsgraz_364.image.png (124/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.11968s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_364.image.png finished
+    -> Precision: 0.547689 | Recall: 0.492103 | Accuracy: 0.918594
+
+    -> Evaluating image imgs/imgsDB/carsgraz_342.image.png (125/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.23261s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_342.image.png finished
+    -> Precision: 0.894115 | Recall: 0.428783 | Accuracy: 0.845169
+
+    -> Evaluating image imgs/imgsDB/carsgraz_063.image.png (126/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.16255s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_063.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.86849
+
+    -> Evaluating image imgs/imgsDB/carsgraz_157.image.png (127/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.904246s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_157.image.png finished
+    -> Precision: 0.360549 | Recall: 0.251368 | Accuracy: 0.923975
+
+    -> Evaluating image imgs/imgsDB/carsgraz_120.image.png (128/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.09926s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_120.image.png finished
+    -> Precision: 0.07253 | Recall: 0.264647 | Accuracy: 0.838411
+
+    -> Evaluating image imgs/imgsDB/carsgraz_237.image.png (129/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.944116s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_237.image.png finished
+    -> Precision: 0.674175 | Recall: 0.194372 | Accuracy: 0.849844
+
+    -> Evaluating image imgs/imgsDB/carsgraz_107.image.png (130/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.11423s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_107.image.png finished
+    -> Precision: 0.0951891 | Recall: 0.0181332 | Accuracy: 0.712194
+
+    -> Evaluating image imgs/imgsDB/carsgraz_005.image.png (131/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.21807s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_005.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.869046
+
+    -> Evaluating image imgs/imgsDB/carsgraz_347.image.png (132/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.46808s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_347.image.png finished
+    -> Precision: 0.539268 | Recall: 0.526325 | Accuracy: 0.75304
+
+    -> Evaluating image imgs/imgsDB/carsgraz_125.image.png (133/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.00274s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_125.image.png finished
+    -> Precision: 0.723513 | Recall: 0.529362 | Accuracy: 0.932744
+
+    -> Evaluating image imgs/imgsDB/carsgraz_296.image.png (134/177)
+    -> Detecting targets...
+    -> Detected 4 targets in 1.24512s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_296.image.png finished
+    -> Precision: 0.168287 | Recall: 0.0226159 | Accuracy: 0.772061
+
+    -> Evaluating image imgs/imgsDB/carsgraz_024.image.png (135/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29755s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_024.image.png finished
+    -> Precision: 0.0643327 | Recall: 1 | Accuracy: 0.796419
+
+    -> Evaluating image imgs/imgsDB/carsgraz_190.image.png (136/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.17268s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_190.image.png finished
+    -> Precision: 0.0414814 | Recall: 0.332234 | Accuracy: 0.835251
+
+    -> Evaluating image imgs/imgsDB/carsgraz_056.image.png (137/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.10445s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_056.image.png finished
+    -> Precision: 1 | Recall: 0.0252349 | Accuracy: 0.903431
+
+    -> Evaluating image imgs/imgsDB/carsgraz_090.image.png (138/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.894153s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_090.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.976051
+
+    -> Evaluating image imgs/imgsDB/carsgraz_030.image.png (139/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.38861s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_030.image.png finished
+    -> Precision: 0.210444 | Recall: 0.296661 | Accuracy: 0.689958
+
+    -> Evaluating image imgs/imgsDB/carsgraz_302.image.png (140/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.04821s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_302.image.png finished
+    -> Precision: 1 | Recall: 0.0284784 | Accuracy: 0.466963
+
+    -> Evaluating image imgs/imgsDB/carsgraz_307.image.png (141/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.925214s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_307.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.985313
+
+    -> Evaluating image imgs/imgsDB/carsgraz_038.image.png (142/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.02384s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_038.image.png finished
+    -> Precision: 0.140509 | Recall: 0.0567157 | Accuracy: 0.910101
+
+    -> Evaluating image imgs/imgsDB/carsgraz_136.image.png (143/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.08715s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_136.image.png finished
+    -> Precision: 0.508353 | Recall: 0.418901 | Accuracy: 0.84516
+
+    -> Evaluating image imgs/imgsDB/carsgraz_196.image.png (144/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.58303s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_196.image.png finished
+    -> Precision: 0.327513 | Recall: 0.979155 | Accuracy: 0.815697
+
+    -> Evaluating image imgs/imgsDB/carsgraz_259.image.png (145/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.90064s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_259.image.png finished
+    -> Precision: 1 | Recall: 0.0494751 | Accuracy: 0.771855
+
+    -> Evaluating image imgs/imgsDB/carsgraz_019.image.png (146/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.8442s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_019.image.png finished
+    -> Precision: 1 | Recall: 0.0594037 | Accuracy: 0.920212
+
+    -> Evaluating image imgs/imgsDB/carsgraz_297.image.png (147/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.27206s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_297.image.png finished
+    -> Precision: 0.294596 | Recall: 0.0934756 | Accuracy: 0.786257
+
+    -> Evaluating image imgs/imgsDB/carsgraz_011.image.png (148/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.14869s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_011.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.894004
+
+    -> Evaluating image imgs/imgsDB/carsgraz_390.image.png (149/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.22791s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_390.image.png finished
+    -> Precision: 0.129295 | Recall: 0.40034 | Accuracy: 0.848327
+
+    -> Evaluating image imgs/imgsDB/carsgraz_162.image.png (150/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 1.08454s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_162.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.846842
+
+    -> Evaluating image imgs/imgsDB/carsgraz_068.image.png (151/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.26882s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_068.image.png finished
+    -> Precision: 0.0701565 | Recall: 0.484421 | Accuracy: 0.809417
+
+    -> Evaluating image imgs/imgsDB/carsgraz_035.image.png (152/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.866952s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_035.image.png finished
+    -> Precision: 0.46539 | Recall: 0.579862 | Accuracy: 0.966217
+
+    -> Evaluating image imgs/imgsDB/carsgraz_385.image.png (153/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 1.03727s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_385.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.9961
+
+    -> Evaluating image imgs/imgsDB/carsgraz_295.image.png (154/177)
+    -> Detecting targets...
+    -> Detected 2 targets in 1.09645s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_295.image.png finished
+    -> Precision: 0.204668 | Recall: 0.0462844 | Accuracy: 0.830824
+
+    -> Evaluating image imgs/imgsDB/carsgraz_194.image.png (155/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.24791s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_194.image.png finished
+    -> Precision: 0.183362 | Recall: 0.260923 | Accuracy: 0.817132
+
+    -> Evaluating image imgs/imgsDB/carsgraz_198.image.png (156/177)
+    -> Detecting targets...
+    -> Detected 5 targets in 1.29336s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_198.image.png finished
+    -> Precision: 0.0201295 | Recall: 0.0121238 | Accuracy: 0.939411
+
+    -> Evaluating image imgs/imgsDB/carsgraz_014.image.png (157/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.947506s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_014.image.png finished
+    -> Precision: 0.573916 | Recall: 0.623687 | Accuracy: 0.929521
+
+    -> Evaluating image imgs/imgsDB/carsgraz_015.image.png (158/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.17193s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_015.image.png finished
+    -> Precision: 0.451512 | Recall: 0.486626 | Accuracy: 0.842861
+
+    -> Evaluating image imgs/imgsDB/carsgraz_189.image.png (159/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.858652s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_189.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.993516
+
+    -> Evaluating image imgs/imgsDB/carsgraz_315.image.png (160/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.00376s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_315.image.png finished
+    -> Precision: 0.0313755 | Recall: 0.438982 | Accuracy: 0.947673
+
+    -> Evaluating image imgs/imgsDB/carsgraz_280.image.png (161/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 0.876998s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_280.image.png finished
+    -> Precision: 1 | Recall: 0.0445786 | Accuracy: 0.919629
+
+    -> Evaluating image imgs/imgsDB/carsgraz_131.image.png (162/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.04856s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_131.image.png finished
+    -> Precision: 0.208153 | Recall: 0.141068 | Accuracy: 0.820433
+
+    -> Evaluating image imgs/imgsDB/carsgraz_212.image.png (163/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.2105s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_212.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.936403
+
+    -> Evaluating image imgs/imgsDB/carsgraz_184.image.png (164/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.949186s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_184.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.95874
+
+    -> Evaluating image imgs/imgsDB/carsgraz_144.image.png (165/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.783103s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_144.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.984596
+
+    -> Evaluating image imgs/imgsDB/carsgraz_291.image.png (166/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.22661s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_291.image.png finished
+    -> Precision: 0.433549 | Recall: 0.866046 | Accuracy: 0.874346
+
+    -> Evaluating image imgs/imgsDB/carsgraz_010.image.png (167/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.01386s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_010.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.864808
+
+    -> Evaluating image imgs/imgsDB/carsgraz_132.image.png (168/177)
+    -> Detecting targets...
+    -> Detected 0 targets in 0.907547s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_132.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.995049
+
+    -> Evaluating image imgs/imgsDB/carsgraz_165.image.png (169/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.29003s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_165.image.png finished
+    -> Precision: 0.476213 | Recall: 0.371965 | Accuracy: 0.758499
+
+    -> Evaluating image imgs/imgsDB/carsgraz_191.image.png (170/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.34229s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_191.image.png finished
+    -> Precision: 0.117025 | Recall: 0.355548 | Accuracy: 0.767122
+
+    -> Evaluating image imgs/imgsDB/carsgraz_049.image.png (171/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.009s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_049.image.png finished
+    -> Precision: 0.297194 | Recall: 0.210963 | Accuracy: 0.88887
+
+    -> Evaluating image imgs/imgsDB/carsgraz_167.image.png (172/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.06296s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_167.image.png finished
+    -> Precision: 0.281058 | Recall: 0.222178 | Accuracy: 0.779932
+
+    -> Evaluating image imgs/imgsDB/carsgraz_138.image.png (173/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.0847s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_138.image.png finished
+    -> Precision: 0 | Recall: 0 | Accuracy: 0.83776
+
+    -> Evaluating image imgs/imgsDB/carsgraz_020.image.png (174/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.20955s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_020.image.png finished
+    -> Precision: 0.218334 | Recall: 0.354347 | Accuracy: 0.794603
+
+    -> Evaluating image imgs/imgsDB/carsgraz_179.image.png (175/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.06656s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_179.image.png finished
+    -> Precision: 0.782277 | Recall: 0.409538 | Accuracy: 0.876374
+
+    -> Evaluating image imgs/imgsDB/carsgraz_101.image.png (176/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.33973s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_101.image.png finished
+    -> Precision: 0.599707 | Recall: 0.649857 | Accuracy: 0.839492
+
+    -> Evaluating image imgs/imgsDB/carsgraz_298.image.png (177/177)
+    -> Detecting targets...
+    -> Detected 1 targets in 1.26582s with 482 ROIs
+    -> Evaluation of image imgs/imgsDB/carsgraz_298.image.png finished
+    -> Precision: 0.0315415 | Recall: 0.308966 | Accuracy: 0.825967
+
+    -> Finished evaluation of detector in 03m33.0832s || Global precision: 0.299163 | Global recall: 0.233776 | Global accuracy: 0.854349
+
+
+
+
+Press ENTER to continue...

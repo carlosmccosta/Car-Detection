@@ -1,0 +1,91 @@
+####################################################################################################
+  >>>                                          Car detection                                   <<<
+####################################################################################################
+
+ ## Detect car from:
+   1 - Train classifier
+   2 - Evaluate detector
+   3 - Test detector from image
+   4 - Test detector from video
+   5 - Test detector from camera
+   0 - Exit
+
+ >>> Option [0, 4]: 1
+
+
+ ## Training setup:
+
+  => Select feature detector:
+    1 - SIFT
+    2 - SURF
+    3 - GFTT
+    4 - FAST
+    5 - ORB
+    6 - BRISK
+    7 - STAR
+    8 - MSER
+
+ >>> Option [1, 7]: 7
+
+
+
+  => Select descriptor extractor:
+    1 - SIFT
+    2 - SURF
+    3 - FREAK
+    4 - BRIEF
+    5 - ORB
+    6 - BRISK
+
+ >>> Option [1, 6]: 2
+
+
+
+  => Select descriptor matcher:
+    1 - FlannBasedMatcher
+    2 - BFMatcher
+
+ >>> Option [1, 2]: 2
+
+
+
+  => Select Bag of Words trainer:
+    1 - BOWKMeansTrainer
+
+ >>> Option [1]: 1
+
+
+
+  => Select classifier:
+    1 - Support Vector Machines
+    2 - Artificial Neural Networks
+    3 - Normal Bayes Classifier
+    4 - Decision Trees
+    5 - Boosting
+    6 - Gradient Boosting Trees
+    7 - Random Trees
+    8 - Extremely Randomized Trees
+
+ >>> Option [1]: 1
+
+
+
+    -> Building vocabulary with 177 images...
+    -> Saved vocabulary to training/Vocabulary_STAR-Detector_SURF-Extractor_BF-Matcher_KMeans-BowTrainer.xml
+    -> Finished building vocabulary with 1000 word size in 20.9324s
+
+
+    -> Analysing 177 training images...
+    -> Computed 403 training samples from 177 images in 17.9847s
+
+    -> Saved training samples to training/Classifier_STAR-Detector_SURF-Extractor_BF-Matcher_KMeans-BowTrainer__trainingSamples.xml
+    -> Saved training labels to training/Classifier_STAR-Detector_SURF-Extractor_BF-Matcher_KMeans-BowTrainer__trainingLabels.xml
+
+    -> Training SVM with 403 samples of 1000 word size...
+    -> Training finished in 37.934s
+
+    -> Saved classifier to training/Classifier_STAR-Detector_SURF-Extractor_BF-Matcher_KMeans-BowTrainer_SVM-Classifier.xml
+
+
+
+Press ENTER to continue...
