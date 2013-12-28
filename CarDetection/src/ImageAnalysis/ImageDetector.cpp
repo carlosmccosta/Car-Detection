@@ -84,7 +84,7 @@ DetectorEvaluationResult ImageDetector::evaluateDetector(string testImgsList, bo
 		detectorEvaluationGloablResultSS << GLOBAL_PRECISION_TOKEN << ": " << globalPrecision << " | " << GLOBAL_RECALL_TOKEN << ": " << globalRecall << " | " << GLOBAL_ACCURACY_TOKEN << ": " << globalAccuracy;
 
 		resutlsFile << "\n\n" << RESULTS_FILE_FOOTER << endl;
-		resutlsFile << " ==>" << detectorEvaluationGloablResultSS.str() << endl;
+		resutlsFile << " ==> " << detectorEvaluationGloablResultSS.str() << endl;
 		cout << "\n    -> Finished evaluation of detector in " << performanceTimer.getElapsedTimeFormated() << " || " << detectorEvaluationGloablResultSS.str() << "\n" << endl;
 	}
 

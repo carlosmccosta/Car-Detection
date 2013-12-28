@@ -23,6 +23,6 @@ Test classifier
 		+ extract keypoints descriptors with BOWImgDescriptorExtractor
 		+ use classifier to predict if car is in image
 
-	+ Precision-Recall curve
+	+ Precision-Recall
 		+ Precision -> true positives / detected cars
 		+ Recall -> true positives / total number of cars in image

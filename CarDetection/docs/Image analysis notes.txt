@@ -30,15 +30,17 @@ Recognition
 		+ SURF
 		+ GFTT
 		+ FAST		
-		- ORB
-		- MSER
-		- STAR
+		+ ORB
+		+ BRISK
+		+ STAR
+		+ MSER		
 	+ Feature description
 		+ SIFT
 		+ SURF		
 		+ FREAK
-		- BRIEF		
-		- BRISK
+		+ BRIEF
+		+ ORB
+		+ BRISK
 	+ Descriptor matcher
 		+ FlannBasedMatcher
 		+ BFMatcher
@@ -50,11 +52,14 @@ Recognition
 		+ Bag of Words normalized
 	+ Machine learning (http://docs.opencv.org/modules/ml/doc/ml.html)
 		+ Training classifier with 2 classes (car and non-car)
-			+ SVM (Support Vector Machines)
-			- Decision trees
-			- Neural networks
-			- K-Nearest neightbors
-			- Bayes
+			+ Support Vector Machines
+		    + Artificial Neural Networks
+		    + Normal Bayes Classifier
+		    + Decision Trees
+		    + Boosting
+		    + Gradient Boosting Trees
+		    + Random Trees
+		    + Extremely Randomized Trees
 	+ Testing
 		+ Scanning window to check if car is in image and output best match
 		+ Segment possible car regions to improve performance

@@ -12,6 +12,4 @@
 *.la
 *.a
 
-imgs
-
-/CarDetection/training
+/CarDetection/imgs
