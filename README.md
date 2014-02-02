@@ -54,7 +54,7 @@ Fig. 4 - Results with partially occluded objects obtained with STAR detector, SU
 
 
 
-![Fig. 5 - Results obtained with STAR detector, FREAK extractor, FLANN matcher and SVM classifier classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/4%20-%20Results%20obtained%20with%20STAR%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20SVM%20classifier.png)
+![Fig. 5 - Results obtained with STAR detector, FREAK extractor, FLANN matcher and SVM classifier classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/5%20-%20Results%20obtained%20with%20STAR%20detector,%20FREAK%20extractor,%20FLANN%20matcher%20and%20SVM%20classifier.png)
 Fig. 5 - Results obtained with STAR detector, FREAK extractor, FLANN matcher and SVM classifier
 
 
