@@ -28,6 +28,8 @@ was  tested  with  several  configurations  of  feature  detectors,
 descriptors  and classifiers, and achieved an accuracy of 87% when 
 recognizing cars from 177 test images.
 
+
+
 ## Results
 
 ![Fig. 1 - Effect of preprocessing (right) in the original image 
@@ -52,24 +54,28 @@ Fig. 4 - Results with partially occluded objects obtained with STAR detector, SU
 
 
 
-![Fig. 5 - Results obtained with STAR detector, SIFT extractor, FLANN matcher and SVM classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/5%20-%20Results%20obtained%20with%20STAR%20detector,%20SIFT%20extractor,%20FLANN%20matcher%20and%20SVM%20classifier.png)
-Fig. 5 - Results obtained with STAR detector, SIFT extractor, FLANN matcher and SVM classifier
+![Fig. 5 - Results obtained with STAR detector, FREAK extractor, FLANN matcher and SVM classifier classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/4%20-%20Results%20obtained%20with%20STAR%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20SVM%20classifier.png)
+Fig. 5 - Results obtained with STAR detector, FREAK extractor, FLANN matcher and SVM classifier
 
 
 
-![Fig. 6 - Results obtained with SURF detector, SURF extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/6%20-%20Results%20obtained%20with%20SURF%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
-Fig. 6 - Results obtained with SURF detector, SURF extractor, FLANN matcher and ANN classifier
+![Fig. 6 - Results obtained with STAR detector, SIFT extractor, FLANN matcher and SVM classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/6%20-%20Results%20obtained%20with%20STAR%20detector,%20SIFT%20extractor,%20FLANN%20matcher%20and%20SVM%20classifier.png)
+Fig. 6 - Results obtained with STAR detector, SIFT extractor, FLANN matcher and SVM classifier
 
 
 
-![Fig. 7 - Results obtained with FAST detector, SURF extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/7%20-%20Results%20obtained%20with%20FAST%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
-Fig. 7 - Results obtained with FAST detector, SURF extractor, FLANN matcher and ANN classifier
+![Fig. 7 - Results obtained with SURF detector, SURF extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/7%20-%20Results%20obtained%20with%20SURF%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
+Fig. 7 - Results obtained with SURF detector, SURF extractor, FLANN matcher and ANN classifier
 
 
 
-![Fig. 8 - Results obtained with ORB detector, ORB extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/8%20-%20Results%20obtained%20with%20ORB%20detector,%20ORB%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
-Fig. 8 - Results obtained with ORB detector, ORB extractor, FLANN matcher and ANN classifier
+![Fig. 8 - Results obtained with FAST detector, SURF extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/8%20-%20Results%20obtained%20with%20FAST%20detector,%20SURF%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
+Fig. 8 - Results obtained with FAST detector, SURF extractor, FLANN matcher and ANN classifier
 
+
+
+![Fig. 9 - Results obtained with ORB detector, ORB extractor, FLANN matcher and ANN classifier](https://raw2.github.com/carlosmccosta/Car-Detection/master/Results/Representative%20results/9%20-%20Results%20obtained%20with%20ORB%20detector,%20ORB%20extractor,%20FLANN%20matcher%20and%20ANN%20classifier.png)
+Fig. 9 - Results obtained with ORB detector, ORB extractor, FLANN matcher and ANN classifier
 
 
 ## Releases
