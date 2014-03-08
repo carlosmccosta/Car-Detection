@@ -4,7 +4,7 @@
 ## Overview
 This project focus on the detection and recognition of cars in different perspective views and has the following associated paper:
 
-[Multiview object recognition using Bag of Words approach](https://github.com/carlosmccosta/Car-Detection/raw/master/Report/Multiview%20object%20recognition%20using%20Bag%20of%20Words%20approach.pdf)
+[Multiview object recognition using Bag of Words approach](https://www.researchgate.net/publication/260391892_Multiview_object_recognition_using_Bag_of_Words_approach)
 
 
 **Abstract:**
