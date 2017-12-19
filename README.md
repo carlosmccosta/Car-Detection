@@ -2,32 +2,16 @@
 
 
 ## Overview
-This project focus on the detection and recognition of cars in different perspective views and has the following associated paper:
+This project focus on the detection and recognition of cars in different perspective views and has the following associated paper and presentation:
 
 [Pose Invariant Object Recognition Using a Bag of Words Approach](https://www.researchgate.net/publication/319878114_Pose_Invariant_Object_Recognition_Using_a_Bag_of_Words_Approach)
 
+[Pose Invariant Object Recognition Using a Bag Of Words Approach - Presentation](https://www.researchgate.net/publication/321251682_Pose_Invariant_Object_Recognition_Using_a_Bag_Of_Words_Approach_-_Presentation)
+
 
 **Abstract:**
-Multiview object detection and classification plays a 
-critical  role  in  robust  image  recognition  systems,  and  can  be 
-applied  in  a  multitude  of  applications,  ranging  from  simple 
-monitoring  to advanced tracking. In this paper it is analyzed the 
-usage of the Bag of Words model to efficiently detect and recognize 
-objects that can appear in different  scales, orientations and even 
-from  different  perspective  views.  This  approach  relies  in  image 
-analysis  techniques,  such  as  feature  detection,  description  and 
-clustering, in order to be able to recognize the target object even if 
-it  is  present  in  cluttered  environments.  For  supporting  the 
-recognition  in  different  perspective  views,  machine  learning 
-techniques  are  used  to build  a  model  of the target  objects. This 
-model  can  then  be  employed  to  successfully  recognize  if  an 
-instance of the  target object is present in  an  image.  For pinpointing 
-the location  of the target object, a sliding window method is used
-in conjunction with dynamic thresholding. The recognition system 
-was  tested  with  several  configurations  of  feature  detectors, 
-descriptors  and classifiers, and achieved an accuracy of 87% when 
-recognizing cars from 177 test images.
 
+Pose invariant object detection and classification plays a crit-ical role in robust image recognition systems and can be applied in amultitude of applications, ranging from simple monitoring to advancedtracking. This paper analyzes the usage of the Bag of Words model forrecognizing objects in different scales, orientations and perspective viewswithin cluttered environments. The recognition system relies on imageanalysis techniques, such as feature detection, description and clusteringalong with machine learning classifiers. For pinpointing the location ofthe target object, it is proposed a multiscale sliding window approach fol-lowed by a dynamic thresholding segmentation. The recognition systemwas tested with several configurations of feature detectors, descriptorsand classifiers and achieved an accuracy of 87% when recognizing carsfrom an annotated dataset with 177 training images and 177 testingimages. 
 
 
 ## Results
