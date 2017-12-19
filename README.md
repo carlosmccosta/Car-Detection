@@ -4,7 +4,7 @@
 ## Overview
 This project focus on the detection and recognition of cars in different perspective views and has the following associated paper:
 
-[Multiview object recognition using Bag of Words approach](https://www.researchgate.net/publication/260391892_Multiview_object_recognition_using_Bag_of_Words_approach)
+[Pose Invariant Object Recognition Using a Bag of Words Approach](https://www.researchgate.net/publication/319878114_Pose_Invariant_Object_Recognition_Using_a_Bag_of_Words_Approach)
 
 
 **Abstract:**
